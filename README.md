@@ -1,13 +1,15 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# L1centrality: Graph/Network Analysis Based on L1 Centrality
+# L1centrality
 
 <!-- badges: start -->
 
 [![CRAN
 status](https://www.r-pkg.org/badges/version/L1centrality)](https://CRAN.R-project.org/package=L1centrality)
 <!-- badges: end -->
+
+Graph/Network Analysis Based on L1 Centrality
 
 ## What is *L*<sub>1</sub> centrality?
 

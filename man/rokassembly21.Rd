@@ -5,8 +5,8 @@
 \alias{rokassembly21}
 \title{Republic of Korea's 21st National Assembly Bill Cosponsorship Network}
 \format{
-An undirected, (edge) weighted \code{igraph} graph object with 317
-vertices and 47,657 edges.
+An undirected, connected, and (edge) weighted \code{igraph} graph
+object with 317 vertices and 47,657 edges.
 
 Vertex attributes:
 \itemize{

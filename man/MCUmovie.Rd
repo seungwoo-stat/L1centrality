@@ -22,7 +22,7 @@ Edge attribute: \sQuote{weight}. Given as a dissimilarity between two
 vertices. See the description above.
 }
 \source{
-IMDb: \url{https://www.imdb.com}
+IMDb: https://www.imdb.com
 }
 \usage{
 data(MCUmovie)

@@ -34,7 +34,7 @@
 #'   Edge attribute: \sQuote{weight}. Given as a dissimilarity between two
 #'   vertices. See the description above.
 #'
-#' @source IMDb: <https://www.imdb.com>
+#' @source IMDb: https://www.imdb.com
 #' @references G. Choi and H.-S. Oh. Heavy-snow transform: A new method for
 #'   graph signals. Technical Report, 2021.
 #'

@@ -4,3 +4,5 @@
 ^data-raw$
 ^README\.Rmd$
 ^README\.md$
+^cran-comments\.md$
+^CRAN-SUBMISSION$
