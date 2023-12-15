@@ -13,7 +13,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# L1centrality
+# L1centrality: Graph/Network Analysis Based on L1 Centrality
 
 <!-- badges: start -->
 

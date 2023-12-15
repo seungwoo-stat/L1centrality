@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# L1centrality
+# L1centrality: Graph/Network Analysis Based on L1 Centrality
 
 <!-- badges: start -->
 
