@@ -1,0 +1,62 @@
+#' Republic of Korea's 21st National Assembly Bill Cosponsorship Network
+#'
+#' @description
+#'
+#' Network between 317 members of the Republic of Korea's 21st National
+#' Assembly (May 30th, 2020--May 29th, 2024). Each member of the assembly
+#' represents one vertex.
+#'
+#' An edge between two members is formed if there is at least one cosponsored
+#' bill. The weight of this edge is given as 1/(number of cosponsored bills
+#' between two members) during the first 40 months of the 21st assembly (Jun.
+#' 2020--Sep. 2023).
+#'
+#' @name rokassembly21
+#' @docType data
+#' @keywords datasets
+#' @usage data(rokassembly21)
+#' @format An undirected, connected, and (edge) weighted \code{igraph} graph
+#'   object with 317 vertices and 47,657 edges.
+#'
+#' Vertex attributes:
+#' \itemize{
+#'  \item \sQuote{name}: Pseudonyms of each member. They are in the format of
+#'  the party's initial character, followed by a random number (e.g., D4). Each
+#'  party's initial character is:
+#'    \itemize{
+#'      \item \sQuote{D}: Democratic Party of Korea.
+#'      \item \sQuote{P}: People Power Party.
+#'      \item \sQuote{J}: Justice Party.
+#'      \item \sQuote{O}: Others (Basic Income Party, Hope of Korea, The
+#'      Progressive Party, Transition Korea).
+#'    }
+#'  \item \sQuote{party}: Factor with 7 levels. Denotes the political party of
+#'  each member as of Sep. 2023. Note that independent members are assigned to
+#'  their original party.
+#'  \item \sQuote{gender}: Factor with 2 levels. \sQuote{M} (male) or \sQuote{F}
+#'  (female).
+#'  \item \sQuote{nelect}: Number of legislative terms in the assembly for each
+#'  member. Ranges from 1 to 6.
+#'  \item \sQuote{district}: Indicates if each member is a district
+#'  representative (\code{TRUE}) or a proportional representative
+#'  (\code{FALSE}).
+#'  \item \sQuote{full}: Indicates if each member was in the assembly for the
+#'  first 40 months. \code{TRUE} for the members in the office for all 40
+#'  months. Members who started their term via by-election, resigned, or lost
+#'  their seat for any reason during the 40 months are coded as \code{FALSE}.
+#'  \item \sQuote{nbill}: Number of bills cosponsored by each member.
+#' }
+#'
+#' Edge attribute: \sQuote{weight}. Given as a dissimilarity between two
+#'   vertices. See the description above.
+#'
+#' @source The National Assembly of the Republic of Korea
+#' \itemize{
+#'  \item Bill information: https://likms.assembly.go.kr/bill/main.do
+#'  \item Member information: https://open.assembly.go.kr/portal/assm/search/memberSchPage.do
+#' }
+#'
+#' @references S. Kang and H.-S. Oh. On a notion of graph centrality based on
+#'   \ifelse{html}{\out{<i>L<sub>1</sub></i>}}{{\eqn{L_1}}} data depth.
+#'   Technical Report, 2023.
+NULL
