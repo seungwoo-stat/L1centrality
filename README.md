@@ -64,5 +64,5 @@ Oh (2023).
 
 ## References
 
-Seungwoo Kang and Hee-Seok Oh. On a Notion of Graph Centrality based on
+Seungwoo Kang and Hee-Seok Oh. On a Notion of Graph Centrality Based on
 *L*<sub>1</sub> Data Depth. Technical Report. 2023.
