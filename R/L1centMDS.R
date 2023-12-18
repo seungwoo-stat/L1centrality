@@ -36,8 +36,7 @@
 #'  iterations, (2) current stress, and (3) relative magnitude of the gradient
 #'  to the console. At the end, the final message is printed to the console; total
 #'  number of iterations and final stress.
-#'  * `FALSE`: only prints the final message to the console: the total number of
-#'  iterations and the final stress.
+#'  * `FALSE`: suppress message to the console.
 #' @param zoom A numerical value on how much to zoom-in the plot. By default set
 #'   to 1 (no zoom).
 #' @param main Title of the plot. If set to \code{NULL} (the default), the title
@@ -174,14 +173,18 @@ L1centMDS.matrix <- function(g, tol = 1e-5, maxiter = 1000, verbose = TRUE){
     # }
     if(mag.gradient <= tol){
       stress <- new.stress
-      cat("\rConverged / Iteration: ",iter.count," / Stress: ",stress,"             \n",sep="")
-      utils::flush.console()
+      if(verbose){
+        cat("\rConverged / Iteration: ",iter.count," / Stress: ",stress,"             \n",sep="")
+        utils::flush.console()
+      }
       break;
     }
     if(iter.count >= maxiter){
       stress <- new.stress
-      cat("\rStopped after maximum iteration: ",maxiter," / Stress: ",stress,"             \n",sep="")
-      utils::flush.console()
+      if(verbose){
+        cat("\rStopped after maximum iteration: ",maxiter," / Stress: ",stress,"             \n",sep="")
+        utils::flush.console()
+      }
       break;
     }
     stress <- new.stress

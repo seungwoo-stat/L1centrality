@@ -1,6 +1,6 @@
 Package: L1centrality
 Title: Graph/Network Analysis Based on L1 Centrality
-Version: 0.0.1
+Version: 0.0.2
 Authors@R: c(
   person("Seungwoo", "Kang", email = "kangsw0401@snu.ac.kr", role = c("aut", "cre"), 
   comment=c(ORCID="0000-0001-8082-0794")),

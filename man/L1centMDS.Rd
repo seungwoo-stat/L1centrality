@@ -33,8 +33,7 @@ algorithm. By default set to 1000.}
 iterations, (2) current stress, and (3) relative magnitude of the gradient
 to the console. At the end, the final message is printed to the console; total
 number of iterations and final stress.
-\item \code{FALSE}: only prints the final message to the console: the total number of
-iterations and the final stress.
+\item \code{FALSE}: suppress message to the console.
 }}
 
 \item{x}{An \code{L1centMDS} object, obtained as a result of the function
