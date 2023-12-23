@@ -14,7 +14,7 @@
 ## usethis namespace: end
 NULL
 
-#' L1centrality: Graph/Network Analysis based on \out{<i>L</i><sub>1</sub>}
+#' L1centrality: Graph/Network Analysis Based on \out{<i>L</i><sub>1</sub>}
 #' Centrality
 #'
 #' Analyze graph/network data using \out{<i>L</i><sub>1</sub>} centrality.
