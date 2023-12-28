@@ -109,7 +109,6 @@ L1centMDS.matrix <- function(g, tol = 1e-5, maxiter = 1000, verbose = TRUE){
   radius <- -log(cent)
 
   # initialize using classical MDS
-  # invisible(utils::capture.output(init <- MASS::isoMDS(g,maxit = 300)$points))
   init <- stats::cmdscale(g)
   temp <- t(init)-init[which.min(radius),]
   # add small errors for stability
@@ -160,17 +159,10 @@ L1centMDS.matrix <- function(g, tol = 1e-5, maxiter = 1000, verbose = TRUE){
     params <- (params - stepsize * gradient/mag.gradient) %% (2*pi)
 
     if(verbose){
-      # cat("\rITER ",iter.count," / Stress: ", new.stress," / ",abs(new.stress-stress),"\t\t\r",sep="")
       cat("\rITER ",iter.count," / Stress: ", new.stress," / ",mag.gradient,"\t\t\r",sep="")
       utils::flush.console()
     }
 
-    # if(abs(stress - new.stress) <= tol){
-    #   stress <- new.stress
-    #   cat("\rConverged / Iteration: ",iter.count," / Stress: ",stress,"             \n",sep="")
-    #   utils::flush.console()
-    #   break;
-    # }
     if(mag.gradient <= tol){
       stress <- new.stress
       if(verbose){
@@ -202,7 +194,6 @@ plot.L1centMDS <- function(x,zoom=1,main=NULL,...){
   radius <- x$radius
   M.radius <- max(radius)
   theta <- x$theta
-  # if(is.null(x$label)) x$label <- 1:length(radius)
 
   args <- list(...)
   plot.args <- list()
@@ -227,18 +218,7 @@ plot.L1centMDS <- function(x,zoom=1,main=NULL,...){
                        main=ifelse(is.null(main),paste0("Target plot / Stress = ",x$stress),main)),
                   plot.args))
   do.call(graphics::text, c(list(radius*cos(theta),radius*sin(theta)),text.args))
-  # plot(
-  #   radius*cos(theta),radius*sin(theta),
-  #   asp=1,
-  #   xlim=c(-M.radius,M.radius)/zoom,
-  #   ylim=c(-M.radius,M.radius)/zoom,
-  #   xlab="",ylab="",
-  #   main=ifelse(is.null(main),paste0("Target plot / Stress = ",x$stress),main),
-  #   axes = FALSE, pch=pch,
-  #   ...
-  # )
-  # graphics::text(radius*cos(theta),radius*sin(theta),
-  #      x$label,pos=NULL,cex=0.5)
+
   xx <- cos(seq(0,2*pi,length.out=200))
   yy <- sin(seq(0,2*pi,length.out=200))
   for(grid in stats::quantile(radius,c(0.25,0.5,0.75,1))){

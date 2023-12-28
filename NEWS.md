@@ -2,6 +2,8 @@
 
 * Minor typo fix in the document.
 
+* `L1centLOC()` made more efficient.
+
 # L1centrality 0.0.2
 
 * In `L1centMDS()`, setting `verbose=FALSE` suppresses all the console messages. In the previous version, the final message was printed even when `verbose=FALSE`.
