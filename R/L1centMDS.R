@@ -125,7 +125,7 @@ L1centMDS.matrix <- function(g, tol = 1e-5, maxiter = 1000, verbose = TRUE){
     # estimate HAT.DIST
     dist.original.group <- match(dist.original.vec, sort(unique(dist.original.vec)))
     ngroup <- length(unique(dist.original.group))
-    group.mean.n <- t(stats::aggregate(DIST.vec,by=list(dist.original.group),\(s)c(mean(s),length(s)))[,2])
+    group.mean.n <- t(stats::aggregate(DIST.vec,by=list(dist.original.group),function(s)c(mean(s),length(s)))[,2])
 
     group.mean.n[1,] <- .dhatestimate(group.mean.n[2,],group.mean.n[1,])
 

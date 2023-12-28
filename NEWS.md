@@ -4,6 +4,8 @@
 
 * `L1centLOC()` made more efficient.
 
+* `\()` changed to `function()` for compatibility (`L1centMDS.matrix()`)
+
 # L1centrality 0.0.2
 
 * In `L1centMDS()`, setting `verbose=FALSE` suppresses all the console messages. In the previous version, the final message was printed even when `verbose=FALSE`.
