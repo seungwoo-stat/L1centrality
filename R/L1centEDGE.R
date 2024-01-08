@@ -86,8 +86,10 @@ L1centEDGE.matrix <- function(g, eta=NULL, alpha){
       lapply(NB, function(l)
         which(l >= stats::quantile(l, 1 - m[i] / n)))
     loc.median <-
-      lapply(1:length(nb.index), function(j)
-        nb.index[[j]][which(L1cent(g[nb.index[[j]], nb.index[[j]]], eta = eta[nb.index[[j]]]) == 1)])
+      lapply(1:length(nb.index), function(j){
+        # nb.index[[j]][which(L1cent(g[nb.index[[j]], nb.index[[j]]], eta = eta[nb.index[[j]]]) == 1)]
+        distsum <- colSums(g[nb.index[[j]],nb.index[[j]]] * eta[nb.index[[j]]])
+        nb.index[[j]][which(distsum == min(distsum))]})
     loc.median.length <- sapply(loc.median, length)
     edgelist[[i]] <- cbind(rep(1:n, times = loc.median.length), unlist(loc.median))
     rownames(edgelist[[i]]) <- NULL

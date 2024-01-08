@@ -2,7 +2,7 @@
 
 * Minor typo fix in the document.
 
-* `L1centLOC()` made more efficient.
+* `L1centLOC()` and `L1centEDGE()` made more efficient.
 
 * `\()` changed to `function()` for compatibility (`L1centMDS.matrix()`).
 
