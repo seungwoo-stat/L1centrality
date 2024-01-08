@@ -14,6 +14,8 @@ validate_matrix <- function(g, eta){
     stop("Disconnected graphs are not supported")
   if(length(eta) != ncol(g))
     stop("Length of eta differs from the number of vertices")
-  if(any(eta <= 0))
+  if(any(eta < 0))
     stop("Entries of eta must be positive")
+  if(sum(eta) <= 0)
+    stop("sum(eta) must be positive")
 }

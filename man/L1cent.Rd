@@ -17,11 +17,11 @@ L1cent(g, eta)
 be undirected and connected. Equivalently, the distance matrix must be
 symmetric, and all entries must be finite.}
 
-\item{eta}{An optional positive multiplicity (weight) vector for (vertex)
-weighted networks. If set to \code{NULL} (the default), all vertices will
-have the same weight (multiplicity), i.e., \code{g} is treated as an
-unweighted graph. The length of the \code{eta} must be equivalent to the
-number of vertices.}
+\item{eta}{An optional nonnegative multiplicity (weight) vector for (vertex)
+weighted networks. Sum of its components must be positive. If set to
+\code{NULL} (the default), all vertices will have the same positive weight
+(multiplicity), i.e., \code{g} is treated as a vertex unweighted graph. The
+length of the \code{eta} must be equivalent to the number of vertices.}
 }
 \value{
 A numeric vector whose length is equivalent to the number of vertices

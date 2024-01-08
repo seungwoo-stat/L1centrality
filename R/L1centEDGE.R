@@ -69,7 +69,6 @@ L1centEDGE.matrix <- function(g, eta=NULL, alpha){
     glob.median <- which(L1cent(g, eta) == 1)
     glob.median.length <- length(glob.median)
     glob.edgelist <- cbind(rep(1:n,each=glob.median.length),rep(glob.median,times=glob.median.length))
-    # glob.edgelist <- glob.edgelist[glob.edgelist[,1] !=  glob.edgelist[,2],]
     rownames(glob.edgelist) <- NULL
     glob.edgelist <- matrix(label[glob.edgelist],ncol=2)
     glob.edgelist <- list(glob.edgelist)
@@ -91,7 +90,6 @@ L1centEDGE.matrix <- function(g, eta=NULL, alpha){
         nb.index[[j]][which(L1cent(g[nb.index[[j]], nb.index[[j]]], eta = eta[nb.index[[j]]]) == 1)])
     loc.median.length <- sapply(loc.median, length)
     edgelist[[i]] <- cbind(rep(1:n, times = loc.median.length), unlist(loc.median))
-    # edgelist[[i]] <- edgelist[[i]][edgelist[[i]][,1] !=  edgelist[[i]][,2],]
     rownames(edgelist[[i]]) <- NULL
     edgelist[[i]] <- matrix(label[edgelist[[i]]],ncol=2)
   }

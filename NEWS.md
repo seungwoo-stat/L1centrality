@@ -4,7 +4,9 @@
 
 * `L1centLOC()` made more efficient.
 
-* `\()` changed to `function()` for compatibility (`L1centMDS.matrix()`)
+* `\()` changed to `function()` for compatibility (`L1centMDS.matrix()`).
+
+* The vertex multiplicity parameter `eta` generalized to nonnegative values (`L1cent()`, `L1centEDGE()`, `L1centLOC()`, `L1centNB()`). It previously accepted only positive values.
 
 # L1centrality 0.0.2
 

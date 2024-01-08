@@ -46,11 +46,11 @@
 #' @param g An \code{igraph} graph object or a distance matrix. The graph must
 #'   be undirected and connected. Equivalently, the distance matrix must be
 #'   symmetric, and all entries must be finite.
-#' @param eta An optional positive multiplicity (weight) vector for (vertex)
-#'   weighted networks. If set to \code{NULL} (the default), all vertices will
-#'   have the same weight (multiplicity), i.e., \code{g} is treated as an
-#'   unweighted graph. The length of the \code{eta} must be equivalent to the
-#'   number of vertices.
+#' @param eta An optional nonnegative multiplicity (weight) vector for (vertex)
+#'   weighted networks. Sum of its components must be positive. If set to
+#'   \code{NULL} (the default), all vertices will have the same positive weight
+#'   (multiplicity), i.e., \code{g} is treated as a vertex unweighted graph. The
+#'   length of the \code{eta} must be equivalent to the number of vertices.
 #' @return A numeric vector whose length is equivalent to the number of vertices
 #'   in the graph \code{g}. Each component of the vector is the
 #'   \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} centrality of each
@@ -103,9 +103,10 @@ L1cent.matrix <- function(g, eta = NULL) {
 
   n <- ncol(g)
   geta1 <- matrix(rep(colSums(g *eta),n), ncol = n)
-  rep(1, n) - 1 / sum(eta) *
+  res <- rep(1, n) - 1 / sum(eta) *
     apply((geta1 - t(geta1)) / (g + diag(rep(Inf, n))), 1,
           function(r) max(c(r, 0)))
+  pmin(pmax(res,0),1)
 }
 
 
