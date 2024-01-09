@@ -26,7 +26,7 @@
 #' @inheritParams L1cent
 #' @param tol A numerical tolerance. The gradient descent method terminates if
 #'   the relative magnitude of the gradient falls below \code{tol} as in Kruskal
-#'   (1964b). By default set to \eqn{10^{-5}}.
+#'   (1964b). By default set to \ifelse{html}{\out{10<sup>-5</sup>}}{\eqn{10^{-5}}}.
 #' @param maxiter A number of maximum iteration allowances for the gradient descent
 #'   algorithm. By default set to 1000.
 #' @param x An \code{L1centMDS} object, obtained as a result of the function

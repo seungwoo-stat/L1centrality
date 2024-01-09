@@ -22,7 +22,7 @@ symmetric, and all entries must be finite.}
 
 \item{tol}{A numerical tolerance. The gradient descent method terminates if
 the relative magnitude of the gradient falls below \code{tol} as in Kruskal
-(1964b). By default set to \eqn{10^{-5}}.}
+(1964b). By default set to \ifelse{html}{\out{10<sup>-5</sup>}}{\eqn{10^{-5}}}.}
 
 \item{maxiter}{A number of maximum iteration allowances for the gradient descent
 algorithm. By default set to 1000.}

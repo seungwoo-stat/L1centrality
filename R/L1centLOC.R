@@ -86,8 +86,7 @@ L1centLOC.matrix <- function(g, eta = NULL, alpha){
         index <- which(rownames(g.new <- g[nb.index[[j]], nb.index[[j]]]) == names(nb.index)[j])
         closenessinv <- colSums((eta.new <- eta[nb.index[[j]]])*g.new)
         1 - max((closenessinv[index] - closenessinv)/(g.new + diag(Inf,nrow(g.new)))[index,]/sum(eta.new))
-      }
-      )
+      })
     names(loc.cent[[i]]) <- rownames(g)
   }
   return(loc.cent)

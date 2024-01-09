@@ -1,4 +1,4 @@
-# L1centrality 0.0.2.9000
+# L1centrality 0.0.3
 
 * Minor typo fix in the document.
 

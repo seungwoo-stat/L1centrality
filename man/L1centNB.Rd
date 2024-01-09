@@ -18,7 +18,7 @@ be undirected and connected. Equivalently, the distance matrix must be
 symmetric, and all entries must be finite.}
 
 \item{eta}{An optional nonnegative multiplicity (weight) vector for (vertex)
-weighted networks. Sum of its components must be positive. If set to
+weighted networks. The sum of its components must be positive. If set to
 \code{NULL} (the default), all vertices will have the same positive weight
 (multiplicity), i.e., \code{g} is treated as a vertex unweighted graph. The
 length of the \code{eta} must be equivalent to the number of vertices.}
@@ -39,7 +39,7 @@ centrality-based neighborhood of each vertex.
 \details{
 If a graph is symmetrized (in a way defined in Kang and Oh (2023))
 w.r.t. a vertex \ifelse{html}{\out{<i>v</i>}}{\eqn{v}}, vertex
-\ifelse{html}{\out{<i>v</i>}}{\eqn{v}} becomes the unique graph median (Kang and Oh,
+\ifelse{html}{\out{<i>v</i>}}{\eqn{v}} becomes the graph median (Kang and Oh,
 2023), i.e., \ifelse{html}{\out{<i>v</i>}}{\eqn{v}} has
 \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} centrality 1. Based on
 this property, we define the

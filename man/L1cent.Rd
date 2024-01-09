@@ -18,7 +18,7 @@ be undirected and connected. Equivalently, the distance matrix must be
 symmetric, and all entries must be finite.}
 
 \item{eta}{An optional nonnegative multiplicity (weight) vector for (vertex)
-weighted networks. Sum of its components must be positive. If set to
+weighted networks. The sum of its components must be positive. If set to
 \code{NULL} (the default), all vertices will have the same positive weight
 (multiplicity), i.e., \code{g} is treated as a vertex unweighted graph. The
 length of the \code{eta} must be equivalent to the number of vertices.}
@@ -38,11 +38,12 @@ vertex to become the median of the graph).
 }
 \details{
 Suppose that \code{g} is an undirected and connected graph consisting of
-\eqn{n} vertices \eqn{v_1,\dots,v_n} whose multiplicities (weights) are
-\eqn{\eta_1,\dots,\eta_n > 0}, respectively.
+\eqn{n} vertices \ifelse{html}{\out{<i>v<sub>1</sub></i>, ..., <i>v<sub>n</sub></i>}}{{\eqn{v_1,\dots,v_n}}}
+whose multiplicities (weights) are \eqn{\eta_1,\dots,\eta_n > 0}, respectively.
 
 The median of this graph is the node minimizing the weighted sum of distances
-(Hakimi 1964). That is, \eqn{v_i} is the median node if
+(Hakimi 1964). That is,
+\ifelse{html}{\out{<i>v<sub>i</sub></i>}}{{\eqn{v_i}}} is the median node if
 \deqn{
  \sum_{k=1}^{n} \eta_k d(v_i, v_k)
 }
