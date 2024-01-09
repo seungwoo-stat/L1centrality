@@ -21,7 +21,7 @@ and multiscale analysis tools are developed.
 
 ## How can I get L1centrality?
 
-Version 0.0.2 of this package is available on
+Version 0.0.3 of this package is available on
 [CRAN](https://cran.r-project.org/package=L1centrality):
 
 ``` r
@@ -29,8 +29,7 @@ install.packages("L1centrality")
 library(L1centrality)
 ```
 
-You can install the development version (0.0.2.9000) of `L1centrality`
-via:
+You can install the development version (0.0.3) of `L1centrality` via:
 
 ``` r
 devtools::install_github("seungwoo-stat/L1centrality")
