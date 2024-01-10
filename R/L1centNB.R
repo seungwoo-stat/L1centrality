@@ -61,7 +61,7 @@ L1centNB.matrix <- function(g, eta = NULL){
   n <- ncol(g)
   label <- colnames(g)
   etasum <- sum(eta)
-  NB <- lapply(1:n, \(i){
+  NB <- lapply(1:n, function(i){
     neweta <- eta
     neweta[i] <- etasum + neweta[i]
     L1cent(g,eta=neweta)
