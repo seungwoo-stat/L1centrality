@@ -1,5 +1,7 @@
 # L1centrality 0.0.3.9000
 
+* Minor typo fix in the document.
+
 * `\()` changed to `function()` for compatibility (`L1centNB.matrix()`).
 
 # L1centrality 0.0.3
