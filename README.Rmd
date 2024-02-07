@@ -63,4 +63,4 @@ Visit [this repo](https://github.com/seungwoo-stat/L1centrality-paper) for code 
 
 ## References
 
-Seungwoo Kang and Hee-Seok Oh. On a Notion of Graph Centrality Based on *L*<sub>1</sub> Data Depth. Technical Report. 2023.
+Seungwoo Kang and Hee-Seok Oh. On a Notion of Graph Centrality Based on *L*<sub>1</sub> Data Depth. Manuscript. 2023.
