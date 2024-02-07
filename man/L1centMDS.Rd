@@ -103,7 +103,7 @@ plot(parameters)
 \references{
 S. Kang and H.-S. Oh. On a notion of graph centrality based on
 \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} data depth.
-Technical Report, 2023.
+Manuscript, 2023.
 
 J. B. Kruskal. Multidimensional scaling by optimizing goodness of fit to a
 nonmetric hypothesis. \emph{Psychometrika}, 29(1):1--27, 1964a.

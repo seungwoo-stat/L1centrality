@@ -43,7 +43,7 @@
 #' graphics::text(MCUmovie_cent, MCUmovie_loc_cent[[1]], igraph::V(MCUmovie)$name)
 #' @references S. Kang and H.-S. Oh. On a notion of graph centrality based on
 #'   \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} data depth.
-#'   Technical Report, 2023.
+#'   Manuscript, 2023.
 L1centLOC <- function(g, eta, alpha) UseMethod("L1centLOC")
 
 #' @name L1centLOC
@@ -74,7 +74,7 @@ L1centLOC.matrix <- function(g, eta = NULL, alpha){
   n <- ncol(g)
   m <- ceiling(n*alpha)
   label <- colnames(g)
-  NB <- L1centNB(g)
+  NB <- L1centNB(g, eta = eta)
   loc.cent <- vector("list", length = length(alpha))
   names(loc.cent) <- alpha
   for (i in seq_along(alpha)) {

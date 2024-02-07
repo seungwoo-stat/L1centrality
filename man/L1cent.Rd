@@ -89,7 +89,7 @@ absolute centers and medians of a graph. \emph{Operations Research},
 
 S. Kang and H.-S. Oh. On a notion of graph centrality based on
 \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} data depth.
-Technical Report, 2023.
+Manuscript, 2023.
 
 Y. Vardi and C.-H. Zhang. The multivariate
 \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}}-median and

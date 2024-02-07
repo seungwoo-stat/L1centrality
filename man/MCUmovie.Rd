@@ -42,10 +42,10 @@ where \eqn{|\cdot|} denotes the cardinality of a set.
 }
 \references{
 G. Choi and H.-S. Oh. Heavy-snow transform: A new method for
-graph signals. Technical Report, 2021.
+graph signals. Manuscript, 2021.
 
 S. Kang and H.-S. Oh. On a notion of graph centrality based on
-\ifelse{html}{\out{<i>L<sub>1</sub></i>}}{{\eqn{L_1}}} data depth.
-Technical Report, 2023.
+\ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} data depth.
+Manuscript, 2023.
 }
 \keyword{datasets}

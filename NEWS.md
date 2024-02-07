@@ -4,6 +4,8 @@
 
 * `\()` changed to `function()` for compatibility (`L1centNB.matrix()`).
 
+* Fixed error in the `L1centLOC()` function.
+
 # L1centrality 0.0.3
 
 * Minor typo fix in the document.

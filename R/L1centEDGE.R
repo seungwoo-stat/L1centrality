@@ -40,7 +40,7 @@
 #' plot(graph)
 #' @references S. Kang and H.-S. Oh. On a notion of graph centrality based on
 #'   \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} data depth.
-#'   Technical Report, 2023.
+#'   Manuscript, 2023.
 L1centEDGE <- function(g, eta, alpha) UseMethod("L1centEDGE")
 
 #' @name L1centEDGE
