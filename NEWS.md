@@ -6,6 +6,8 @@
 
 * Fixed error in the `L1centLOC()` function.
 
+* Added package overview table to the `L1centrality-package` document.
+
 # L1centrality 0.0.3
 
 * Minor typo fix in the document.
