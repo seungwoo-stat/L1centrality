@@ -9,7 +9,7 @@
 #' centrality/prestige is a graph centrality/prestige measure defined for the
 #' vertices of a graph. It is (roughly) defined by (1 \eqn{-} minimum
 #' multiplicity required for a selected vertex to become the median of the
-#' graph). For undirected graphs, two measures are identical.
+#' graph). For undirected graphs, the two measures are identical.
 #'
 #' @note
 #' The function is valid only for connected graphs. If the graph is directed, it
@@ -106,7 +106,7 @@ L1cent <- function(g, eta, mode) UseMethod("L1cent")
 #' @name L1cent
 #' @exportS3Method L1cent igraph
 L1cent.igraph <- function(g, eta = NULL, mode = c("centrality", "prestige")) {
-  validate_igraph(g)
+  validate_igraph(g, checkdir = FALSE)
   mode <- match.arg(tolower(mode), choices = c("centrality", "prestige"))
 
   D <- igraph::distances(g, mode = "out")
@@ -117,7 +117,7 @@ L1cent.igraph <- function(g, eta = NULL, mode = c("centrality", "prestige")) {
 #' @exportS3Method L1cent matrix
 L1cent.matrix <- function(g, eta = NULL, mode = c("centrality", "prestige")) {
   if(is.null(eta)) eta <- rep(1,ncol(g))
-  validate_matrix(g, eta)
+  validate_matrix(g, eta, checkdir = FALSE)
   mode <- match.arg(tolower(mode), choices = c("centrality", "prestige"))
 
   n <- ncol(g)

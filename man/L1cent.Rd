@@ -51,7 +51,7 @@ vertex. The \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}}
 centrality/prestige is a graph centrality/prestige measure defined for the
 vertices of a graph. It is (roughly) defined by (1 \eqn{-} minimum
 multiplicity required for a selected vertex to become the median of the
-graph). For undirected graphs, two measures are identical.
+graph). For undirected graphs, the two measures are identical.
 }
 \details{
 Suppose that \code{g} is an undirected and connected graph consisting of

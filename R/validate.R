@@ -1,15 +1,15 @@
 ## igraph
-validate_igraph <- function(g){
-  # if (igraph::is_directed(g))
-  #   stop("Directed graphs are not supported")
+validate_igraph <- function(g, checkdir = TRUE){
+  if (checkdir & igraph::is_directed(g))
+    stop("Directed graphs are not supported")
   if (!igraph::is_connected(g, mode = "strong"))
     stop("Disconnected graphs are not supported")
 }
 
 ## distance matrix
-validate_matrix <- function(g, eta){
-  # if (!isSymmetric.matrix(g))
-  #   stop("Distance matrix is non-symmetric")
+validate_matrix <- function(g, eta, checkdir = TRUE){
+  if (checkdir & !isSymmetric.matrix(g))
+    stop("Distance matrix is non-symmetric")
   if(any(is.infinite(g)))
     stop("Disconnected graphs are not supported")
   if(length(eta) != ncol(g))
