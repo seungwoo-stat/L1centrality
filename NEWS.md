@@ -1,4 +1,10 @@
-# L1centrality 0.0.3.9000
+# L1centrality 0.0.3.9001
+
+## Major updates
+
+* `L1cent()` now supports (strongly connected) directed graphs. Use the new parameter `mode` to measures the prominence of each vertex in terms of *making* a choice (`mode = "centrality"`) or *receiving* a choice (`mode = "prestige"`). If the graph is undirected, the two measures are equivalent. Detailed description of this new measure will be documented soon. 
+
+## Minor updates
 
 * Minor typo fix in the document.
 

@@ -22,6 +22,9 @@
 #' The function is valid only for undirected and connected graphs.
 #'
 #' @inheritParams L1cent
+#' @param g An \code{igraph} graph object or a distance matrix. The graph must
+#'   be undirected and connected. Equivalently, the distance matrix must be
+#'   symmetric, and all entries must be finite.
 #' @return A list of numeric vectors. The length of the list is
 #'   equivalent to the number of vertices in the graph \code{g}, and the names of the
 #'   list are vertex names. Each component of the list is a numeric vector whose

@@ -1,15 +1,19 @@
 #' @name L1cent
-#' @title L1 Centrality
+#' @aliases L1prestige L1pres
+#' @title L1 Centrality/Prestige
 #'
 #' @description
-#' Computes \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} centrality
-#' for each vertex. The \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}}
-#' centrality is a graph centrality measure defined for the vertices of a graph. It
-#' is (roughly) defined by (1 \eqn{-} minimum multiplicity required for a selected
-#' vertex to become the median of the graph).
+#' Computes \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} centrality or
+#' \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} prestige for each
+#' vertex. The \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}}
+#' centrality/prestige is a graph centrality/prestige measure defined for the
+#' vertices of a graph. It is (roughly) defined by (1 \eqn{-} minimum
+#' multiplicity required for a selected vertex to become the median of the
+#' graph). For undirected graphs, two measures are identical.
 #'
 #' @note
-#' The function is valid only for undirected and connected graphs.
+#' The function is valid only for connected graphs. If the graph is directed, it
+#' must be strongly connected.
 #'
 #' @details
 #' Suppose that \code{g} is an undirected and connected graph consisting of
@@ -44,18 +48,30 @@
 #' is in \eqn{[0,1]} by the triangle inequality, and the median vertex has
 #' centrality 1.
 #'
+#' Details for directed graphs and prestige measure will be added.
+#'
 #' @param g An \code{igraph} graph object or a distance matrix. The graph must
-#'   be undirected and connected. Equivalently, the distance matrix must be
-#'   symmetric, and all entries must be finite.
+#'   be connected. For a directed graph, it must be strongly connected.
+#'   Equivalently, all entries of the distance matrix must be finite.
 #' @param eta An optional nonnegative multiplicity (weight) vector for (vertex)
 #'   weighted networks. The sum of its components must be positive. If set to
 #'   \code{NULL} (the default), all vertices will have the same positive weight
 #'   (multiplicity), i.e., \code{g} is treated as a vertex unweighted graph. The
 #'   length of the \code{eta} must be equivalent to the number of vertices.
+#' @param mode A character string. For an undirected graph, either choice gives
+#'   the same result.
+#'  * `centrality` (the default): measures the prominence of each vertex in
+#'  terms of \emph{making} a choice, i.e., \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}}
+#'  centrality is measured.
+#'  * `prestige`: measures the prominence of each vertex in
+#'  terms of \emph{receiving} a choice, i.e., \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}}
+#'  prestige is measured.
 #' @return A numeric vector whose length is equivalent to the number of vertices
 #'   in the graph \code{g}. Each component of the vector is the
-#'   \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} centrality of each
-#'   vertex in the given graph.
+#'   \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} centrality (if
+#'   \code{mode = "centrality"}) or the
+#'   \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} prestige (if
+#'   \code{mode = "prestige"}) of each vertex in the given graph.
 #'
 #' @export
 #' @seealso [L1centLOC()], [L1centNB()], [L1centMDS()], [L1centEDGE()],
@@ -85,29 +101,42 @@
 #'   \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}}-median and
 #'   associated data depth. \emph{Proceedings of the National Academy of Sciences},
 #'   97(4):1423--1426, 2000.
-L1cent <- function(g, eta) UseMethod("L1cent")
+L1cent <- function(g, eta, mode) UseMethod("L1cent")
 
 #' @name L1cent
 #' @exportS3Method L1cent igraph
-L1cent.igraph <- function(g, eta = NULL) {
+L1cent.igraph <- function(g, eta = NULL, mode = c("centrality", "prestige")) {
   validate_igraph(g)
+  mode <- match.arg(tolower(mode), choices = c("centrality", "prestige"))
 
-  D <- igraph::distances(g)
-  L1cent.matrix(D, eta)
+  D <- igraph::distances(g, mode = "out")
+  L1cent.matrix(g = D, eta = eta, mode = mode)
 }
 
 #' @name L1cent
 #' @exportS3Method L1cent matrix
-L1cent.matrix <- function(g, eta = NULL) {
+L1cent.matrix <- function(g, eta = NULL, mode = c("centrality", "prestige")) {
   if(is.null(eta)) eta <- rep(1,ncol(g))
   validate_matrix(g, eta)
+  mode <- match.arg(tolower(mode), choices = c("centrality", "prestige"))
 
   n <- ncol(g)
-  geta1 <- matrix(rep(colSums(g *eta),n), ncol = n)
-  res <- rep(1, n) - 1 / sum(eta) *
-    apply((geta1 - t(geta1)) / (g + diag(rep(Inf, n))), 1,
-          function(r) max(c(r, 0)))
-  pmin(pmax(res,0),1)
+  sg <- ifelse(isSymmetric.matrix(g), 1,
+               min((g/t(g))[upper.tri(g) | lower.tri(g)]))
+
+  if(identical(mode, "centrality")){
+    geta1 <- matrix(rep(colSums(t(g) * eta), n), ncol = n)
+    res <- rep(1, n) - sg / sum(eta) *
+      apply((geta1 - t(geta1)) / (t(g) + diag(rep(Inf, n))), 1,
+            function(r) max(c(r, 0)))
+    pmin(pmax(res,0),1)
+  }else{ # prestige
+    geta2 <- matrix(rep(colSums(g * eta), n), ncol = n)
+    res <- rep(1, n) - sg / sum(eta) *
+      apply((geta2 - t(geta2)) / (g + diag(rep(Inf, n))), 1,
+            function(r) max(c(r, 0)))
+    pmin(pmax(res,0),1)
+  }
 }
 
 

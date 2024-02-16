@@ -23,7 +23,9 @@
 #' graphs. Also, \code{L1centMDS()} only considers graphs with equal vertex
 #' multiplicities.
 #'
-#' @inheritParams L1cent
+#' @param g An \code{igraph} graph object or a distance matrix. The graph must
+#'   be undirected and connected. Equivalently, the distance matrix must be
+#'   symmetric, and all entries must be finite.
 #' @param tol A numerical tolerance. The gradient descent method terminates if
 #'   the relative magnitude of the gradient falls below \code{tol} as in Kruskal
 #'   (1964b). By default set to \ifelse{html}{\out{10<sup>-5</sup>}}{\eqn{10^{-5}}}.

@@ -2,39 +2,56 @@
 % Please edit documentation in R/L1cent.R
 \name{L1cent}
 \alias{L1cent}
+\alias{L1prestige}
+\alias{L1pres}
 \alias{L1cent.igraph}
 \alias{L1cent.matrix}
-\title{L1 Centrality}
+\title{L1 Centrality/Prestige}
 \usage{
-L1cent(g, eta)
+L1cent(g, eta, mode)
 
-\method{L1cent}{igraph}(g, eta = NULL)
+\method{L1cent}{igraph}(g, eta = NULL, mode = c("centrality", "prestige"))
 
-\method{L1cent}{matrix}(g, eta = NULL)
+\method{L1cent}{matrix}(g, eta = NULL, mode = c("centrality", "prestige"))
 }
 \arguments{
 \item{g}{An \code{igraph} graph object or a distance matrix. The graph must
-be undirected and connected. Equivalently, the distance matrix must be
-symmetric, and all entries must be finite.}
+be connected. For a directed graph, it must be strongly connected.
+Equivalently, all entries of the distance matrix must be finite.}
 
 \item{eta}{An optional nonnegative multiplicity (weight) vector for (vertex)
 weighted networks. The sum of its components must be positive. If set to
 \code{NULL} (the default), all vertices will have the same positive weight
 (multiplicity), i.e., \code{g} is treated as a vertex unweighted graph. The
 length of the \code{eta} must be equivalent to the number of vertices.}
+
+\item{mode}{A character string. For an undirected graph, either choice gives
+the same result.
+\itemize{
+\item \code{centrality} (the default): measures the prominence of each vertex in
+terms of \emph{making} a choice, i.e., \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}}
+centrality is measured.
+\item \code{prestige}: measures the prominence of each vertex in
+terms of \emph{receiving} a choice, i.e., \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}}
+prestige is measured.
+}}
 }
 \value{
 A numeric vector whose length is equivalent to the number of vertices
 in the graph \code{g}. Each component of the vector is the
-\ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} centrality of each
-vertex in the given graph.
+\ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} centrality (if
+\code{mode = "centrality"}) or the
+\ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} prestige (if
+\code{mode = "prestige"}) of each vertex in the given graph.
 }
 \description{
-Computes \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} centrality
-for each vertex. The \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}}
-centrality is a graph centrality measure defined for the vertices of a graph. It
-is (roughly) defined by (1 \eqn{-} minimum multiplicity required for a selected
-vertex to become the median of the graph).
+Computes \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} centrality or
+\ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} prestige for each
+vertex. The \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}}
+centrality/prestige is a graph centrality/prestige measure defined for the
+vertices of a graph. It is (roughly) defined by (1 \eqn{-} minimum
+multiplicity required for a selected vertex to become the median of the
+graph). For undirected graphs, two measures are identical.
 }
 \details{
 Suppose that \code{g} is an undirected and connected graph consisting of
@@ -68,9 +85,12 @@ where \eqn{\{\cdot\}^{+}=\max(\cdot,0)} and \eqn{\eta_{\cdot} =
 \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} centrality of a vertex
 is in \eqn{[0,1]} by the triangle inequality, and the median vertex has
 centrality 1.
+
+Details for directed graphs and prestige measure will be added.
 }
 \note{
-The function is valid only for undirected and connected graphs.
+The function is valid only for connected graphs. If the graph is directed, it
+must be strongly connected.
 }
 \examples{
 # igraph object and distance matrix as an input lead to the same result

@@ -18,6 +18,9 @@
 #' \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} centrality locally.
 #'
 #' @inheritParams L1cent
+#' @param g An \code{igraph} graph object or a distance matrix. The graph must
+#'   be undirected and connected. Equivalently, the distance matrix must be
+#'   symmetric, and all entries must be finite.
 #' @param alpha A number or a numeric vector of multiscale parameters. Values
 #'   must be between 0 and 1.
 #' @return A list of numeric vectors. The length of the list is equivalent to
