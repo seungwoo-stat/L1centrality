@@ -29,7 +29,7 @@ install.packages("L1centrality")
 library(L1centrality)
 ```
 
-You can install the development version (0.0.3.9000) of `L1centrality`
+You can install the development version (0.0.3.9001) of `L1centrality`
 via:
 
 ``` r
