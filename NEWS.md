@@ -2,7 +2,7 @@
 
 ## Major updates
 
-* `L1cent()`, `L1centNB()`, `L1centLOC()` now supports (strongly connected) directed graphs. Use the new parameter `mode` to measures the prominence of each vertex in terms of *making* a choice (`mode = "centrality"`) or *receiving* a choice (`mode = "prestige"`). If the graph is undirected, `mode` does not affect the outcome. 
+* `L1cent()`, `L1centNB()`, `L1centLOC()` now support (strongly connected) directed graphs. Use the new parameter `mode` to measures the prominence of each vertex in terms of *making* a choice (`mode = "centrality"`) or *receiving* a choice (`mode = "prestige"`). If the graph is undirected, `mode` does not affect the outcome. 
 
 ## Minor updates
 
