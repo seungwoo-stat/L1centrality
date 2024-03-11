@@ -112,6 +112,8 @@ J. B. Kruskal. Nonmetric multidimensional scaling: a numerical method.
 \emph{Psychometrika}, 29(2): 115--129, 1964b.
 }
 \seealso{
-\code{\link[=L1cent]{L1cent()}} for \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} centrality,
-\code{\link[MASS:isoMDS]{MASS::isoMDS()}} and \code{\link[stats:cmdscale]{stats::cmdscale()}} for multidimensional scaling methods.
+\code{\link[=L1cent]{L1cent()}} for
+\ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} centrality/prestige,
+\code{\link[MASS:isoMDS]{MASS::isoMDS()}} and \code{\link[stats:cmdscale]{stats::cmdscale()}} for multidimensional scaling
+methods.
 }

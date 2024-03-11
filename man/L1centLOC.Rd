@@ -2,20 +2,25 @@
 % Please edit documentation in R/L1centLOC.R
 \name{L1centLOC}
 \alias{L1centLOC}
+\alias{L1presLOC}
 \alias{L1centLOC.igraph}
 \alias{L1centLOC.matrix}
-\title{Local L1 Centrality}
+\title{Local L1 Centrality/Prestige}
 \usage{
-L1centLOC(g, eta, alpha)
+L1centLOC(g, eta, alpha, mode)
 
-\method{L1centLOC}{igraph}(g, eta = NULL, alpha)
+\method{L1centLOC}{igraph}(g, eta = NULL, alpha, mode = c("centrality", "prestige"))
 
-\method{L1centLOC}{matrix}(g, eta = NULL, alpha)
+\method{L1centLOC}{matrix}(g, eta = NULL, alpha, mode = c("centrality", "prestige"))
 }
 \arguments{
 \item{g}{An \code{igraph} graph object or a distance matrix. The graph must
-be undirected and connected. Equivalently, the distance matrix must be
-symmetric, and all entries must be finite.}
+be connected. For a directed graph, it must be strongly connected.
+Equivalently, all entries of the distance matrix must be finite. Here, the
+\ifelse{html}{\out{(<i>i,j</i>)}}{\eqn{(i,j)}} component of the distance
+matrix is the geodesic distance from the
+\ifelse{html}{\out{<i>i</i>}}{\eqn{i}}th vertex to the
+\ifelse{html}{\out{<i>j</i>}}{\eqn{j}}th vertex.}
 
 \item{eta}{An optional nonnegative multiplicity (weight) vector for (vertex)
 weighted networks. The sum of its components must be positive. If set to
@@ -25,6 +30,17 @@ length of the \code{eta} must be equivalent to the number of vertices.}
 
 \item{alpha}{A number or a numeric vector of multiscale parameters. Values
 must be between 0 and 1.}
+
+\item{mode}{A character string. For an undirected graph, either choice gives
+the same result.
+\itemize{
+\item \code{centrality} (the default): \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}}
+centrality (prominence of each vertex in terms of \emph{making} a choice) is
+used for analysis.
+\item \code{prestige}: \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}}
+prestige (prominence of each vertex in terms of \emph{receiving} a choice)
+is used for analysis
+}}
 }
 \value{
 A list of numeric vectors. The length of the list is equivalent to
@@ -33,23 +49,28 @@ the length of \code{alpha}, and the names of the list are the values of
 is equivalent to the number of vertices in the graph \code{g}.
 Specifically, the \code{i}th component of the list is a vector of local
 \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} centrality at level
-\code{alpha[i]} for each vertex.
+\code{alpha[i]} for each vertex (if \code{mode = "centrality"}) or local
+\ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} prestige at level
+\code{alpha[i]} for each vertex (if \code{mode = "prestige"}).
 }
 \description{
 Computes local \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}}
-centrality at each \code{alpha} level for every vertex.
+centrality or prestige at each \code{alpha} level for every vertex. For
+undirected graphs, the two measures are identical.
 }
 \details{
-Suppose that the given graph has \eqn{n} vertices. We choose about
-\eqn{n\alpha} vertices
-(\ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} centrality-based
-neighborhood) for each vertex (see \code{\link[=L1centNB]{L1centNB()}}), and compute the
-\ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} centrality of the vertex
-conditioned on these vertices, i.e., derive the
-\ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} centrality locally.
+Suppose that the given graph has \ifelse{html}{\out{<i>n</i>}}{\eqn{n}}
+vertices. We choose about \eqn{n\alpha} vertices
+(\ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} centrality- or
+prestige-based neighborhood) for each vertex (see \code{\link[=L1centNB]{L1centNB()}}), and compute
+the \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} centrality or
+prestige of the vertex conditioned on these vertices, i.e., derive the
+\ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} centrality or prestige
+locally.
 }
 \note{
-The function is valid only for undirected and connected graphs.
+The function is valid only for connected graphs. If the graph is directed, it
+must be strongly connected.
 }
 \examples{
 weight <- igraph::V(MCUmovie)$worldwidegross
@@ -67,7 +88,7 @@ Manuscript, 2023.
 }
 \seealso{
 \code{\link[=L1cent]{L1cent()}} for
-\ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} centrality,
+\ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} centrality/prestige,
 \code{\link[=L1centNB]{L1centNB()}} for \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}}
-centrality-based neighborhood.
+centrality/prestige-based neighborhood.
 }

@@ -21,6 +21,9 @@
 #' The function is valid only for undirected and connected graphs.
 #'
 #' @inheritParams L1centLOC
+#' @param g An \code{igraph} graph object or a distance matrix. The graph must
+#'   be undirected and connected. Equivalently, the distance matrix must be
+#'   symmetric, and all entries must be finite.
 #' @return A list of \sQuote{edge lists}. The length of the list is equivalent
 #'   to the length of \code{alpha}, and the names of the list are the values of
 #'   \code{alpha}. The \code{i}th component of the list is a 2-column matrix,

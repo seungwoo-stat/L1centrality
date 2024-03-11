@@ -22,13 +22,13 @@ undirected graph, or a strongly connected graph in the case of a directed
 graph.
 
 Certain functions exclusively accommodate undirected graphs without vertex
-multiplicity, while others support both directed (to be updated) and
+multiplicity, while others support both directed and
 undirected graphs with vertex multiplicities. The following table provides a
 concise overview of the support range for each function.
 
 \tabular{rccc}{
 \strong{Functions} \tab \strong{Undirected graph} \tab \strong{Directed graph} \tab \strong{Vertex multiplicity}\cr
-\code{\link[=L1cent]{L1cent()}}, \code{\link[=L1centNB]{L1centNB()}}, \code{\link[=L1centLOC]{L1centLOC()}} \tab O \tab X (To be updated) \tab O \cr
+\code{\link[=L1cent]{L1cent()}}, \code{\link[=L1centNB]{L1centNB()}}, \code{\link[=L1centLOC]{L1centLOC()}} \tab O \tab O \tab O \cr
 \code{\link[=L1centEDGE]{L1centEDGE()}} \tab O \tab X \tab O \cr
 \code{\link[=L1centMDS]{L1centMDS()}} \tab O \tab X \tab X
 }

@@ -72,8 +72,10 @@
 #' \emph{not} radius quartiles.
 #'
 #' @export
-#' @seealso [L1cent()] for \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} centrality,
-#'   [MASS::isoMDS()] and [stats::cmdscale()] for multidimensional scaling methods.
+#' @seealso [L1cent()] for
+#'   \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} centrality/prestige,
+#'   [MASS::isoMDS()] and [stats::cmdscale()] for multidimensional scaling
+#'   methods.
 #' @examples
 #' parameters <- L1centMDS(MCUmovie, verbose = FALSE)
 #' plot(parameters)

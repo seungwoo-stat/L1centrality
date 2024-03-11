@@ -19,6 +19,9 @@ Oh, 2023). It properly handles graphs that have weights assigned to both
 vertices and edges. Based on this centrality measure, several graphical
 and multiscale analysis tools are developed.
 
+*L*<sub>1</sub> prestige for a strongly connected directed graph is
+under development.
+
 ## How can I get L1centrality?
 
 Version 0.0.3 of this package is available on
@@ -29,7 +32,7 @@ install.packages("L1centrality")
 library(L1centrality)
 ```
 
-You can install the development version (0.0.3.9001) of `L1centrality`
+You can install the development version (0.0.3.9002) of `L1centrality`
 via:
 
 ``` r
