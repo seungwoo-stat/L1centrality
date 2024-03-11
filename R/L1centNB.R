@@ -22,14 +22,17 @@
 #'
 #' For a directed graph, a vertex of interest becomes the graph centrality and
 #' prestige median if the multiplicity of that vertex is incremented by
-#' \eqn{\sum\eta_i/\mathcal{S}(G)}. We call the resulting graph as the
-#' symmetrized graph, analogous to the symmetrization for undirected graphs.
-#' Here, \eqn{\mathcal{S}(\texttt{g}) = \min_{i\neq j} d(v_i,v_j)/d(v_j,v_i)}.
+#' \eqn{\sum_{i=1}^n\eta_i/\mathcal{S}(\texttt{g})}. We call the resulting graph
+#' as the symmetrized graph, analogous to the symmetrization for undirected
+#' graphs. Here, \eqn{\mathcal{S}(\texttt{g}) = \min_{i\neq j}
+#' d(v_i,v_j)/d(v_j,v_i)} and \ifelse{html}{\out{<i>n</i>}}{\eqn{n}} is number
+#' of vertices in \code{g}.
 #' \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}}
 #' centrality(prestige)-based neighborhood of vertex
 #' \ifelse{html}{\out{<i>v</i>}}{\eqn{v}} is a set of vertices that have large
 #' \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} centrality(prestige)
-#' on the symmetrized graph w.r.t. vertex  \ifelse{html}{\out{<i>v</i>}}{\eqn{v}}.
+#' on the symmetrized graph w.r.t. vertex
+#' \ifelse{html}{\out{<i>v</i>}}{\eqn{v}}.
 #'
 #' @note
 #' The function is valid only for connected graphs. If the graph is directed, it

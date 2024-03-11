@@ -139,8 +139,8 @@ associated data depth. \emph{Proceedings of the National Academy of Sciences},
 \seealso{
 \code{\link[=L1centLOC]{L1centLOC()}}, \code{\link[=L1centNB]{L1centNB()}}, \code{\link[=L1centMDS]{L1centMDS()}}, \code{\link[=L1centEDGE]{L1centEDGE()}},
 \code{\link[=Lorenz_plot]{Lorenz_plot()}} for \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}}
-centrality- or prestige-based analysis. See \link{L1centrality-package} for function
-support ranges.
+centrality- or prestige-based analysis. See \link{L1centrality-package} for each
+function's support range.
 
 \code{\link[igraph:betweenness]{igraph::betweenness()}}, \code{\link[igraph:closeness]{igraph::closeness()}},
 \code{\link[igraph:degree]{igraph::degree()}}, \code{\link[igraph:eigen_centrality]{igraph::eigen_centrality()}} for centrality measures.

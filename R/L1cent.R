@@ -96,8 +96,8 @@
 #' @export
 #' @seealso [L1centLOC()], [L1centNB()], [L1centMDS()], [L1centEDGE()],
 #'   [Lorenz_plot()] for \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}}
-#'   centrality- or prestige-based analysis. See [L1centrality-package] for function
-#'   support ranges.
+#'   centrality- or prestige-based analysis. See [L1centrality-package] for each
+#'   function's support range.
 #'
 #'   [igraph::betweenness()], [igraph::closeness()],
 #'   [igraph::degree()], [igraph::eigen_centrality()] for centrality measures.
