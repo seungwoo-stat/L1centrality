@@ -5,8 +5,8 @@
 
 <!-- badges: start -->
 
-[![CRAN
-status](https://www.r-pkg.org/badges/version/L1centrality)](https://CRAN.R-project.org/package=L1centrality)
+[![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/L1centrality)](https://CRAN.R-project.org/package=L1centrality)
+[![CRAN_Downloads](https://cranlogs.r-pkg.org/badges/grand-total/L1centrality)](https://CRAN.R-project.org/package=L1centrality)
 <!-- badges: end -->
 
 Graph/Network Analysis Based on L1 Centrality
