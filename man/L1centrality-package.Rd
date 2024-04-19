@@ -3,7 +3,6 @@
 \docType{package}
 \name{L1centrality-package}
 \alias{L1centrality-package}
-\alias{_PACKAGE}
 \alias{L1centrality}
 \title{L1centrality: Graph/Network Analysis Based on \out{<i>L</i><sub>1</sub>}
 Centrality}

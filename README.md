@@ -7,6 +7,7 @@
 
 [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/L1centrality)](https://CRAN.R-project.org/package=L1centrality)
 [![CRAN_Downloads](https://cranlogs.r-pkg.org/badges/grand-total/L1centrality)](https://CRAN.R-project.org/package=L1centrality)
+
 <!-- badges: end -->
 
 Graph/Network Analysis Based on L1 Centrality
@@ -19,8 +20,19 @@ Oh, 2023). It properly handles graphs that have weights assigned to both
 vertices and edges. Based on this centrality measure, several graphical
 and multiscale analysis tools are developed.
 
-*L*<sub>1</sub> prestige for a strongly connected directed graph is
-under development.
+There are analogous measures for strongly connected directed graphs as
+well: the *L*<sub>1</sub> centrality and *L*<sub>1</sub> prestige (Kang
+and Oh, 2024). The former one quantifies the prominence of vertices in
+*giving* choices, while the latter evaluates the prominence in
+*receiving* choices. Multiscale analysis tools are developed from these
+measures as well.
+
+Refer to the package documentation for an overview of the support range
+for each function.
+
+``` r
+?`L1centrality-package`
+```
 
 ## How can I get L1centrality?
 
@@ -42,10 +54,10 @@ library(L1centrality)
 
 ## How do I use it?
 
-Using the Marvel Cinematic Universe movie network and *L*<sub>1</sub>
-centrality function `L1cent()` provided via this package, we can
-identify movies with high *L*<sub>1</sub> centrality, i.e., movies that
-are central in the given network.
+Using the Marvel Cinematic Universe movie network (undirected, connected
+graph) and *L*<sub>1</sub> centrality function `L1cent()` provided via
+this package, we can identify movies with high *L*<sub>1</sub>
+centrality, i.e., movies that are central in the given network.
 
 ``` r
 library(L1centrality)
@@ -65,18 +77,23 @@ centrality measure: `L1centMDS()` (target plot), `L1centNB()`
 representation), and `Lorenz_plot()` (group heterogeneity plot and
 index).
 
-Moreover, two network data are provided: `MCUmovie` (Marvel Cinematic
-Universe movie network) and `rokassembly21` (Republic of Korea’s 21st
-National Assembly bill cosponsorship network). See the document for
-further details.
+Moreover, two undirected and connected network data are provided:
+`MCUmovie` (Marvel Cinematic Universe movie network) and `rokassembly21`
+(Republic of Korea’s 21st National Assembly bill cosponsorship network).
+See the document for further details.
 
 ## Where can I learn more?
 
 Visit [this repo](https://github.com/seungwoo-stat/L1centrality-paper)
 for code to reproduce the figures and analysis from the paper Kang and
-Oh (2023).
+Oh (2023) and [this
+repo](https://github.com/seungwoo-stat/L1prestige-paper) for code to
+reproduce the figures and analysis from the paper Kang and Oh (2024).
 
 ## References
 
 Seungwoo Kang and Hee-Seok Oh. On a Notion of Graph Centrality Based on
 *L*<sub>1</sub> Data Depth. Manuscript. 2023.
+
+Seungwoo Kang and Hee-Seok Oh. The *L*<sub>1</sub> Prestige Measure and
+Multiscale Network Analysis. Manuscript. 2024.
