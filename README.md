@@ -16,23 +16,16 @@ Graph/Network Analysis Based on L1 Centrality
 
 *L*<sub>1</sub> centrality is a new centrality measure that assesses the
 prominence of vertices in an undirected and connected graph (Kang and
-Oh, 2023). It properly handles graphs that have weights assigned to both
-vertices and edges. Based on this centrality measure, several graphical
-and multiscale analysis tools are developed.
+Oh, 2024a). It properly handles graphs that have weights assigned to
+both vertices and edges. Based on this centrality measure, several
+graphical and multiscale analysis tools are developed.
 
 There are analogous measures for strongly connected directed graphs as
 well: the *L*<sub>1</sub> centrality and *L*<sub>1</sub> prestige (Kang
-and Oh, 2024). The former one quantifies the prominence of vertices in
+and Oh, 2024b). The former one quantifies the prominence of vertices in
 *giving* choices, while the latter evaluates the prominence in
 *receiving* choices. Multiscale analysis tools are developed from these
 measures as well.
-
-Refer to the package documentation for an overview of the support range
-for each function.
-
-``` r
-?`L1centrality-package`
-```
 
 ## How can I get L1centrality?
 
@@ -71,11 +64,18 @@ L1cent(MCUmovie) |>
 ```
 
 There are other useful functions built upon the *L*<sub>1</sub>
-centrality measure: `L1centMDS()` (target plot), `L1centNB()`
-(*L*<sub>1</sub> centrality-based neighborhood), `L1centLOC()` (local
-*L*<sub>1</sub> centrality), `L1centEDGE()` (multiscale edge
-representation), and `Lorenz_plot()` (group heterogeneity plot and
-index).
+centrality and *L*<sub>1</sub> prestige measures: `L1centMDS()` (target
+plot), `L1centNB()` (*L*<sub>1</sub> centrality-based neighborhood),
+`L1centLOC()` (local *L*<sub>1</sub> centrality), `L1centEDGE()`
+(multiscale edge representation), and `Lorenz_plot()` (group
+heterogeneity plot and index).
+
+Refer to the package documentation for an overview of the support range
+for each function.
+
+``` r
+?`L1centrality-package`
+```
 
 Moreover, two undirected and connected network data are provided:
 `MCUmovie` (Marvel Cinematic Universe movie network) and `rokassembly21`
@@ -86,14 +86,15 @@ See the document for further details.
 
 Visit [this repo](https://github.com/seungwoo-stat/L1centrality-paper)
 for code to reproduce the figures and analysis from the paper Kang and
-Oh (2023) and [this
+Oh (2024a) and [this
 repo](https://github.com/seungwoo-stat/L1prestige-paper) for code to
-reproduce the figures and analysis from the paper Kang and Oh (2024).
+reproduce the figures and analysis from the paper Kang and Oh (2024b).
 
 ## References
 
-Seungwoo Kang and Hee-Seok Oh. On a Notion of Graph Centrality Based on
-*L*<sub>1</sub> Data Depth. Manuscript. 2023.
+Seungwoo Kang and Hee-Seok Oh. [On a Notion of Graph Centrality Based on
+*L*<sub>1</sub> Data Depth](http://arxiv.org/abs/2404.13233). *arXiv
+preprint arXiv:2404.13233*. 2024a.
 
 Seungwoo Kang and Hee-Seok Oh. The *L*<sub>1</sub> Prestige Measure and
-Multiscale Network Analysis. Manuscript. 2024.
+Multiscale Network Analysis. Manuscript. 2024b.
