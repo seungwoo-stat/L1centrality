@@ -1,3 +1,5 @@
+This is a resubmission. I fixed arXiv DOI in the description field.
+
 ## R CMD check results
 
 0 errors | 0 warnings | 2 notes

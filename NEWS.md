@@ -1,4 +1,4 @@
-# L1centrality 0.1.0
+# L1centrality 0.1.1
 
 ## Major updates
 

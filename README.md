@@ -37,8 +37,7 @@ install.packages("L1centrality")
 library(L1centrality)
 ```
 
-You can install the development version (0.0.3.9002) of `L1centrality`
-via:
+You can install the development version (0.1.1) of `L1centrality` via:
 
 ``` r
 devtools::install_github("seungwoo-stat/L1centrality")
