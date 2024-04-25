@@ -20,12 +20,12 @@ Oh, 2024a). It properly handles graphs that have weights assigned to
 both vertices and edges. Based on this centrality measure, several
 graphical and multiscale analysis tools are developed.
 
-There are analogous measures for strongly connected directed graphs as
-well: the *L*<sub>1</sub> centrality and *L*<sub>1</sub> prestige (Kang
-and Oh, 2024b). The former one quantifies the prominence of vertices in
-*giving* choices, while the latter evaluates the prominence in
-*receiving* choices. Multiscale analysis tools are developed from these
-measures as well.
+There are analogous measures for strongly connected directed graphs: the
+*L*<sub>1</sub> centrality and *L*<sub>1</sub> prestige (Kang and Oh,
+2024b). The former one quantifies the prominence of vertices in *giving*
+choices, while the latter evaluates the prominence in *receiving*
+choices. Multiscale analysis tools are developed from these measures as
+well.
 
 ## How can I get L1centrality?
 
@@ -96,5 +96,5 @@ Seungwoo Kang and Hee-Seok Oh. [On a Notion of Graph Centrality Based on
 *L*<sub>1</sub> Data Depth](http://arxiv.org/abs/2404.13233). *arXiv
 preprint arXiv:2404.13233*. 2024a.
 
-Seungwoo Kang and Hee-Seok Oh. The *L*<sub>1</sub> Prestige Measure and
-Multiscale Network Analysis. Manuscript. 2024b.
+Seungwoo Kang and Hee-Seok Oh. *L*<sub>1</sub> Prominence Measures for
+Directed Graphs. Manuscript. 2024b.

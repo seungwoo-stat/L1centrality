@@ -38,7 +38,7 @@ gini
 \references{
 S. Kang and H.-S. Oh. On a notion of graph centrality based on
 \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} data depth.
-Manuscript, 2023.
+\emph{arXiv preprint arXiv:2404.13233}, 2024.
 
 M. O. Lorenz. Methods of measuring the concentration of wealth.
 \emph{Publications of the American Statistical Association}, 9(70):209--219, 1905.

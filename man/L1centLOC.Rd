@@ -28,7 +28,7 @@ weighted networks. The sum of its components must be positive. If set to
 (multiplicity), i.e., \code{g} is treated as a vertex unweighted graph. The
 length of the \code{eta} must be equivalent to the number of vertices.}
 
-\item{alpha}{A number or a numeric vector of multiscale parameters. Values
+\item{alpha}{A number or a numeric vector of locality levels. Values
 must be between 0 and 1.}
 
 \item{mode}{A character string. For an undirected graph, either choice gives
@@ -66,7 +66,8 @@ prestige-based neighborhood) for each vertex (see \code{\link[=L1centNB]{L1centN
 the \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} centrality or
 prestige of the vertex conditioned on these vertices, i.e., derive the
 \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} centrality or prestige
-locally.
+locally. For details, refer to Kang and Oh (2024a) for undirected graphs, and
+Kang and Oh (2024b) for directed graphs.
 }
 \note{
 The function is valid only for connected graphs. If the graph is directed, it
@@ -84,7 +85,11 @@ graphics::text(MCUmovie_cent, MCUmovie_loc_cent[[1]], igraph::V(MCUmovie)$name)
 \references{
 S. Kang and H.-S. Oh. On a notion of graph centrality based on
 \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} data depth.
-Manuscript, 2023.
+\emph{arXiv preprint arXiv:2404.13233}, 2024a.
+
+S. Kang and H.-S. Oh.
+\ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} prominence measures
+for directed graphs. Manuscript. 2024b.
 }
 \seealso{
 \code{\link[=L1cent]{L1cent()}} for

@@ -55,23 +55,25 @@ vertex. The \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}}
 centrality/prestige is a graph centrality/prestige measure defined for the
 vertices of a graph. It is (roughly) defined by (1 \eqn{-} minimum
 multiplicity required for a selected vertex to become the median of the
-graph). \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} centrality
-quantifies the prominence of a vertex in \emph{making} a choice and
+graph). For directed graphs,
+\ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} centrality quantifies
+the prominence of a vertex in \emph{making} a choice and
 \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} prestige quantifies
-the prominence of a vertex in \emph{receiving} a choice. For undirected graphs, the
-two measures are identical.
+the prominence of a vertex in \emph{receiving} a choice. For undirected graphs,
+the two measures are identical.
 }
 \details{
 Suppose that \code{g} is a (strongly) connected graph consisting of
 \ifelse{html}{\out{<i>n</i>}}{\eqn{n}} vertices
 \ifelse{html}{\out{<i>v</i><sub>1</sub>, ...,
 <i>v<sub>n</sub></i>}}{{\eqn{v_1,\dots,v_n}}}
-whose multiplicities (weights) are \eqn{\eta_1,\dots,\eta_n \geq 0} and \eqn{\eta_{\cdot} =
-\sum_{k=1}^n \eta_k > 0}, respectively.
+whose multiplicities (weights) are \eqn{\eta_1,\dots,\eta_n \geq 0}, respectively,
+and \eqn{\eta_{\cdot} = \sum_{k=1}^n \eta_k > 0}.
 
-The centrality median of this graph is the node minimizing the weighted sum
-of distances. That is, \ifelse{html}{\out{<i>v<sub>i</sub></i>}}{{\eqn{v_i}}}
-is the centrality median node if
+The centrality median vertex of this graph is the node minimizing the
+weighted sum of distances. That is,
+\ifelse{html}{\out{<i>v<sub>i</sub></i>}}{{\eqn{v_i}}} is the centrality
+median vertex if
 \deqn{
  \sum_{k=1}^{n} \eta_k d(v_i, v_k)
 }
@@ -79,9 +81,9 @@ is minimized, where \eqn{d(v_i,v_k)} denotes the geodesic (shortest path)
 distance from \eqn{v_i} to \eqn{v_k}. See \code{\link[igraph:distances]{igraph::distances()}} for
 algorithms for computing geodesic distances between vertices. When the
 indices are swapped to \eqn{d(v_k, v_i)} in the display above, we call the
-node minimizing the weighted sum as the prestige median. When the graph is
-undirected, the prestige median vertex and the centrality median vertex
-coincide, and we call it the graph median, following Hakimi (1964).
+node minimizing the weighted sum as the prestige median vertex. When the
+graph is undirected, the prestige median vertex and the centrality median
+vertex coincide, and we call it the graph median, following Hakimi (1964).
 
 The \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} centrality for an
 arbitrary node \ifelse{html}{\out{<i>v<sub>i</sub></i>}}{{\eqn{v_i}}} is
@@ -102,11 +104,13 @@ vertex has centrality 1. The
 \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} prestige is defined
 analogously, with the indices inside the distance function swapped.
 
-For an undirected graph, \eqn{\mathcal{S}(\texttt{g}) = 1} and the distance
-function is symmetric. Hence,
+For an undirected graph, \eqn{\mathcal{S}(\texttt{g}) = 1} since the distance
+function is symmetric. Moreover,
 \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} centrality and
-prestige concide. Moreover, they are equivalent to the measure defined in
-Kang and Oh (2023).
+\ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} prestige measures concide.
+
+For details, refer to Kang and Oh (2024a) for undirected graphs, and Kang and
+Oh (2024b) for directed graphs.
 }
 \note{
 The function is valid only for connected graphs. If the graph is directed, it
@@ -129,7 +133,11 @@ absolute centers and medians of a graph. \emph{Operations Research},
 
 S. Kang and H.-S. Oh. On a notion of graph centrality based on
 \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} data depth.
-Manuscript, 2023.
+\emph{arXiv preprint arXiv:2404.13233}, 2024a.
+
+S. Kang and H.-S. Oh.
+\ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} prominence measures
+for directed graphs. Manuscript. 2024b.
 
 Y. Vardi and C.-H. Zhang. The multivariate
 \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}}-median and

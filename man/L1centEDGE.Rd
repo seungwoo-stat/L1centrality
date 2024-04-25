@@ -23,7 +23,7 @@ weighted networks. The sum of its components must be positive. If set to
 (multiplicity), i.e., \code{g} is treated as a vertex unweighted graph. The
 length of the \code{eta} must be equivalent to the number of vertices.}
 
-\item{alpha}{A number or a numeric vector of multiscale parameters. Values
+\item{alpha}{A number or a numeric vector of locality levels. Values
 must be between 0 and 1.}
 }
 \value{
@@ -63,7 +63,7 @@ plot(graph)
 \references{
 S. Kang and H.-S. Oh. On a notion of graph centrality based on
 \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} data depth.
-Manuscript, 2023.
+\emph{arXiv preprint arXiv:2404.13233}, 2024.
 }
 \seealso{
 \code{\link[=L1cent]{L1cent()}}, \code{\link[=L1centNB]{L1centNB()}}, \code{\link[=L1centLOC]{L1centLOC()}}. Using the output, one can

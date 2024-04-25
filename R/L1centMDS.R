@@ -5,7 +5,7 @@
 #' \code{L1centMDS()} and \code{plot.L1centMDS()} are used together to draw a target
 #' plot, which is a target-shaped 2D plot that aids in the visual inspection of a
 #' network using the \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}}
-#' centrality. See Kang and Oh (2023) for a formal definition of a target plot.
+#' centrality. See Kang and Oh (2024) for a formal definition of a target plot.
 #'
 #' @details
 #' Denoting the \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}}
@@ -81,7 +81,7 @@
 #' plot(parameters)
 #' @references S. Kang and H.-S. Oh. On a notion of graph centrality based on
 #'   \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} data depth.
-#'   Manuscript, 2023.
+#'   \emph{arXiv preprint arXiv:2404.13233}, 2024.
 #'
 #'   J. B. Kruskal. Multidimensional scaling by optimizing goodness of fit to a
 #'   nonmetric hypothesis. \emph{Psychometrika}, 29(1):1--27, 1964a.

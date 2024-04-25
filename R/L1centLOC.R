@@ -19,10 +19,11 @@
 #' the \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} centrality or
 #' prestige of the vertex conditioned on these vertices, i.e., derive the
 #' \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} centrality or prestige
-#' locally.
+#' locally. For details, refer to Kang and Oh (2024a) for undirected graphs, and
+#' Kang and Oh (2024b) for directed graphs.
 #'
 #' @inheritParams L1cent
-#' @param alpha A number or a numeric vector of multiscale parameters. Values
+#' @param alpha A number or a numeric vector of locality levels. Values
 #'   must be between 0 and 1.
 #' @return A list of numeric vectors. The length of the list is equivalent to
 #'   the length of \code{alpha}, and the names of the list are the values of
@@ -49,7 +50,11 @@
 #' graphics::text(MCUmovie_cent, MCUmovie_loc_cent[[1]], igraph::V(MCUmovie)$name)
 #' @references S. Kang and H.-S. Oh. On a notion of graph centrality based on
 #'   \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} data depth.
-#'   Manuscript, 2023.
+#'   \emph{arXiv preprint arXiv:2404.13233}, 2024a.
+#'
+#'   S. Kang and H.-S. Oh.
+#'   \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} prominence measures
+#'   for directed graphs. Manuscript. 2024b.
 L1centLOC <- function(g, eta, alpha, mode) UseMethod("L1centLOC")
 
 #' @name L1centLOC

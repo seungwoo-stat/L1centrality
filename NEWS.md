@@ -1,4 +1,4 @@
-# L1centrality 0.0.3.9002
+# L1centrality 0.1.0
 
 ## Major updates
 
@@ -13,6 +13,8 @@
 * Fixed error in the `L1centLOC()` function.
 
 * Added package overview table to the `L1centrality-package` document.
+
+* arXiv URL added to the package description and function documents.
 
 # L1centrality 0.0.3
 
