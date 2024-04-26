@@ -31,14 +31,14 @@ There are analogous measures for strongly connected directed graphs: the *L*<sub
 
 ## How can I get L1centrality?
 
-Version 0.0.3 of this package is available on [CRAN](https://cran.r-project.org/package=L1centrality):
+Version 0.1.1 of this package is available on [CRAN](https://cran.r-project.org/package=L1centrality):
 
 ``` r
 install.packages("L1centrality")
 library(L1centrality)
 ```
 
-You can install the development version (0.1.1) of `L1centrality` via:
+You can install the development version (currently equivalent to the CRAN version) of `L1centrality` via:
 
 ``` r
 devtools::install_github("seungwoo-stat/L1centrality")
