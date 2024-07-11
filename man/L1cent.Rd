@@ -37,7 +37,7 @@ centrality (prominence of each vertex in terms of \emph{making} a choice) is
 used for analysis.
 \item \code{prestige}: \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}}
 prestige (prominence of each vertex in terms of \emph{receiving} a choice)
-is used for analysis
+is used for analysis.
 }}
 }
 \value{
@@ -146,9 +146,10 @@ associated data depth. \emph{Proceedings of the National Academy of Sciences},
 }
 \seealso{
 \code{\link[=L1centLOC]{L1centLOC()}}, \code{\link[=L1centNB]{L1centNB()}}, \code{\link[=L1centMDS]{L1centMDS()}}, \code{\link[=L1centEDGE]{L1centEDGE()}},
-\code{\link[=Lorenz_plot]{Lorenz_plot()}} for \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}}
-centrality- or prestige-based analysis. See \link{L1centrality-package} for each
-function's support range.
+\code{\link[=L1centGROUP]{L1centGROUP()}}, \code{\link[=Lorenz_plot]{Lorenz_plot()}} for
+\ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} centrality- or
+prestige-based analysis. See \link{L1centrality-package} for each function's
+support range.
 
 \code{\link[igraph:betweenness]{igraph::betweenness()}}, \code{\link[igraph:closeness]{igraph::closeness()}},
 \code{\link[igraph:degree]{igraph::degree()}}, \code{\link[igraph:eigen_centrality]{igraph::eigen_centrality()}} for centrality measures.

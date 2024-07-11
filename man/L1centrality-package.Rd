@@ -8,10 +8,10 @@
 Centrality}
 \description{
 Analyze graph/network data using \out{<i>L</i><sub>1</sub>} centrality and
-prestige. Functions for deriving global and local \out{<i>L</i><sub>1</sub>}
-centrality/prestige and \out{<i>L</i><sub>1</sub>} centrality/prestige-based
-neighborhoods of vertices are provided. Routines for visual inspection of a
-graph/network are also provided. Details are in Kang and Oh (2024a,b).
+prestige. Functions for deriving global, local, and group
+\out{<i>L</i><sub>1</sub>} centrality/prestige are provided. Routines for
+visual inspection of a graph/network are also provided. Details are in Kang
+and Oh (2024a,b) and Kang (2025).
 }
 \details{
 Every function inside this package supports a distinct variety of graphs.
@@ -27,7 +27,7 @@ concise overview of the support range for each function.
 
 \tabular{rccc}{
 \strong{Functions} \tab \strong{Undirected graph} \tab \strong{Directed graph} \tab \strong{Vertex multiplicity}\cr
-\code{\link[=L1cent]{L1cent()}}, \code{\link[=L1centNB]{L1centNB()}}, \code{\link[=L1centLOC]{L1centLOC()}} \tab O \tab O \tab O \cr
+\code{\link[=L1cent]{L1cent()}}, \code{\link[=L1centNB]{L1centNB()}}, \code{\link[=L1centLOC]{L1centLOC()}}, \code{\link[=L1centGROUP]{L1centGROUP()}} \tab O \tab O \tab O \cr
 \code{\link[=L1centEDGE]{L1centEDGE()}} \tab O \tab X \tab O \cr
 \code{\link[=L1centMDS]{L1centMDS()}} \tab O \tab X \tab X
 }
@@ -40,6 +40,9 @@ S. Kang and H.-S. Oh. On a notion of graph centrality based on
 S. Kang and H.-S. Oh.
 \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} prominence measures
 for directed graphs. Manuscript. 2024b.
+
+S. Kang. \emph{Topics in Non-Euclidean Dimension Reduction}. PhD thesis, Seoul
+National University, 2025.
 }
 \seealso{
 Useful links:

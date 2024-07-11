@@ -10,7 +10,7 @@
 #' @details
 #' For an undirected graph, if the graph is symmetrized (in a way defined in Kang and Oh (2024a))
 #' w.r.t. a vertex \ifelse{html}{\out{<i>v</i>}}{\eqn{v}}, vertex
-#' \ifelse{html}{\out{<i>v</i>}}{\eqn{v}} becomes the graph median (Kang and Oh,
+#' \ifelse{html}{\out{<i>v</i>}}{\eqn{v}} becomes the graph median (Kang and Oh
 #' 2024a), i.e., \ifelse{html}{\out{<i>v</i>}}{\eqn{v}} has
 #' \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} centrality 1. Based on
 #' this property, we define the

@@ -15,17 +15,22 @@ Graph/Network Analysis Based on L1 Centrality
 ## What is *L*<sub>1</sub> centrality?
 
 *L*<sub>1</sub> centrality is a new centrality measure that assesses the
-prominence of vertices in an undirected and connected graph (Kang and
-Oh, 2024a). It properly handles graphs that have weights assigned to
-both vertices and edges. Based on this centrality measure, several
-graphical and multiscale analysis tools are developed.
+prominence of vertices in an undirected and connected graph (Kang and Oh
+2024a). It properly handles graphs that have weights assigned to both
+vertices and edges. Based on this centrality measure, several graphical
+and multiscale analysis tools are developed.
 
 There are analogous measures for strongly connected directed graphs: the
-*L*<sub>1</sub> centrality and *L*<sub>1</sub> prestige (Kang and Oh,
+*L*<sub>1</sub> centrality and *L*<sub>1</sub> prestige (Kang and Oh
 2024b). The former one quantifies the prominence of vertices in *giving*
 choices, while the latter evaluates the prominence in *receiving*
 choices. Multiscale analysis tools are developed from these measures as
 well.
+
+These measures can be extended to assess the prominence of a *group of
+vertices*: the group *L*<sub>1</sub> centrality and group
+*L*<sub>1</sub> prestige measures are developed for this purpose (Kang
+2025).
 
 ## How can I get L1centrality?
 
@@ -37,8 +42,8 @@ install.packages("L1centrality")
 library(L1centrality)
 ```
 
-You can install the development version (currently equivalent to the
-CRAN version) of `L1centrality` via:
+You can install the development version (0.1.1.9000) of `L1centrality`
+via:
 
 ``` r
 devtools::install_github("seungwoo-stat/L1centrality")
@@ -48,8 +53,8 @@ library(L1centrality)
 ## How do I use it?
 
 Using the Marvel Cinematic Universe movie network (undirected, connected
-graph) and *L*<sub>1</sub> centrality function `L1cent()` provided via
-this package, we can identify movies with high *L*<sub>1</sub>
+graph) and the *L*<sub>1</sub> centrality function `L1cent()` provided
+via this package, we can identify movies with high *L*<sub>1</sub>
 centrality, i.e., movies that are central in the given network.
 
 ``` r
@@ -65,10 +70,11 @@ L1cent(MCUmovie) |>
 
 There are other useful functions built upon the *L*<sub>1</sub>
 centrality and *L*<sub>1</sub> prestige measures: `L1centMDS()` (target
-plot), `L1centNB()` (*L*<sub>1</sub> centrality-based neighborhood),
-`L1centLOC()` (local *L*<sub>1</sub> centrality), `L1centEDGE()`
-(multiscale edge representation), and `Lorenz_plot()` (group
-heterogeneity plot and index).
+plot), `L1centNB()` (*L*<sub>1</sub> centrality/prestige-based
+neighborhood), `L1centLOC()` (local *L*<sub>1</sub>
+centrality/prestige), `L1centEDGE()` (multiscale edge representation),
+`L1centGROUP()` (Group *L*<sub>1</sub> centrality/prestige), and
+`Lorenz_plot()` (group heterogeneity plot and index).
 
 Refer to the package documentation for an overview of the support range
 for each function.
@@ -98,3 +104,6 @@ preprint arXiv:2404.13233*. 2024a.
 
 Seungwoo Kang and Hee-Seok Oh. *L*<sub>1</sub> Prominence Measures for
 Directed Graphs. Manuscript. 2024b.
+
+Seungwoo Kang. *Topics in Non-Euclidean Dimension Reduction*. PhD
+thesis, Seoul National University. 2025.

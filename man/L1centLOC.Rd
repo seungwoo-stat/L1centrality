@@ -39,7 +39,7 @@ centrality (prominence of each vertex in terms of \emph{making} a choice) is
 used for analysis.
 \item \code{prestige}: \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}}
 prestige (prominence of each vertex in terms of \emph{receiving} a choice)
-is used for analysis
+is used for analysis.
 }}
 }
 \value{

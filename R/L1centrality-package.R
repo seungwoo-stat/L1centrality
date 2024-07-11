@@ -18,10 +18,10 @@ NULL
 #' Centrality
 #'
 #' Analyze graph/network data using \out{<i>L</i><sub>1</sub>} centrality and
-#' prestige. Functions for deriving global and local \out{<i>L</i><sub>1</sub>}
-#' centrality/prestige and \out{<i>L</i><sub>1</sub>} centrality/prestige-based
-#' neighborhoods of vertices are provided. Routines for visual inspection of a
-#' graph/network are also provided. Details are in Kang and Oh (2024a,b).
+#' prestige. Functions for deriving global, local, and group
+#' \out{<i>L</i><sub>1</sub>} centrality/prestige are provided. Routines for
+#' visual inspection of a graph/network are also provided. Details are in Kang
+#' and Oh (2024a,b) and Kang (2025).
 #'
 #' Every function inside this package supports a distinct variety of graphs.
 #' Edge weights can be considered by all functions. Additionally, it is
@@ -36,7 +36,7 @@ NULL
 #'
 #' \tabular{rccc}{
 #'    \strong{Functions} \tab \strong{Undirected graph} \tab \strong{Directed graph} \tab \strong{Vertex multiplicity}\cr
-#'    [L1cent()], [L1centNB()], [L1centLOC()] \tab O \tab O \tab O \cr
+#'    [L1cent()], [L1centNB()], [L1centLOC()], [L1centGROUP()] \tab O \tab O \tab O \cr
 #'    [L1centEDGE()] \tab O \tab X \tab O \cr
 #'    [L1centMDS()] \tab O \tab X \tab X
 #' }
@@ -48,6 +48,9 @@ NULL
 #'   S. Kang and H.-S. Oh.
 #'   \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} prominence measures
 #'   for directed graphs. Manuscript. 2024b.
+#'
+#'   S. Kang. \emph{Topics in Non-Euclidean Dimension Reduction}. PhD thesis, Seoul
+#'   National University, 2025.
 #'
 #' @docType package
 #' @name L1centrality-package

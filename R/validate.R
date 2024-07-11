@@ -15,7 +15,7 @@ validate_matrix <- function(g, eta, checkdir = TRUE){
   if(length(eta) != ncol(g))
     stop("Length of eta differs from the number of vertices")
   if(any(eta < 0))
-    stop("Entries of eta must be positive")
+    stop("Entries of eta must be non-negative")
   if(sum(eta) <= 0)
     stop("sum(eta) must be positive")
 }

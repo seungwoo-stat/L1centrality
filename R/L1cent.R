@@ -89,7 +89,7 @@
 #'  used for analysis.
 #'  * `prestige`: \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}}
 #'  prestige (prominence of each vertex in terms of \emph{receiving} a choice)
-#'  is used for analysis
+#'  is used for analysis.
 #' @return A numeric vector whose length is equivalent to the number of vertices
 #'   in the graph \code{g}. Each component of the vector is the
 #'   \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} centrality (if
@@ -99,9 +99,10 @@
 #'
 #' @export
 #' @seealso [L1centLOC()], [L1centNB()], [L1centMDS()], [L1centEDGE()],
-#'   [Lorenz_plot()] for \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}}
-#'   centrality- or prestige-based analysis. See [L1centrality-package] for each
-#'   function's support range.
+#'   [L1centGROUP()], [Lorenz_plot()] for
+#'   \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} centrality- or
+#'   prestige-based analysis. See [L1centrality-package] for each function's
+#'   support range.
 #'
 #'   [igraph::betweenness()], [igraph::closeness()],
 #'   [igraph::degree()], [igraph::eigen_centrality()] for centrality measures.
