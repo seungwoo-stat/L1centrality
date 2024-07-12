@@ -33,6 +33,9 @@ concise overview of the support range for each function.
 }
 }
 \references{
+S. Kang. \emph{Topics in Non-Euclidean Dimension Reduction}. PhD
+thesis, Seoul National University, 2025.
+
 S. Kang and H.-S. Oh. On a notion of graph centrality based on
 \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} data depth.
 \emph{arXiv preprint arXiv:2404.13233}, 2024a.
@@ -40,9 +43,6 @@ S. Kang and H.-S. Oh. On a notion of graph centrality based on
 S. Kang and H.-S. Oh.
 \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} prominence measures
 for directed graphs. Manuscript. 2024b.
-
-S. Kang. \emph{Topics in Non-Euclidean Dimension Reduction}. PhD thesis, Seoul
-National University, 2025.
 }
 \seealso{
 Useful links:

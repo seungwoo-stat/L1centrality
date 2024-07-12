@@ -13,9 +13,7 @@ group_reduce(g, nodes, eta, method)
 \method{group_reduce}{matrix}(g, nodes, eta = NULL, method = "minimum")
 }
 \arguments{
-\item{g}{An \code{igraph} graph object or a distance matrix. The graph must
-be connected. For a directed graph, it must be strongly connected.
-Equivalently, all entries of the distance matrix must be finite. Here, the
+\item{g}{An \code{igraph} graph object or a distance matrix. Here, the
 \ifelse{html}{\out{(<i>i,j</i>)}}{\eqn{(i,j)}} component of the distance
 matrix is the geodesic distance from the
 \ifelse{html}{\out{<i>i</i>}}{\eqn{i}}th vertex to the
@@ -27,7 +25,7 @@ vertex.}
 \item{eta}{An optional nonnegative multiplicity (weight) vector for (vertex)
 weighted networks. The sum of its components must be positive. If set to
 \code{NULL} (the default), all vertices will have the same positive weight
-(multiplicity), i.e., \code{g} is treated as a vertex unweighted graph. The
+(multiplicity) of 1, i.e., \code{g} is treated as a vertex unweighted graph. The
 length of the \code{eta} must be equivalent to the number of vertices.}
 
 \item{method}{A character string. It specifies the method of setting the edge
@@ -88,8 +86,8 @@ An edge from \ifelse{html}{\out{<i>v</i>}}{\eqn{v}} to the pseudo-vertex is
 set in a similar manner. For details, refer to Kang (2025).
 }
 \note{
-The function is valid only for connected graphs. If the graph is directed, it
-must be strongly connected.
+Multiple edges (edges with the same head and tail vertices) are not allowed,
+because they make the edge weight setting procedure confusing.
 }
 \examples{
 # Group reduced graph of the 'Iron Man' series using the minimum method

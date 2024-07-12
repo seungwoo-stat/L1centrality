@@ -1,5 +1,6 @@
-## logical function for checking whether all elements of a vector are integral
-## NOT exported
+# logical function for checking whether all elements of a vector are integral,
+# from the documentation of `is.integer()`
+# NOT exported
 is.wholenumber <- function(x, tol = .Machine$double.eps^0.5)  abs(x - round(x)) < tol
 
 #' @name group_reduce
@@ -11,8 +12,8 @@ is.wholenumber <- function(x, tol = .Machine$double.eps^0.5)  abs(x - round(x)) 
 #' group of vertices in the original graph by a single \sQuote{pseudo-vertex}.
 #'
 #' @note
-#' The function is valid only for connected graphs. If the graph is directed, it
-#' must be strongly connected.
+#' Multiple edges (edges with the same head and tail vertices) are not allowed,
+#' because they make the edge weight setting procedure confusing.
 #'
 #' @details
 #' The group reduced graph is constructed by replacing the vertices indicated in
@@ -42,6 +43,11 @@ is.wholenumber <- function(x, tol = .Machine$double.eps^0.5)  abs(x - round(x)) 
 #' set in a similar manner. For details, refer to Kang (2025).
 #'
 #' @inheritParams L1cent
+#' @param g An \code{igraph} graph object or a distance matrix. Here, the
+#'   \ifelse{html}{\out{(<i>i,j</i>)}}{\eqn{(i,j)}} component of the distance
+#'   matrix is the geodesic distance from the
+#'   \ifelse{html}{\out{<i>i</i>}}{\eqn{i}}th vertex to the
+#'   \ifelse{html}{\out{<i>j</i>}}{\eqn{j}}th vertex.
 #' @param nodes A vector of integers. Each integer indicates the index of the
 #'   vertex.
 #' @param method A character string. It specifies the method of setting the edge
@@ -87,7 +93,9 @@ group_reduce <- function(g, nodes, eta, method) UseMethod("group_reduce")
 #' @exportS3Method group_reduce igraph
 group_reduce.igraph <- function(g, nodes, eta = NULL, method = c("minimum", "maximum", "average")){
   if(is.null(eta)) eta <- rep(1, igraph::vcount(g))
-  validate_igraph(g, checkdir = FALSE)
+  # validate_igraph(g, checkdir = FALSE)
+  if(igraph::any_multiple(g))
+    stop("Multiple edges are not allowed")
   if(length(eta) != igraph::vcount(g))
     stop("Length of eta differs from the number of vertices")
   if(any(eta < 0))
@@ -97,13 +105,16 @@ group_reduce.igraph <- function(g, nodes, eta = NULL, method = c("minimum", "max
 
   n <- igraph::vcount(g)
   if(!all(is.wholenumber(nodes)) | !all(nodes >= 1 & nodes <= n))
-    stop(paste0("Invalid 'nodes' argument: It should be integers between 1 and ",n))
+    stop(paste0("Invalid 'nodes' argument: Elements should be integers between 1 and ",n))
+  nodes <- sort(unique(nodes))
   method <- match.arg(tolower(method), choices = c("minimum", "maximum", "average"))
 
   if(is.null(igraph::E(g)$weight)) igraph::E(g)$weight <- rep(1, igraph::ecount(g))
   A <- igraph::as_adjacency_matrix(g, attr = "weight")
   if(is.null(colnames(A))) colnames(A) <- rownames(A) <- 1:n
-  if(identical(method, "minimum")){
+  if(length(nodes) == n){
+    Anew <- matrix(0)
+  }else if(identical(method, "minimum")){
     A[A == 0] <- Inf
     Anew <- cbind(c(0,apply(A[-nodes, nodes, drop = FALSE], 1, min)),
                   rbind(apply(A[nodes, -nodes, drop = FALSE], 2, min), A[-nodes, -nodes, drop = FALSE]))
@@ -117,7 +128,7 @@ group_reduce.igraph <- function(g, nodes, eta = NULL, method = c("minimum", "max
   }
   gnew <- igraph::graph_from_adjacency_matrix(Anew, weighted = TRUE)
   igraph::V(gnew)$name[1] <- "Pseudo-vertex"
-  D <- distances(gnew, mode = "out")
+  D <- igraph::distances(gnew, mode = "out")
   return(list(distmat = D, eta = c(sum(eta[nodes]), eta[-nodes]),
               label=if(is.null(igraph::V(g)$name)) nodes else igraph::V(g)$name[nodes]))
 }
@@ -126,16 +137,23 @@ group_reduce.igraph <- function(g, nodes, eta = NULL, method = c("minimum", "max
 #' @exportS3Method group_reduce matrix
 group_reduce.matrix <- function(g, nodes, eta = NULL, method = "minimum"){
   if(is.null(eta)) eta <- rep(1,ncol(g))
-  validate_matrix(g, eta, checkdir = FALSE)
+  # validate_matrix(g, eta, checkdir = FALSE)
+  if(length(eta) != ncol(g))
+    stop("Length of eta differs from the number of vertices")
+  if(any(eta < 0))
+    stop("Entries of eta must be non-negative")
+  if(sum(eta) <= 0)
+    stop("sum(eta) must be positive")
+
   n <- ncol(g)
-  if(is.null(colnames(g))) colnames(g) <- rownames(g) <- 1:n
   if(!all(is.wholenumber(nodes)) | !all(nodes >= 1 & nodes <= n))
-    stop(paste0("Invalid nodes argument: It should be integers between 1 and ",n))
+    stop(paste0("Invalid nodes argument: Elements should be integers between 1 and ",n))
+  nodes <- sort(unique(nodes))
   method <- match.arg(tolower(method), choices = "minimum")
 
   D <- cbind(c(0,apply(g[-nodes, nodes, drop = FALSE], 1, min)),
              rbind(apply(g[nodes, -nodes, drop = FALSE], 2, min), g[-nodes, -nodes]))
-  colnames(D)[1] <- rownames(D)[1] <- "Pseudo-vertex"
+  colnames(D) <- rownames(D) <- c("Pseudo-vertex", if(is.null(colnames(g))) (1:n)[-nodes] else colnames(g)[-nodes])
   D[-1,-1] <- pmin(outer(D[-1,1],D[1,-1],"+"), D[-1,-1])
   return(list(distmat = D, eta = c(sum(eta[nodes]), eta[-nodes]),
               label=if(is.null(colnames(g))) nodes else colnames(g)[nodes]))
@@ -145,7 +163,7 @@ group_reduce.matrix <- function(g, nodes, eta = NULL, method = "minimum"){
 ################################################################################
 
 #' @name L1centGROUP
-#' @aliases L1prestigeGROUP L1presGROUP
+#' @aliases L1presGROUP
 #' @title Group L1 Centrality/Prestige
 #'
 #' @description
@@ -156,7 +174,9 @@ group_reduce.matrix <- function(g, nodes, eta = NULL, method = "minimum"){
 #'
 #' @note
 #' The function is valid only for connected graphs. If the graph is directed, it
-#' must be strongly connected.
+#' must be strongly connected. Multiple edges (edges with the same head and tail
+#' vertices) are not allowed, because they make the edge weight setting procedure
+#' confusing.
 #'
 #' @details
 #' Given a group of vertices on a graph, we first construct a group reduced
@@ -169,6 +189,13 @@ group_reduce.matrix <- function(g, nodes, eta = NULL, method = "minimum"){
 #' of the pseudo-vertex in the group reduced graph.
 #'
 #' @inheritParams group_reduce
+#' @param g An \code{igraph} graph object or a distance matrix. The graph must
+#'   be connected. For a directed graph, it must be strongly connected.
+#'   Equivalently, all entries of the distance matrix must be finite. Here, the
+#'   \ifelse{html}{\out{(<i>i,j</i>)}}{\eqn{(i,j)}} component of the distance
+#'   matrix is the geodesic distance from the
+#'   \ifelse{html}{\out{<i>i</i>}}{\eqn{i}}th vertex to the
+#'   \ifelse{html}{\out{<i>j</i>}}{\eqn{j}}th vertex.
 #' @param mode A character string. For an undirected graph, either choice gives
 #'   the same result.
 #'  * `centrality` (the default): \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}}
@@ -183,7 +210,7 @@ group_reduce.matrix <- function(g, nodes, eta = NULL, method = "minimum"){
 #'  \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} centrality (if
 #'  \code{mode = "centrality"}) or the group
 #'  \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} prestige (if
-#'  \code{mode = "prestige"}).
+#'  \code{mode = "prestige"}) of the specified group of vertices.
 #'  \item \sQuote{label}: A vector of the vertex names specified by \code{nodes}.
 #' }
 #'
@@ -203,6 +230,7 @@ L1centGROUP <- function(g, nodes, eta, mode, method) UseMethod("L1centGROUP")
 L1centGROUP.igraph <- function(g, nodes, eta = NULL, mode = c("centrality", "prestige"),
                                method = c("minimum", "maximum", "average")) {
   mode <- match.arg(tolower(mode), choices = c("centrality", "prestige"))
+  validate_igraph(g, checkdir = FALSE)
   g_reduce <- group_reduce.igraph(g = g, nodes = nodes, eta = eta, method = method)
   D <- g_reduce$distmat
   eta <- g_reduce$eta
@@ -222,8 +250,8 @@ L1centGROUP.igraph <- function(g, nodes, eta = NULL, mode = c("centrality", "pre
       max(c((geta2[1] - geta2[-1]) / D[1,-1]), 0)
     res.value <- min(max(res,0),1)
   }
-  return(list(prominence=res.value,
-              label=if(is.null(igraph::V(g)$name)) nodes else igraph::V(g)$name[nodes]))
+  nodes <- sort(unique(nodes))
+  return(list(prominence=res.value, label=g_reduce$label))
 }
 
 #' @name L1centGROUP
@@ -231,6 +259,8 @@ L1centGROUP.igraph <- function(g, nodes, eta = NULL, mode = c("centrality", "pre
 L1centGROUP.matrix <- function(g, nodes, eta = NULL, mode = c("centrality", "prestige"),
                                method = "minimum") {
   mode <- match.arg(tolower(mode), choices = c("centrality", "prestige"))
+  if(is.null(eta)) eta <- rep(1, ncol(g))
+  validate_matrix(g, eta, checkdir = FALSE)
   g_reduce <- group_reduce.matrix(g = g, nodes = nodes, eta = eta, method = method)
   D <- g_reduce$distmat
   eta <- g_reduce$eta
@@ -250,7 +280,7 @@ L1centGROUP.matrix <- function(g, nodes, eta = NULL, mode = c("centrality", "pre
       max(c((geta2[1] - geta2[-1]) / D[1,-1]), 0)
     res.value <- min(max(res,0),1)
   }
-  return(list(prominence=res.value,
-              label=if(is.null(colnames(g))) nodes else colnames(g)[nodes]))
+  nodes <- sort(unique(nodes))
+  return(list(prominence=res.value, label=g_reduce$label))
 }
 

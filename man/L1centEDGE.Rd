@@ -20,7 +20,7 @@ symmetric, and all entries must be finite.}
 \item{eta}{An optional nonnegative multiplicity (weight) vector for (vertex)
 weighted networks. The sum of its components must be positive. If set to
 \code{NULL} (the default), all vertices will have the same positive weight
-(multiplicity), i.e., \code{g} is treated as a vertex unweighted graph. The
+(multiplicity) of 1, i.e., \code{g} is treated as a vertex unweighted graph. The
 length of the \code{eta} must be equivalent to the number of vertices.}
 
 \item{alpha}{A number or a numeric vector of locality levels. Values

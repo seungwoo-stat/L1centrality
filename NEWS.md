@@ -1,4 +1,4 @@
-# L1centrality 0.1.1.9000
+# L1centrality 0.1.1.9001
 
 ## Major updates
 
@@ -8,7 +8,7 @@
 
 ## Minor updates
 
-* Error message of `validate_matrix()` corrected.
+* Error message of `validate_matrix()` (an internal function for validating the given graph) corrected.
 
 * DESCRIPTION and the documentation `L1centrality-package` updated to include information on the group L1 centrality/prestige.
 

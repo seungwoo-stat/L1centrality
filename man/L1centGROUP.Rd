@@ -2,7 +2,6 @@
 % Please edit documentation in R/L1centGROUP.R
 \name{L1centGROUP}
 \alias{L1centGROUP}
-\alias{L1prestigeGROUP}
 \alias{L1presGROUP}
 \alias{L1centGROUP.igraph}
 \alias{L1centGROUP.matrix}
@@ -41,7 +40,7 @@ vertex.}
 \item{eta}{An optional nonnegative multiplicity (weight) vector for (vertex)
 weighted networks. The sum of its components must be positive. If set to
 \code{NULL} (the default), all vertices will have the same positive weight
-(multiplicity), i.e., \code{g} is treated as a vertex unweighted graph. The
+(multiplicity) of 1, i.e., \code{g} is treated as a vertex unweighted graph. The
 length of the \code{eta} must be equivalent to the number of vertices.}
 
 \item{mode}{A character string. For an undirected graph, either choice gives
@@ -76,7 +75,7 @@ A list consisting of two objects:
 \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} centrality (if
 \code{mode = "centrality"}) or the group
 \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} prestige (if
-\code{mode = "prestige"}).
+\code{mode = "prestige"}) of the specified group of vertices.
 \item \sQuote{label}: A vector of the vertex names specified by \code{nodes}.
 }
 }
@@ -98,7 +97,9 @@ of the pseudo-vertex in the group reduced graph.
 }
 \note{
 The function is valid only for connected graphs. If the graph is directed, it
-must be strongly connected.
+must be strongly connected. Multiple edges (edges with the same head and tail
+vertices) are not allowed, because they make the edge weight setting procedure
+confusing.
 }
 \examples{
 # Group L1 centrality of the 'Spider-Man' series

@@ -27,8 +27,8 @@ choices, while the latter evaluates the prominence in *receiving*
 choices. Multiscale analysis tools are developed from these measures as
 well.
 
-These measures can be extended to assess the prominence of a *group of
-vertices*: the group *L*<sub>1</sub> centrality and group
+These measures are further extended to assess the prominence of a *group
+of vertices*: the group *L*<sub>1</sub> centrality and group
 *L*<sub>1</sub> prestige measures are developed for this purpose (Kang
 2025).
 
@@ -42,7 +42,7 @@ install.packages("L1centrality")
 library(L1centrality)
 ```
 
-You can install the development version (0.1.1.9000) of `L1centrality`
+You can install the development version (0.1.1.9001) of `L1centrality`
 via:
 
 ``` r
