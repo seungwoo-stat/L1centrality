@@ -2,7 +2,7 @@
 
 ## Major updates
 
-* A new function `reduce_graph()` constructs the group reduced graph, which is used in computing the group L1 centrality and group L1 prestige.
+* A new function `group_reduce()` constructs the group reduced graph, which is used in computing the group L1 centrality and group L1 prestige.
 
 * A new function `L1centGROUP()` computes the group L1 centrality and group L1 prestige.  It supports undirected and directed graphs, as well as vertex and edge weighted graphs.
 
