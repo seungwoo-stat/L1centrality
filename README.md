@@ -99,11 +99,12 @@ reproduce the figures and analysis from the paper Kang and Oh (2024b).
 ## References
 
 Seungwoo Kang and Hee-Seok Oh. [On a Notion of Graph Centrality Based on
-*L*<sub>1</sub> Data Depth](http://arxiv.org/abs/2404.13233). *arXiv
-preprint arXiv:2404.13233*. 2024a.
+*L*<sub>1</sub> Data Depth](https://doi.org/10.48550/arXiv.2404.13233).
+*arXiv preprint arXiv:2404.13233*. 2024a.
 
-Seungwoo Kang and Hee-Seok Oh. *L*<sub>1</sub> Prominence Measures for
-Directed Graphs. Manuscript. 2024b.
+Seungwoo Kang and Hee-Seok Oh. [*L*<sub>1</sub> Prominence Measures for
+Directed Graphs](https://doi.org/10.48550/arXiv.2408.12078). *arXiv
+preprint arXiv:2408.12078*. 2024b.
 
 Seungwoo Kang. *Topics in Non-Euclidean Dimension Reduction*. PhD
 thesis, Seoul National University. 2025.
