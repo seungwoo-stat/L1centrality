@@ -53,9 +53,10 @@ vertex, for the modified graph \code{g}
 w.r.t. the \code{i}th vertex (if \code{mode = "prestige"}).
 }
 \description{
-Derives \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}}
-centrality- or prestige-based neighborhood of each vertex. For undirected graphs, the
-two neighborhood are identical.
+Derives \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} centrality- or
+\ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} prestige-based
+neighborhood of each vertex. For undirected graphs, the two neighborhood are
+identical.
 }
 \details{
 For an undirected graph, if the graph is symmetrized (in a way defined in Kang and Oh (2024a))
@@ -76,9 +77,9 @@ median vertex by the procedure described in Kang and Oh (2024b). We call the
 resulting graph as the modified graph w.r.t.
 \ifelse{html}{\out{<i>v</i>}}{\eqn{v}}.
 \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}}
-centrality(prestige)-based neighborhood of vertex
+centrality (prestige) -based neighborhood of vertex
 \ifelse{html}{\out{<i>v</i>}}{\eqn{v}} is a set of vertices that have large
-\ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} centrality(prestige)
+\ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} centrality (prestige)
 on the modified graph w.r.t. vertex
 \ifelse{html}{\out{<i>v</i>}}{\eqn{v}}.
 }
@@ -98,7 +99,7 @@ S. Kang and H.-S. Oh. On a notion of graph centrality based on
 
 S. Kang and H.-S. Oh.
 \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} prominence measures
-for directed graphs. Manuscript. 2024b.
+for directed graphs. \emph{arXiv preprint arXiv:2408.12078}, 2024b.
 }
 \seealso{
 \code{\link[=L1cent]{L1cent()}} for

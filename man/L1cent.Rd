@@ -88,9 +88,9 @@ vertex coincide, and we call it the graph median, following Hakimi (1964).
 The \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} centrality for an
 arbitrary node \ifelse{html}{\out{<i>v<sub>i</sub></i>}}{{\eqn{v_i}}} is
 defined as \sQuote{one minus the minimum weight that is required to make it a
-centrality median.} This concept of centrality is closely related to the data depth for
-ranking multivariate data, as defined in Vardi and Zhang (2000). It turns out
-that the following formula computes the
+centrality median vertex.} This concept of centrality is closely related to the
+data depth for ranking multivariate data, as defined in Vardi and Zhang
+(2000). It turns out that the following formula computes the
 \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} centrality for the
 vertex \ifelse{html}{\out{<i>v<sub>i</sub></i>}}{{\eqn{v_i}}}:
 \deqn{
@@ -137,7 +137,7 @@ S. Kang and H.-S. Oh. On a notion of graph centrality based on
 
 S. Kang and H.-S. Oh.
 \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} prominence measures
-for directed graphs. Manuscript. 2024b.
+for directed graphs. \emph{arXiv preprint arXiv:2408.12078}, 2024b.
 
 Y. Vardi and C.-H. Zhang. The multivariate
 \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}}-median and

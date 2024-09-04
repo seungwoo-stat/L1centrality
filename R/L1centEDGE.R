@@ -8,14 +8,16 @@
 #' neighborhood.
 #'
 #' @details
-#' In a global perspective, any given graph can be represented as a star-shaped
-#' (directed) graph, with each vertex making a connection to the median vertex.
-#' Based on this idea, a graph can be represented as a directed graph, with each
-#' vertex making a connection to the \emph{local} median vertex. The local
-#' median vertex of, say, \eqn{v_i}, is defined as a median vertex among the
+#' In a global perspective, any given undirected graph can be represented as a
+#' star-shaped directed graph, with each vertex making a connection to the
+#' median vertex. Based on this idea, an undirected graph can be represented as
+#' a directed graph, with each vertex making a connection to the \emph{local}
+#' median vertex. The local median vertex of, say, \eqn{v_i}, is defined as a
+#' median vertex among the
 #' \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} centrality-based
 #' neighborhood of \eqn{v_i}. By varying the level of locality, the given graph
-#' can be visually inspected at multiple scales.
+#' can be visually inspected at multiple scales. Refer to Kang and Oh (2024) for
+#' details.
 #'
 #' @note
 #' The function is valid only for undirected and connected graphs.

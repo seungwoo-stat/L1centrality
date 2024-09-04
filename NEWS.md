@@ -1,3 +1,9 @@
+# L1centrality 0.2.1
+
+* arXiv URL added to the package description and function documents.
+
+* Minor typo fix in the document.
+
 # L1centrality 0.2.0
 
 ## Major updates

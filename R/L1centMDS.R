@@ -2,10 +2,11 @@
 #' @title Fitting a Target Plot
 #'
 #' @description
-#' \code{L1centMDS()} and \code{plot.L1centMDS()} are used together to draw a target
-#' plot, which is a target-shaped 2D plot that aids in the visual inspection of a
-#' network using the \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}}
-#' centrality. See Kang and Oh (2024) for a formal definition of a target plot.
+#' \code{L1centMDS()} and \code{plot.L1centMDS()} are used together to draw a
+#' target plot, which is a target-shaped 2D plot that aids in the visual
+#' inspection of an undirected graph using the
+#' \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} centrality. See Kang
+#' and Oh (2024) for a formal definition of a target plot.
 #'
 #' @details
 #' Denoting the \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}}

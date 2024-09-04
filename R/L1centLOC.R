@@ -4,8 +4,9 @@
 #'
 #' @description
 #' Computes local \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}}
-#' centrality or prestige at each \code{alpha} level for every vertex. For
-#' undirected graphs, the two measures are identical.
+#' centrality or local \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}}
+#' prestige at each \code{alpha} level for every vertex. For undirected graphs,
+#' the two measures are identical.
 #'
 #' @note
 #' The function is valid only for connected graphs. If the graph is directed, it
@@ -15,12 +16,15 @@
 #' Suppose that the given graph has \ifelse{html}{\out{<i>n</i>}}{\eqn{n}}
 #' vertices. We choose about \eqn{n\alpha} vertices
 #' (\ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} centrality- or
-#' prestige-based neighborhood) for each vertex (see [L1centNB()]), and compute
-#' the \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} centrality or
-#' prestige of the vertex conditioned on these vertices, i.e., derive the
-#' \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} centrality or prestige
-#' locally. For details, refer to Kang and Oh (2024a) for undirected graphs, and
-#' Kang and Oh (2024b) for directed graphs.
+#' \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} prestige-based
+#' neighborhood) for each vertex (see [L1centNB()]), and compute the
+#' \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} centrality or
+#' \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} prestige of the vertex
+#' conditioned on these vertices, i.e., derive the
+#' \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} centrality or
+#' \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} prestige locally. For
+#' details, refer to Kang and Oh (2024a) for undirected graphs, and Kang and Oh
+#' (2024b) for directed graphs.
 #'
 #' @inheritParams L1cent
 #' @param alpha A number or a numeric vector of locality levels. Values
@@ -54,7 +58,7 @@
 #'
 #'   S. Kang and H.-S. Oh.
 #'   \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} prominence measures
-#'   for directed graphs. Manuscript. 2024b.
+#'   for directed graphs. \emph{arXiv preprint arXiv:2408.12078}, 2024b.
 L1centLOC <- function(g, eta, alpha, mode) UseMethod("L1centLOC")
 
 #' @name L1centLOC
