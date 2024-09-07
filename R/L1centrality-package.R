@@ -50,7 +50,7 @@ NULL
 #'
 #'   S. Kang and H.-S. Oh.
 #'   \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} prominence measures
-#'   for directed graphs. Manuscript. 2024b.
+#'   for directed graphs. \emph{arXiv preprint arXiv:2408.12078}, 2024b.
 #'
 #' @docType package
 #' @name L1centrality-package

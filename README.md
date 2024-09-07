@@ -73,7 +73,7 @@ centrality and *L*<sub>1</sub> prestige measures: `L1centMDS()` (target
 plot), `L1centNB()` (*L*<sub>1</sub> centrality/prestige-based
 neighborhood), `L1centLOC()` (local *L*<sub>1</sub>
 centrality/prestige), `L1centEDGE()` (multiscale edge representation),
-`L1centGROUP()` (Group *L*<sub>1</sub> centrality/prestige), and
+`L1centGROUP()` (group *L*<sub>1</sub> centrality/prestige), and
 `Lorenz_plot()` (group heterogeneity plot and index).
 
 Refer to the package documentation for an overview of the support range

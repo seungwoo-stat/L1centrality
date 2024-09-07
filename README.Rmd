@@ -40,7 +40,7 @@ install.packages("L1centrality")
 library(L1centrality)
 ```
 
-You can install the development version (0.2.1; currently equivalent to the CRAN version) of `L1centrality` via:
+You can install the development version (0.2.1.9000) of `L1centrality` via:
 
 ``` r
 devtools::install_github("seungwoo-stat/L1centrality")
@@ -58,7 +58,7 @@ L1cent(MCUmovie) |>
   head()
 ```
 
-There are other useful functions built upon the *L*<sub>1</sub> centrality and *L*<sub>1</sub> prestige measures: `L1centMDS()` (target plot), `L1centNB()` (*L*<sub>1</sub> centrality/prestige-based neighborhood), `L1centLOC()` (local *L*<sub>1</sub> centrality/prestige), `L1centEDGE()` (multiscale edge representation), `L1centGROUP()` (Group *L*<sub>1</sub> centrality/prestige), and `Lorenz_plot()` (group heterogeneity plot and index).
+There are other useful functions built upon the *L*<sub>1</sub> centrality and *L*<sub>1</sub> prestige measures: `L1centMDS()` (target plot), `L1centNB()` (*L*<sub>1</sub> centrality/prestige-based neighborhood), `L1centLOC()` (local *L*<sub>1</sub> centrality/prestige), `L1centEDGE()` (multiscale edge representation), `L1centGROUP()` (group *L*<sub>1</sub> centrality/prestige), and `Lorenz_plot()` (group heterogeneity plot and index).
 
 Refer to the package documentation for an overview of the support range for each function.
 
