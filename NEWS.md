@@ -1,5 +1,13 @@
 # L1centrality 0.2.1.9000
 
+## Major updates
+
+* A new function `Gini()` computes the Gini coefficient.
+
+* `L1cent()` now returns an object of class `L1cent`, which inherits the `numeric` class. `summary()`,`print()`, and subsetting methods are implemented for this new class.
+
+## Minor updates
+
 * Minor typo fix in the document.
 
 # L1centrality 0.2.1

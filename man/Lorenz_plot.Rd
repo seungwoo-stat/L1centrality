@@ -2,9 +2,12 @@
 % Please edit documentation in R/L1cent.R
 \name{Lorenz_plot}
 \alias{Lorenz_plot}
+\alias{Gini}
 \title{Lorenz Curve and the Gini Coefficient}
 \usage{
 Lorenz_plot(x, add = FALSE, ...)
+
+Gini(x)
 }
 \arguments{
 \item{x}{A numeric vector.}
@@ -20,8 +23,10 @@ Lorenz_plot(x, add = FALSE, ...)
 \code{add = TRUE}) function. See \code{\link[graphics:par]{graphics::par()}} document.}
 }
 \value{
-Draws a Lorenz curve (the group heterogeneity plot) and returns an
+\code{Lorenz_plot()} draws a Lorenz curve (the group heterogeneity plot) and returns an
 invisible copy of a Gini coefficient (the group heterogeneity index).
+
+\code{Gini()} returns a Gini coefficient.
 }
 \description{
 Draws a Lorenz curve (the group heterogeneity plot) and computes the Gini
@@ -34,6 +39,7 @@ gini <- Lorenz_plot(cent, asp=1)
 graphics::abline(0,1,lty=2)
 # group heterogeneity index
 gini
+gini == Gini(cent)
 }
 \references{
 S. Kang and H.-S. Oh. On a notion of graph centrality based on

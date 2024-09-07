@@ -90,12 +90,18 @@
 #'  * `prestige`: \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}}
 #'  prestige (prominence of each vertex in terms of \emph{receiving} a choice)
 #'  is used for analysis.
-#' @return A numeric vector whose length is equivalent to the number of vertices
-#'   in the graph \code{g}. Each component of the vector is the
+#' @return \code{L1cent()} returns an object of class \code{L1cent}. It is a
+#'   numeric vector whose length is equivalent to the number of vertices in the
+#'   graph \code{g}. Each component of the vector is the
 #'   \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} centrality (if
 #'   \code{mode = "centrality"}) or the
 #'   \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} prestige (if
 #'   \code{mode = "prestige"}) of each vertex in the given graph.
+#'
+#'  `print.L1cent()` prints
+#'  \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} centrality or
+#'  \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} prestige values and
+#'  returns them invisibly.
 #'
 #' @export
 #' @seealso [L1centLOC()], [L1centNB()], [L1centMDS()], [L1centEDGE()],
@@ -106,6 +112,9 @@
 #'
 #'   [igraph::betweenness()], [igraph::closeness()],
 #'   [igraph::degree()], [igraph::eigen_centrality()] for centrality measures.
+#'
+#'   [Summary] and [Extract] for relevant methods.
+#'
 #' @examples
 #' # igraph object and distance matrix as an input lead to the same result
 #' vertex_weight <- igraph::V(MCUmovie)$worldwidegross
@@ -159,16 +168,69 @@ L1cent.matrix <- function(g, eta = NULL, mode = c("centrality", "prestige")) {
     res <- rep(1, n) - sg / sum(eta) *
       apply((geta1 - t(geta1)) / (t(g) + diag(rep(Inf, n))), 1,
             function(r) max(c(r, 0)))
-    pmin(pmax(res,0),1)
+    structure(pmin(pmax(res,0),1), class = c("L1cent", "numeric"))
   }else{ # prestige
     geta2 <- matrix(rep(colSums(g * eta), n), ncol = n)
     res <- rep(1, n) - sg / sum(eta) *
       apply((geta2 - t(geta2)) / (g + diag(rep(Inf, n))), 1,
             function(r) max(c(r, 0)))
-    pmin(pmax(res,0),1)
+    structure(pmin(pmax(res,0),1), class = c("L1cent", "numeric"))
   }
 }
 
+#' @name L1cent
+#' @aliases print.L1cent
+#'
+#' @param x An \code{L1cent} object, obtained as a result of the function
+#'   \code{L1cent()}.
+#' @param ... Further arguments passed to or from other methods. This argument
+#'   is ignored here.
+#' @export
+print.L1cent <- function(x, ...){
+  print.default(c(x))
+  return(invisible(x))
+}
+
+#' @name Summary
+#' @title Summarizing the L1centrality Package
+#' @aliases summary.L1cent
+#'
+#' @description
+#' `summary()` method for the classes in the `L1centrality` package. See details below.
+#'
+#' @param object An object used to select a method.
+#' @param ... Further arguments passed to or from other methods. This argument
+#'   is ignored here.
+#' @return A numeric of length seven, consisting of the five-number summary,
+#'   mean, and the Gini coefficient.
+#'
+#' @export
+#' @seealso [L1cent()] returns an object of class `L1cent`.
+#'
+#' [Lorenz_plot()] computes the Gini coefficient as well.
+#' @keywords internal
+summary.L1cent <- function(object, ...){
+  c(summary.default(object), Gini = Gini(object))
+}
+
+#' @name Extract
+#' @title Extracting in the L1centrality Package
+#' @aliases `[.L1cent`
+#'
+#' @description
+#' Subsetting method for the classes in the `L1centrality` package. See details below.
+#'
+#' @param x An object used to select a method.
+#' @param i Indices specifying elements to extract.
+#' @return Extract parts of an object.
+#'
+#' @seealso [L1cent()] returns an object of class `L1cent`.
+#'
+#' @export
+#' @keywords internal
+`[.L1cent` <- function(x, i) {
+  structure(NextMethod(), class = c("L1cent", "numeric"))
+}
 
 #' @title Lorenz Curve and the Gini Coefficient
 #'
@@ -183,8 +245,10 @@ L1cent.matrix <- function(g, eta = NULL, mode = c("centrality", "prestige")) {
 #' @param ... Further graphical parameters supplied to the internal
 #'   [base::plot()] (when \code{add = FALSE}) or [graphics::lines()] (when
 #'   \code{add = TRUE}) function. See [graphics::par()] document.
-#' @return Draws a Lorenz curve (the group heterogeneity plot) and returns an
+#' @return `Lorenz_plot()` draws a Lorenz curve (the group heterogeneity plot) and returns an
 #'   invisible copy of a Gini coefficient (the group heterogeneity index).
+#'
+#'   `Gini()` returns a Gini coefficient.
 #'
 #' @export
 #' @seealso Use the function with [L1cent()] or [L1centLOC()], and compare
@@ -198,6 +262,7 @@ L1cent.matrix <- function(g, eta = NULL, mode = c("centrality", "prestige")) {
 #' graphics::abline(0,1,lty=2)
 #' # group heterogeneity index
 #' gini
+#' gini == Gini(cent)
 #' @references S. Kang and H.-S. Oh. On a notion of graph centrality based on
 #'   \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} data depth.
 #'   \emph{arXiv preprint arXiv:2404.13233}, 2024.
@@ -216,4 +281,18 @@ Lorenz_plot <- function(x, add = FALSE, ...){
     graphics::lines(Fx, Deltax, ...)
   }
   invisible(unname(1 - 2*(Fx[2])*(sum(Deltax)-1/2))) # Gini index
+}
+
+
+#' @name Lorenz_plot
+#' @aliases Gini
+#' @export
+Gini <- function(x){
+  x <- sort(x)
+  mu <- mean(x)
+  n <- length(x)
+  Fx <- c(0,seq(1/n, 1, length.out = n))
+  Deltax <- c(0,1/mu*cumsum(x)/n)
+
+  unname(1 - 2*(Fx[2])*(sum(Deltax)-1/2))
 }

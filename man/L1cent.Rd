@@ -6,6 +6,7 @@
 \alias{L1pres}
 \alias{L1cent.igraph}
 \alias{L1cent.matrix}
+\alias{print.L1cent}
 \title{L1 Centrality/Prestige}
 \usage{
 L1cent(g, eta, mode)
@@ -13,6 +14,8 @@ L1cent(g, eta, mode)
 \method{L1cent}{igraph}(g, eta = NULL, mode = c("centrality", "prestige"))
 
 \method{L1cent}{matrix}(g, eta = NULL, mode = c("centrality", "prestige"))
+
+\method{print}{L1cent}(x, ...)
 }
 \arguments{
 \item{g}{An \code{igraph} graph object or a distance matrix. The graph must
@@ -39,14 +42,26 @@ used for analysis.
 prestige (prominence of each vertex in terms of \emph{receiving} a choice)
 is used for analysis.
 }}
+
+\item{x}{An \code{L1cent} object, obtained as a result of the function
+\code{L1cent()}.}
+
+\item{...}{Further arguments passed to or from other methods. This argument
+is ignored here.}
 }
 \value{
-A numeric vector whose length is equivalent to the number of vertices
-in the graph \code{g}. Each component of the vector is the
+\code{L1cent()} returns an object of class \code{L1cent}. It is a
+numeric vector whose length is equivalent to the number of vertices in the
+graph \code{g}. Each component of the vector is the
 \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} centrality (if
 \code{mode = "centrality"}) or the
 \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} prestige (if
 \code{mode = "prestige"}) of each vertex in the given graph.
+
+\code{print.L1cent()} prints
+\ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} centrality or
+\ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} prestige values and
+returns them invisibly.
 }
 \description{
 Computes \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} centrality or
@@ -153,4 +168,6 @@ support range.
 
 \code{\link[igraph:betweenness]{igraph::betweenness()}}, \code{\link[igraph:closeness]{igraph::closeness()}},
 \code{\link[igraph:degree]{igraph::degree()}}, \code{\link[igraph:eigen_centrality]{igraph::eigen_centrality()}} for centrality measures.
+
+\link{Summary} and \link{Extract} for relevant methods.
 }
