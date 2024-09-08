@@ -40,7 +40,7 @@ install.packages("L1centrality")
 library(L1centrality)
 ```
 
-You can install the development version (0.2.1.9000) of `L1centrality` via:
+You can install the development version (0.2.1.9001) of `L1centrality` via:
 
 ``` r
 devtools::install_github("seungwoo-stat/L1centrality")
@@ -70,7 +70,7 @@ Moreover, two undirected and connected network data are provided: `MCUmovie` (Ma
 
 ## Where can I learn more?
 
-Visit [this repo](https://github.com/seungwoo-stat/L1centrality-paper) for code to reproduce the figures and analysis from the paper Kang and Oh (2024a) and [this repo](https://github.com/seungwoo-stat/L1prestige-paper) for code to reproduce the figures and analysis from the paper Kang and Oh (2024b).
+Visit [this repo](https://github.com/seungwoo-stat/L1centrality-paper) for code to reproduce the figures and analysis from the paper Kang and Oh (2024a) and [this repo](https://github.com/seungwoo-stat/L1prestige-paper) for code to reproduce the figures and analysis from the paper Kang and Oh (2024b). [This repo](https://github.com/seungwoo-stat/group_L1prominence-thesis) contains code for analysis using group *L*<sub>1</sub> centrality and prestige measures (Kang 2025; Ch.6).
 
 ## References
 

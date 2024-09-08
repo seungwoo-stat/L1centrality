@@ -29,8 +29,9 @@
 #' @inheritParams L1cent
 #' @param alpha A number or a numeric vector of locality levels. Values
 #'   must be between 0 and 1.
-#' @return A list of numeric vectors. The length of the list is equivalent to
-#'   the length of \code{alpha}, and the names of the list are the values of
+#' @return \code{L1centLOC()} returns an object of class \code{L1centLOC}. It is
+#'   a list of numeric vectors. The length of the list is equivalent to the
+#'   length of \code{alpha}, and the names of the list are the values of
 #'   \code{alpha}. Each component of the list is a numeric vector whose length
 #'   is equivalent to the number of vertices in the graph \code{g}.
 #'   Specifically, the \code{i}th component of the list is a vector of local
@@ -39,11 +40,18 @@
 #'   \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} prestige at level
 #'   \code{alpha[i]} for each vertex (if \code{mode = "prestige"}).
 #'
+#'  `print.L1centLOC()` prints local
+#'  \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} centrality or local
+#'  \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} prestige values at
+#'  each locality level `alpha` and returns them invisibly.
+#'
 #' @export
 #' @seealso [L1cent()] for
 #'   \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} centrality/prestige,
 #'   [L1centNB()] for \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}}
 #'   centrality/prestige-based neighborhood.
+#'
+#'   [Summary] for a relevant summary method.
 #' @examples
 #' weight <- igraph::V(MCUmovie)$worldwidegross
 #' MCUmovie_cent <- L1cent(MCUmovie, eta = weight)
@@ -80,9 +88,12 @@ L1centLOC.matrix <- function(g, eta = NULL, alpha, mode = c("centrality", "prest
   mode <- match.arg(tolower(mode), choices = c("centrality", "prestige"))
 
   if(identical(alpha, 1) | identical(alpha, 1L)){
-    loc.cent <- list(L1cent(g, eta, mode))
+    loc.cent <- list(c(L1cent(g, eta, mode)))
     names(loc.cent) <- alpha
-    return(loc.cent)
+    return(structure(loc.cent,
+                     class = "L1centLOC",
+                     mode = mode,
+                     alpha = alpha))
   }
 
   if(is.null(rownames(g))) rownames(g) <- colnames(g) <- 1:ncol(g)
@@ -108,6 +119,26 @@ L1centLOC.matrix <- function(g, eta = NULL, alpha, mode = c("centrality", "prest
       })
     names(loc.cent[[i]]) <- rownames(g)
   }
-  return(loc.cent)
+  return(structure(loc.cent,
+                   class = "L1centLOC",
+                   mode = mode,
+                   alpha = alpha))
 }
 
+#' @name L1centLOC
+#' @aliases print.L1centLOC
+#'
+#' @param x An \code{L1centLOC} object, obtained as a result of the function
+#'   \code{L1centLOC()}.
+#' @param ... Further arguments passed to or from other methods. This argument
+#'   is ignored here.
+#' @export
+print.L1centLOC <- function(x, ...){
+  for(i in seq_along(x)){
+    cat("local L1 ", attr(x, "mode"), " at alpha = ",
+        round(attr(x, "alpha")[[i]], 4), ":\n", sep = "")
+    print.default(c(x[[i]]))
+    cat("\n")
+  }
+  return(invisible(x))
+}

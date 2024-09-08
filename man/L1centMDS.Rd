@@ -5,6 +5,7 @@
 \alias{L1centMDS.igraph}
 \alias{L1centMDS.matrix}
 \alias{plot.L1centMDS}
+\alias{print.L1centMDS}
 \title{Fitting a Target Plot}
 \usage{
 L1centMDS(g, tol, maxiter, verbose)
@@ -14,6 +15,8 @@ L1centMDS(g, tol, maxiter, verbose)
 \method{L1centMDS}{matrix}(g, tol = 1e-05, maxiter = 1000, verbose = TRUE)
 
 \method{plot}{L1centMDS}(x, zoom = 1, main = NULL, ...)
+
+\method{print}{L1centMDS}(x, ...)
 }
 \arguments{
 \item{g}{An \code{igraph} graph object or a distance matrix. The graph must
@@ -45,20 +48,21 @@ to 1 (no zoom).}
 \item{main}{Title of the plot. If set to \code{NULL} (the default), the title
 prints \dQuote{Target plot / Stress = X}.}
 
-\item{...}{Further graphical parameters supplied to the internal
+\item{...}{Further arguments passed to or from other methods.
+\itemize{
+\item \code{plot()} method: Further graphical parameters supplied to the internal
 \code{\link[base:plot]{base::plot()}} (for points) and \code{\link[graphics:text]{graphics::text()}} (for labels) function.
 See \code{\link[graphics:par]{graphics::par()}} document. To supply an argument to the former one,
 use the prefix \sQuote{\code{plot.}} and for the latter,
 \sQuote{\code{text.}}. For instance, \code{plot.cex = 1} sets the size of
-the point, whereas \code{text.cex = 1} sets the size of the label.}
+the point, whereas \code{text.cex = 1} sets the size of the label.
+\item \code{print()} method: This argument is ignored.
+}}
 }
 \value{
 \code{L1centMDS()} returns an object of class \code{L1centMDS}. It is a list
-consisting of four vectors:
+consisting of three vectors:
 \itemize{
-\item \sQuote{label}: If \code{g} is an \code{igraph} object, \code{name}
-attribute of the vertex. If \code{g} is a distance matrix, row names
-(\code{rownames}). Is set to \code{NULL} if missing.
 \item \sQuote{radius}: Radius of a point representing each vertex in the
 target plot's circular coordinate system, i.e., \eqn{-\log(L_1\text{
  centrality})} for each vertex.
@@ -73,6 +77,8 @@ the 1st to 4th quartiles of the radius, and the values of the
 are shown in red text. Note that red texts denote the
 \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} centrality quartiles,
 \emph{not} radius quartiles.
+
+\code{print.L1centMDS()} prints number of iterations it took to fit a target plot.
 }
 \description{
 \code{L1centMDS()} and \code{plot.L1centMDS()} are used together to draw a

@@ -161,7 +161,7 @@ associated data depth. \emph{Proceedings of the National Academy of Sciences},
 }
 \seealso{
 \code{\link[=L1centLOC]{L1centLOC()}}, \code{\link[=L1centNB]{L1centNB()}}, \code{\link[=L1centMDS]{L1centMDS()}}, \code{\link[=L1centEDGE]{L1centEDGE()}},
-\code{\link[=L1centGROUP]{L1centGROUP()}}, \code{\link[=Lorenz_plot]{Lorenz_plot()}} for
+\code{\link[=L1centGROUP]{L1centGROUP()}} for
 \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} centrality- or
 prestige-based analysis. See \link{L1centrality-package} for each function's
 support range.
@@ -169,5 +169,6 @@ support range.
 \code{\link[igraph:betweenness]{igraph::betweenness()}}, \code{\link[igraph:closeness]{igraph::closeness()}},
 \code{\link[igraph:degree]{igraph::degree()}}, \code{\link[igraph:eigen_centrality]{igraph::eigen_centrality()}} for centrality measures.
 
-\link{Summary} and \link{Extract} for relevant methods.
+\link{Summary} for a relevant summary method and \link{Heterogeneity} for drawing the
+Lorenz curve and computing the Gini coefficient.
 }

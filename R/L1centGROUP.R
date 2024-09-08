@@ -204,15 +204,17 @@ group_reduce.matrix <- function(g, nodes, eta = NULL, method = "minimum"){
 #'  * `prestige`: \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}}
 #'  prestige (prominence of each vertex in terms of \emph{receiving} a choice)
 #'  is used for analysis.
-#' @return A list consisting of two objects:
-#'  \itemize{
-#'  \item \sQuote{prominence}: The group
+#' @return `L1centGROUP()` returns an object of class `L1centGROUP`. It is a
+#'   numeric value of the group
 #'  \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} centrality (if
 #'  \code{mode = "centrality"}) or the group
 #'  \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} prestige (if
 #'  \code{mode = "prestige"}) of the specified group of vertices.
-#'  \item \sQuote{label}: A vector of the vertex names specified by \code{nodes}.
-#' }
+#'
+#'  `print.L1centGROUP()` prints
+#'  \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} centrality or
+#'  \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} prestige value and
+#'  returns it invisibly.
 #'
 #' @export
 #' @seealso [L1cent()] for \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}}
@@ -230,6 +232,7 @@ L1centGROUP <- function(g, nodes, eta, mode, method) UseMethod("L1centGROUP")
 L1centGROUP.igraph <- function(g, nodes, eta = NULL, mode = c("centrality", "prestige"),
                                method = c("minimum", "maximum", "average")) {
   mode <- match.arg(tolower(mode), choices = c("centrality", "prestige"))
+  method <- match.arg(tolower(method), choices = c("minimum", "maximum", "average"))
   validate_igraph(g, checkdir = FALSE)
   g_reduce <- group_reduce.igraph(g = g, nodes = nodes, eta = eta, method = method)
   D <- g_reduce$distmat
@@ -251,7 +254,11 @@ L1centGROUP.igraph <- function(g, nodes, eta = NULL, mode = c("centrality", "pre
     res.value <- min(max(res,0),1)
   }
   nodes <- sort(unique(nodes))
-  return(list(prominence=res.value, label=g_reduce$label))
+  return(structure(res.value,
+                   class = c("L1centGROUP", "numeric"),
+                   mode = mode,
+                   label = g_reduce$label,
+                   method = method))
 }
 
 #' @name L1centGROUP
@@ -259,6 +266,7 @@ L1centGROUP.igraph <- function(g, nodes, eta = NULL, mode = c("centrality", "pre
 L1centGROUP.matrix <- function(g, nodes, eta = NULL, mode = c("centrality", "prestige"),
                                method = "minimum") {
   mode <- match.arg(tolower(mode), choices = c("centrality", "prestige"))
+  method <- match.arg(tolower(method), choices = c("minimum"))
   if(is.null(eta)) eta <- rep(1, ncol(g))
   validate_matrix(g, eta, checkdir = FALSE)
   g_reduce <- group_reduce.matrix(g = g, nodes = nodes, eta = eta, method = method)
@@ -281,6 +289,26 @@ L1centGROUP.matrix <- function(g, nodes, eta = NULL, mode = c("centrality", "pre
     res.value <- min(max(res,0),1)
   }
   nodes <- sort(unique(nodes))
-  return(list(prominence=res.value, label=g_reduce$label))
+  return(structure(res.value,
+                   class = c("L1centGROUP", "numeric"),
+                   mode = mode,
+                   label = g_reduce$label,
+                   method = method))
 }
 
+#' @name L1centGROUP
+#' @aliases print.L1centGROUP
+#'
+#' @param x An \code{L1centGROUP} object, obtained as a result of the function
+#'   \code{L1centGROUP()}.
+#' @param ... Further arguments passed to or from other methods. This argument
+#'   is ignored here.
+#' @export
+print.L1centGROUP <- function(x, ...){
+  cat("group L1 ", attr(x, "mode"), " of ", length(attr(x, "label")),
+      ifelse(length(attr(x, "label")) == 1, " vertex", " vertices"),
+      " (", paste0(sQuote(attr(x, "label")), collapse = ", "),
+      ") with ", sQuote(attr(x, "method")), " method:\n", sep = "")
+  print.default(c(x))
+  return(invisible(x))
+}

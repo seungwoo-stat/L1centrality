@@ -5,6 +5,7 @@
 \alias{L1presLOC}
 \alias{L1centLOC.igraph}
 \alias{L1centLOC.matrix}
+\alias{print.L1centLOC}
 \title{Local L1 Centrality/Prestige}
 \usage{
 L1centLOC(g, eta, alpha, mode)
@@ -12,6 +13,8 @@ L1centLOC(g, eta, alpha, mode)
 \method{L1centLOC}{igraph}(g, eta = NULL, alpha, mode = c("centrality", "prestige"))
 
 \method{L1centLOC}{matrix}(g, eta = NULL, alpha, mode = c("centrality", "prestige"))
+
+\method{print}{L1centLOC}(x, ...)
 }
 \arguments{
 \item{g}{An \code{igraph} graph object or a distance matrix. The graph must
@@ -41,10 +44,17 @@ used for analysis.
 prestige (prominence of each vertex in terms of \emph{receiving} a choice)
 is used for analysis.
 }}
+
+\item{x}{An \code{L1centLOC} object, obtained as a result of the function
+\code{L1centLOC()}.}
+
+\item{...}{Further arguments passed to or from other methods. This argument
+is ignored here.}
 }
 \value{
-A list of numeric vectors. The length of the list is equivalent to
-the length of \code{alpha}, and the names of the list are the values of
+\code{L1centLOC()} returns an object of class \code{L1centLOC}. It is
+a list of numeric vectors. The length of the list is equivalent to the
+length of \code{alpha}, and the names of the list are the values of
 \code{alpha}. Each component of the list is a numeric vector whose length
 is equivalent to the number of vertices in the graph \code{g}.
 Specifically, the \code{i}th component of the list is a vector of local
@@ -52,6 +62,11 @@ Specifically, the \code{i}th component of the list is a vector of local
 \code{alpha[i]} for each vertex (if \code{mode = "centrality"}) or local
 \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} prestige at level
 \code{alpha[i]} for each vertex (if \code{mode = "prestige"}).
+
+\code{print.L1centLOC()} prints local
+\ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} centrality or local
+\ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} prestige values at
+each locality level \code{alpha} and returns them invisibly.
 }
 \description{
 Computes local \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}}
@@ -100,4 +115,6 @@ for directed graphs. \emph{arXiv preprint arXiv:2408.12078}, 2024b.
 \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} centrality/prestige,
 \code{\link[=L1centNB]{L1centNB()}} for \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}}
 centrality/prestige-based neighborhood.
+
+\link{Summary} for a relevant summary method.
 }

@@ -5,6 +5,7 @@
 \alias{L1presNB}
 \alias{L1centNB.igraph}
 \alias{L1centNB.matrix}
+\alias{print.L1centNB}
 \title{L1 Centrality/Prestige-Based Neighborhood}
 \usage{
 L1centNB(g, eta, mode)
@@ -12,6 +13,8 @@ L1centNB(g, eta, mode)
 \method{L1centNB}{igraph}(g, eta = NULL, mode = c("centrality", "prestige"))
 
 \method{L1centNB}{matrix}(g, eta = NULL, mode = c("centrality", "prestige"))
+
+\method{print}{L1centNB}(x, ...)
 }
 \arguments{
 \item{g}{An \code{igraph} graph object or a distance matrix. The graph must
@@ -38,9 +41,16 @@ used for analysis.
 prestige (prominence of each vertex in terms of \emph{receiving} a choice)
 is used for analysis.
 }}
+
+\item{x}{An \code{L1centNB} object, obtained as a result of the function
+\code{L1cent()}.}
+
+\item{...}{Further arguments passed to or from other methods. This argument
+is ignored here.}
 }
 \value{
-A list of numeric vectors. The length of the list is
+\code{L1centNB()} returns an object of class \code{L1centNB}. It
+is a list of numeric vectors. The length of the list is
 equivalent to the number of vertices in the graph \code{g}, and the names of the
 list are vertex names. Each component of the list is a numeric vector whose
 length is equivalent to the number of vertices in the graph \code{g}.
@@ -51,6 +61,11 @@ w.r.t. the \code{i}th vertex (if \code{mode = "centrality"}) or the
 \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} prestige of each
 vertex, for the modified graph \code{g}
 w.r.t. the \code{i}th vertex (if \code{mode = "prestige"}).
+
+\code{print.L1centNB()} prints
+\ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} centrality or
+\ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} prestige values at
+the modified graph w.r.t. each vertex and returns them invisibly.
 }
 \description{
 Derives \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} centrality- or
@@ -105,4 +120,5 @@ for directed graphs. \emph{arXiv preprint arXiv:2408.12078}, 2024b.
 \code{\link[=L1cent]{L1cent()}} for
 \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} centrality/prestige,
 \code{\link[=L1centLOC]{L1centLOC()}} and \code{\link[=L1centEDGE]{L1centEDGE()}} internally uses \code{L1centNB()}.
+\link{Summary} for a relevant summary method.
 }

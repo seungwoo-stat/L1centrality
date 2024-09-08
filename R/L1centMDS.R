@@ -44,19 +44,18 @@
 #'   to 1 (no zoom).
 #' @param main Title of the plot. If set to \code{NULL} (the default), the title
 #'   prints \dQuote{Target plot / Stress = X}.
-#' @param ... Further graphical parameters supplied to the internal
+#' @param ... Further arguments passed to or from other methods.
+#'   * `plot()` method: Further graphical parameters supplied to the internal
 #'   [base::plot()] (for points) and [graphics::text()] (for labels) function.
 #'   See [graphics::par()] document. To supply an argument to the former one,
 #'   use the prefix \sQuote{\code{plot.}} and for the latter,
 #'   \sQuote{\code{text.}}. For instance, \code{plot.cex = 1} sets the size of
 #'   the point, whereas \code{text.cex = 1} sets the size of the label.
+#'   * `print()` method: This argument is ignored.
 #'
 #' @return \code{L1centMDS()} returns an object of class \code{L1centMDS}. It is a list
-#'   consisting of four vectors:
+#'   consisting of three vectors:
 #' \itemize{
-#'  \item \sQuote{label}: If \code{g} is an \code{igraph} object, \code{name}
-#'  attribute of the vertex. If \code{g} is a distance matrix, row names
-#'  (\code{rownames}). Is set to \code{NULL} if missing.
 #'  \item \sQuote{radius}: Radius of a point representing each vertex in the
 #'  target plot's circular coordinate system, i.e., \eqn{-\log(L_1\text{
 #'  centrality})} for each vertex.
@@ -71,6 +70,8 @@
 #' are shown in red text. Note that red texts denote the
 #' \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} centrality quartiles,
 #' \emph{not} radius quartiles.
+#'
+#' `print.L1centMDS()` prints number of iterations it took to fit a target plot.
 #'
 #' @export
 #' @seealso [L1cent()] for
@@ -111,7 +112,7 @@ L1centMDS.matrix <- function(g, tol = 1e-5, maxiter = 1000, verbose = TRUE){
   label <- rownames(g)
   dist.original.vec <- g[upper.tri(g)]
   cent <- L1cent(g, eta = eta)
-  radius <- -log(cent)
+  radius <- c(-log(cent))
 
   # initialize using classical MDS
   init <- stats::cmdscale(g)
@@ -187,8 +188,10 @@ L1centMDS.matrix <- function(g, tol = 1e-5, maxiter = 1000, verbose = TRUE){
     stress <- new.stress
     iter.count <- iter.count + 1
   }
-  return(structure(list(label=label,radius=radius,theta=params,stress=stress),
-                   class="L1centMDS"))
+  return(structure(list(radius=radius,theta=params,stress=stress),
+                   class="L1centMDS",
+                   label=label,
+                   iteration = iter.count))
 }
 
 
@@ -212,8 +215,8 @@ plot.L1centMDS <- function(x,zoom=1,main=NULL,...){
   if(is.null(plot.args$pch)) plot.args$pch <- 20
   if(is.null(text.args$cex)) text.args$cex <- 0.5
   if(is.null(text.args$labels)){
-    if(is.null(x$label)) text.args$labels <- 1:length(radius)
-    else text.args$labels <- x$label
+    if(is.null(attr(x, "label"))) text.args$labels <- 1:length(radius)
+    else text.args$labels <- attr(x, "label")
   }
 
   withr::local_par(list(mar = c(1,1,4,1)+0.1))
@@ -230,4 +233,13 @@ plot.L1centMDS <- function(x,zoom=1,main=NULL,...){
     graphics::lines((grid)*xx,(grid)*yy,col="gray")
     graphics::text(grid*cos(3*pi/4),grid*sin(3*pi/4),round(exp(-grid),4),col="red",cex=0.5)
   }
+}
+
+#' @name L1centMDS
+#' @aliases print.L1centMDS
+#'
+#' @export
+print.L1centMDS <- function(x, ...){
+  cat("Target plot fitted after ", attr(x, "iteration"), " iterations", sep = "")
+  return(invisible(x))
 }

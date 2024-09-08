@@ -26,18 +26,23 @@
 #' @param g An \code{igraph} graph object or a distance matrix. The graph must
 #'   be undirected and connected. Equivalently, the distance matrix must be
 #'   symmetric, and all entries must be finite.
-#' @return A list of \sQuote{edge lists}. The length of the list is equivalent
-#'   to the length of \code{alpha}, and the names of the list are the values of
+#' @return \code{L1centEDGE()} returns an object of class \code{L1centEDGE}. It
+#'   is a list of \sQuote{edge lists}. The length of the list is equivalent to
+#'   the length of \code{alpha}, and the names of the list are the values of
 #'   \code{alpha}. The \code{i}th component of the list is a 2-column matrix,
 #'   and each row defines one directed edge, i.e., it is an edge list. The
 #'   second column is the local (level \code{alpha[i]}) median of the vertex at
 #'   the first column. There may be more than one edge from each vertex, since
 #'   there may be more than one local median.
 #'
+#'  `print.L1centEDGE()` prints the edge lists and returns them invisibly.
+#'
 #' @export
 #' @seealso [L1cent()], [L1centNB()], [L1centLOC()]. Using the output, one can
 #'   use [igraph::graph_from_edgelist()] for creating an \code{igraph} object.
 #'   See the example code below.
+#'
+#'   [Summary] for a relevant summary method.
 #' @examples
 #' library(igraph)
 #' MCU_edge <- L1centEDGE(MCUmovie, eta = V(MCUmovie)$worldwidegross, alpha = 5/32)
@@ -78,7 +83,9 @@ L1centEDGE.matrix <- function(g, eta=NULL, alpha){
     glob.edgelist <- matrix(label[glob.edgelist],ncol=2)
     glob.edgelist <- list(glob.edgelist)
     names(glob.edgelist) <- alpha
-    return(glob.edgelist)
+    return(structure(glob.edgelist,
+                     class = "L1centEDGE",
+                     alpha = alpha))
   }
 
   m <- ceiling(n*alpha)
@@ -92,12 +99,32 @@ L1centEDGE.matrix <- function(g, eta=NULL, alpha){
         which(l >= stats::quantile(l, 1 - m[i] / n)))
     loc.median <-
       lapply(1:length(nb.index), function(j){
-        distsum <- colSums(g[nb.index[[j]],nb.index[[j]]] * eta[nb.index[[j]]])
+        distsum <- colSums(g[nb.index[[j]],nb.index[[j]],drop=FALSE] * eta[nb.index[[j]]])
         nb.index[[j]][which(distsum == min(distsum))]})
     loc.median.length <- sapply(loc.median, length)
     edgelist[[i]] <- cbind(rep(1:n, times = loc.median.length), unlist(loc.median))
     rownames(edgelist[[i]]) <- NULL
     edgelist[[i]] <- matrix(label[edgelist[[i]]],ncol=2)
   }
-  return(edgelist)
+  return(structure(edgelist,
+                   class = "L1centEDGE",
+                   alpha = alpha))
+}
+
+#' @name L1centEDGE
+#' @aliases print.L1centEDGE
+#'
+#' @param x An \code{L1centEDGE} object, obtained as a result of the function
+#'   \code{L1centEDGE()}.
+#' @param ... Further arguments passed to or from other methods. This argument
+#'   is ignored here.
+#' @export
+print.L1centEDGE <- function(x, ...){
+  for(i in seq_along(x)){
+    cat("edge list at alpha = ",
+        round(attr(x, "alpha")[[i]], 4), ":\n", sep = "")
+    print.default(x[[i]])
+    cat("\n")
+  }
+  return(invisible(x))
 }

@@ -38,7 +38,8 @@
 #' must be strongly connected.
 #'
 #' @inheritParams L1cent
-#' @return A list of numeric vectors. The length of the list is
+#' @return \code{L1centNB()} returns an object of class \code{L1centNB}. It
+#'   is a list of numeric vectors. The length of the list is
 #'   equivalent to the number of vertices in the graph \code{g}, and the names of the
 #'   list are vertex names. Each component of the list is a numeric vector whose
 #'   length is equivalent to the number of vertices in the graph \code{g}.
@@ -50,10 +51,17 @@
 #'   vertex, for the modified graph \code{g}
 #'   w.r.t. the \code{i}th vertex (if \code{mode = "prestige"}).
 #'
+#'  `print.L1centNB()` prints
+#'  \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} centrality or
+#'  \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} prestige values at
+#'  the modified graph w.r.t. each vertex and returns them invisibly.
+#'
 #' @export
 #' @seealso [L1cent()] for
 #'   \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} centrality/prestige,
 #'   [L1centLOC()] and [L1centEDGE()] internally uses \code{L1centNB()}.
+#
+#'   [Summary] for a relevant summary method.
 #' @examples
 #' NB <- L1centNB(MCUmovie, eta = igraph::V(MCUmovie)$worldwidegross)
 #' # Top 6 L1 centrality-based neighbors of "Iron Man"
@@ -92,8 +100,28 @@ L1centNB.matrix <- function(g, eta = NULL, mode = c("centrality", "prestige")){
   NB <- lapply(1:n, function(i){
     neweta <- eta
     neweta[i] <- etasum/sg + neweta[i]
-    L1cent(g,eta=neweta,mode=mode)
+    c(L1cent(g,eta=neweta,mode=mode))
   })
   names(NB) <- label
-  return(NB)
+  structure(NB,
+            class = "L1centNB",
+            mode = mode)
+}
+
+#' @name L1centNB
+#' @aliases print.L1centNB
+#'
+#' @param x An \code{L1centNB} object, obtained as a result of the function
+#'   \code{L1cent()}.
+#' @param ... Further arguments passed to or from other methods. This argument
+#'   is ignored here.
+#' @export
+print.L1centNB <- function(x, ...){
+  for(i in seq_along(x)){
+    cat("L1 ", attr(x, "mode"), " in the modified graph w.r.t. ",
+        sQuote(names(x)[[i]]), ":\n", sep = "")
+    print.default(c(x[[i]]))
+    cat("\n")
+  }
+  return(invisible(x))
 }

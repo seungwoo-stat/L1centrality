@@ -1,14 +1,30 @@
-# L1centrality 0.2.1.9000
+# L1centrality 0.2.1.9001
 
 ## Major updates
 
-* A new function `Gini()` computes the Gini coefficient.
+* A new function `Gini()` computes the Gini coefficient. (See the document named `Heterogeneity`.)
 
-* `L1cent()` now returns an object of class `L1cent`, which inherits the `numeric` class. `summary()`,`print()`, and subsetting methods are implemented for this new class.
+* `L1cent()` now returns an object of class `L1cent`, which inherits the `numeric` class. `summary()` and `print()` methods are implemented for this new class.
+
+* `L1centGROUP()` now returns an object of class `L1centGROUP`, which inherits the `numeric` class. `print()` method is implemented for this new class.
+
+* `L1centLOC()` now returns an object of class `L1centLOC`. `summary()` and `print()` methods are implemented for this new class.
+
+* `L1centNB()` now returns an object of class `L1centNB`. `summary()` and `print()` methods are implemented for this new class.
+
+* `L1centEDGE()` now returns an object of class `L1centEDGE`. `summary()` and `print()` methods are implemented for this new class.
+
+* Implementation of `L1centEDGE()` corrected.
+
+* `print()` methods is implemented for the `L1centMDS` class. The `L1centMDS()` function formerly returned a length four list with label of the vertices as one component. This component is now an attribute of the returned list, i.e., the `L1centMDS()` now returns a length three list. (See the document for `L1centMDS()`.) As a result, the `plot()` method for the `L1centMDS` is modified as well.
 
 ## Minor updates
 
 * Minor typo fix in the document.
+
+* New document 'Heterogeneity' added. It includes the `Lorenz_plot()` function and the `Gini()` function.
+
+* New document 'Summary' added. It includes all `summary()` method in this package. 
 
 # L1centrality 0.2.1
 

@@ -5,6 +5,7 @@
 \alias{L1presGROUP}
 \alias{L1centGROUP.igraph}
 \alias{L1centGROUP.matrix}
+\alias{print.L1centGROUP}
 \title{Group L1 Centrality/Prestige}
 \usage{
 L1centGROUP(g, nodes, eta, mode, method)
@@ -24,6 +25,8 @@ L1centGROUP(g, nodes, eta, mode, method)
   mode = c("centrality", "prestige"),
   method = "minimum"
 )
+
+\method{print}{L1centGROUP}(x, ...)
 }
 \arguments{
 \item{g}{An \code{igraph} graph object or a distance matrix. The graph must
@@ -67,17 +70,25 @@ See the discussion in Kang (2025).
 \item \code{maximum}: the maximum method is used in setting the edge weights.
 \item \code{average}: the average method is used in setting the edge weights.
 }}
+
+\item{x}{An \code{L1centGROUP} object, obtained as a result of the function
+\code{L1centGROUP()}.}
+
+\item{...}{Further arguments passed to or from other methods. This argument
+is ignored here.}
 }
 \value{
-A list consisting of two objects:
-\itemize{
-\item \sQuote{prominence}: The group
+\code{L1centGROUP()} returns an object of class \code{L1centGROUP}. It is a
+numeric value of the group
 \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} centrality (if
 \code{mode = "centrality"}) or the group
 \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} prestige (if
 \code{mode = "prestige"}) of the specified group of vertices.
-\item \sQuote{label}: A vector of the vertex names specified by \code{nodes}.
-}
+
+\code{print.L1centGROUP()} prints
+\ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} centrality or
+\ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} prestige value and
+returns it invisibly.
 }
 \description{
 Computes group \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}}
