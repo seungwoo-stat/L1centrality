@@ -307,8 +307,9 @@ L1centGROUP.matrix <- function(g, nodes, eta = NULL, mode = c("centrality", "pre
 print.L1centGROUP <- function(x, ...){
   cat("group L1 ", attr(x, "mode"), " of ", length(attr(x, "label")),
       ifelse(length(attr(x, "label")) == 1, " vertex", " vertices"),
-      " (", paste0(sQuote(attr(x, "label")), collapse = ", "),
-      ") with ", sQuote(attr(x, "method")), " method:\n", sep = "")
+      " (", sep = "", fill = FALSE)
+  cat(sQuote(attr(x, "label")), sep = ", ", fill = FALSE)
+  cat(") with ", sQuote(attr(x, "method")), " method:", sep = "", fill = TRUE)
   print.default(c(x))
   return(invisible(x))
 }
