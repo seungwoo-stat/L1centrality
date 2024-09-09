@@ -255,7 +255,7 @@ L1centGROUP.igraph <- function(g, nodes, eta = NULL, mode = c("centrality", "pre
   }
   nodes <- sort(unique(nodes))
   return(structure(res.value,
-                   class = c("L1centGROUP", "numeric"),
+                   class = "L1centGROUP",
                    mode = mode,
                    label = g_reduce$label,
                    method = method))
@@ -290,7 +290,7 @@ L1centGROUP.matrix <- function(g, nodes, eta = NULL, mode = c("centrality", "pre
   }
   nodes <- sort(unique(nodes))
   return(structure(res.value,
-                   class = c("L1centGROUP", "numeric"),
+                   class = "L1centGROUP",
                    mode = mode,
                    label = g_reduce$label,
                    method = method))

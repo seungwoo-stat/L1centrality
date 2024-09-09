@@ -4,9 +4,9 @@
 
 * A new function `Gini()` computes the Gini coefficient. (See the document named `Heterogeneity`.)
 
-* `L1cent()` now returns an object of class `L1cent`, which inherits the `numeric` class. `summary()` and `print()` methods are implemented for this new class.
+* `L1cent()` now returns an object of class `L1cent`. `summary()` and `print()` methods are implemented for this new class.
 
-* `L1centGROUP()` now returns an object of class `L1centGROUP`, which inherits the `numeric` class. `print()` method is implemented for this new class.
+* `L1centGROUP()` now returns an object of class `L1centGROUP`. `print()` method is implemented for this new class.
 
 * `L1centLOC()` now returns an object of class `L1centLOC`. `summary()` and `print()` methods are implemented for this new class.
 
