@@ -211,8 +211,8 @@ group_reduce.matrix <- function(g, nodes, eta = NULL, method = "minimum"){
 #'  \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} prestige (if
 #'  \code{mode = "prestige"}) of the specified group of vertices.
 #'
-#'  `print.L1centGROUP()` prints
-#'  \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} centrality or
+#'  `print.L1centGROUP()` prints group
+#'  \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} centrality or group
 #'  \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} prestige value and
 #'  returns it invisibly.
 #'
@@ -305,11 +305,14 @@ L1centGROUP.matrix <- function(g, nodes, eta = NULL, mode = c("centrality", "pre
 #'   is ignored here.
 #' @export
 print.L1centGROUP <- function(x, ...){
+  labs <- rep(" ", length(attr(x, "label")) * 2 - 1)
+  labs[(1:length(attr(x, "label"))) * 2 - 1] <- sQuote(attr(x, "label"))
+  labs[1] <- paste0("(", labs[1])
+  labs[length(labs)] <- paste0(labs[length(labs)], ")")
   cat("group L1 ", attr(x, "mode"), " of ", length(attr(x, "label")),
-      ifelse(length(attr(x, "label")) == 1, " vertex", " vertices"),
-      " (", sep = "", fill = FALSE)
-  cat(sQuote(attr(x, "label")), sep = ", ", fill = FALSE)
-  cat(") with ", sQuote(attr(x, "method")), " method:", sep = "", fill = TRUE)
+      ifelse(length(attr(x, "label")) == 1, " vertex ", " vertices "),
+      labs, " with ", sQuote(attr(x, "method")), " method:",
+      sep = "", fill = TRUE)
   print.default(c(x))
   return(invisible(x))
 }

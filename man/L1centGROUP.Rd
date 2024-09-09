@@ -85,8 +85,8 @@ numeric value of the group
 \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} prestige (if
 \code{mode = "prestige"}) of the specified group of vertices.
 
-\code{print.L1centGROUP()} prints
-\ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} centrality or
+\code{print.L1centGROUP()} prints group
+\ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} centrality or group
 \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} prestige value and
 returns it invisibly.
 }
