@@ -7,7 +7,7 @@
 \alias{summary.L1centNB}
 \alias{summary.L1centEDGE}
 \alias{print.summaryL1centrality}
-\title{Summary methods in the L1centrality Package}
+\title{Summary Methods in the L1centrality Package}
 \usage{
 \method{summary}{L1cent}(object, ...)
 

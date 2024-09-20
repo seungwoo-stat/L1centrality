@@ -1,5 +1,5 @@
 #' @name Summary
-#' @title Summary methods in the L1centrality Package
+#' @title Summary Methods in the L1centrality Package
 #' @aliases summary.L1cent
 #'
 #' @description
