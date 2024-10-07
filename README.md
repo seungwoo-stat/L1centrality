@@ -34,7 +34,7 @@ of vertices*: the group *L*<sub>1</sub> centrality and group
 
 ## How can I get L1centrality?
 
-Version 0.2.1 of this package is available on
+Version 0.3.0 of this package is available on
 [CRAN](https://cran.r-project.org/package=L1centrality):
 
 ``` r
@@ -42,8 +42,8 @@ install.packages("L1centrality")
 library(L1centrality)
 ```
 
-You can install the development version (0.2.1.9002) of `L1centrality`
-via:
+You can install the development version (currently equivalent to the
+CRAN version) of `L1centrality` via:
 
 ``` r
 devtools::install_github("seungwoo-stat/L1centrality")
