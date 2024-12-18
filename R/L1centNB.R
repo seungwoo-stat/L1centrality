@@ -117,6 +117,7 @@ L1centNB.matrix <- function(g, eta = NULL, mode = c("centrality", "prestige")){
 #'   is ignored here.
 #' @export
 print.L1centNB <- function(x, ...){
+  if(is.null(names(x))) names(x) <- paste0("V",seq_along(x))
   for(i in seq_along(x)){
     cat("L1 ", attr(x, "mode"), " in the modified graph w.r.t. ",
         sQuote(names(x)[[i]]), ":\n", sep = "")
