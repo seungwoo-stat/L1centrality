@@ -101,7 +101,7 @@ L1centLOC.matrix <- function(g, eta = NULL, alpha, mode = c("centrality", "prest
   n <- ncol(g)
   sg <- ifelse(isSymmetric.matrix(g), 1,
                min((g/t(g))[upper.tri(g) | lower.tri(g)]))
-  m <- ceiling(n*alpha)
+  # m <- ceiling(n*alpha)
   label <- colnames(g)
   NB <- L1centNB(g, eta = eta, mode)
   loc.cent <- vector("list", length = length(alpha))
@@ -109,7 +109,7 @@ L1centLOC.matrix <- function(g, eta = NULL, alpha, mode = c("centrality", "prest
   for (i in seq_along(alpha)) {
     nb.index <-
       lapply(NB, function(l)
-        which(l >= stats::quantile(l, 1 - m[i] / n)))
+        which(l >= stats::quantile(l, 1 - alpha[i], type=1)))
     loc.cent[[i]] <-
       sapply(1:length(nb.index), function(j){
         index <- which(rownames(g.new <- g[nb.index[[j]], nb.index[[j]]]) == names(nb.index)[j])
