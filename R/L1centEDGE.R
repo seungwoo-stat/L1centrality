@@ -88,7 +88,7 @@ L1centEDGE.matrix <- function(g, eta=NULL, alpha){
                      alpha = alpha))
   }
 
-  m <- ceiling(n*alpha)
+  # m <- ceiling(n*alpha)
   NB <- L1centNB(g)
   edgelist <- vector("list", length = length(alpha))
   names(edgelist) <- alpha
@@ -96,7 +96,7 @@ L1centEDGE.matrix <- function(g, eta=NULL, alpha){
   for (i in seq_along(alpha)) {
     nb.index <-
       lapply(NB, function(l)
-        which(l >= stats::quantile(l, 1 - m[i] / n)))
+        which(l >= stats::quantile(l, 1 - alpha[i], type = 1)))
     loc.median <-
       lapply(1:length(nb.index), function(j){
         distsum <- colSums(g[nb.index[[j]],nb.index[[j]],drop=FALSE] * eta[nb.index[[j]]])

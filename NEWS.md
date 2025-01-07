@@ -1,8 +1,8 @@
-# L1centrality 0.3.0.9001
+# L1centrality 0.3.0.9002
 
 * `print.L1centNB()` can now handle a graph with a missing vertex name (i.e., `V(g)$name == NULL`). If vertex names are missing, the function automatically sets them to `V1`, `V2`, ..., and prints them.
 
-* The `type` argument is set to 1 in the `quantile()` function inside the `L1centLOC()` function.
+* The `type` argument is set to 1 in the `quantile()` function inside the `L1centLOC()` and `L1centEDGE()` functions.
 
 # L1centrality 0.3.0
 
