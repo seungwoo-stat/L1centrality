@@ -9,10 +9,10 @@
 #' identical.
 #'
 #' @details
-#' For an undirected graph, if the graph is symmetrized (in a way defined in Kang and Oh (2024a))
+#' For an undirected graph, if the graph is symmetrized (in a way defined in Kang and Oh (2025a))
 #' w.r.t. a vertex \ifelse{html}{\out{<i>v</i>}}{\eqn{v}}, vertex
 #' \ifelse{html}{\out{<i>v</i>}}{\eqn{v}} becomes the graph median (Kang and Oh
-#' 2024a), i.e., \ifelse{html}{\out{<i>v</i>}}{\eqn{v}} has
+#' 2025a), i.e., \ifelse{html}{\out{<i>v</i>}}{\eqn{v}} has
 #' \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} centrality 1. Based on
 #' this property, we define the
 #' \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} centrality-based
@@ -23,7 +23,7 @@
 #'
 #' For a directed graph, a vertex of interest, say
 #' \ifelse{html}{\out{<i>v</i>}}{\eqn{v}}, is made to a centrality and prestige
-#' median vertex by the procedure described in Kang and Oh (2024b). We call the
+#' median vertex by the procedure described in Kang and Oh (2025b). We call the
 #' resulting graph as the modified graph w.r.t.
 #' \ifelse{html}{\out{<i>v</i>}}{\eqn{v}}.
 #' \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}}
@@ -68,11 +68,11 @@
 #' utils::head(sort(NB$"Iron Man", decreasing = TRUE))
 #' @references S. Kang and H.-S. Oh. On a notion of graph centrality based on
 #'   \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} data depth.
-#'   \emph{arXiv preprint arXiv:2404.13233}, 2024a.
+#'   \emph{Journal of the American Statistical Association}, 1--13, 2025a.
 #'
 #'   S. Kang and H.-S. Oh.
 #'   \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} prominence measures
-#'   for directed graphs. \emph{arXiv preprint arXiv:2408.12078}, 2024b.
+#'   for directed graphs. \emph{The American Statistician}, 1--16, 2025b.
 L1centNB <- function(g, eta, mode) UseMethod("L1centNB")
 
 #' @name L1centNB

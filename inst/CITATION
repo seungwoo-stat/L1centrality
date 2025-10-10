@@ -1,0 +1,36 @@
+bibentry(
+  bibtype  = "Manual",
+  other = unlist(citation(auto = meta), recursive = FALSE))
+
+bibentry(
+  bibtype  = "Article",
+  header   = "For undirected graphs, please cite:",
+  title    = "On a Notion of Graph Centrality Based on {$L_1$} Data Depth",
+  author   = "Seungwoo Kang and Hee-Seok Oh",
+  journal  = "Journal of the American Statistical Association",
+  year     = 2025,
+  pages    = "1--13",
+  doi      = "10.1080/01621459.2025.2520467"
+)
+
+bibentry(
+  bibtype  = "Article",
+  header   = "For directed graphs, please cite:",
+  title    = "{$L_1$} Prominence Measures for Directed Graphs",
+  author   = "Seungwoo Kang and Hee-Seok Oh",
+  journal  = "The American Statistician",
+  year     = 2025,
+  pages    = "1--16",
+  doi      = "10.1080/00031305.2025.2563730"
+)
+
+bibentry(
+  bibtype  = "phdthesis",
+  header   = "For group L1 prominence measures, please cite:",
+  title    = "Topics in Non-{E}uclidean Dimension Reduction",
+  author   = "Seungwoo Kang",
+  year     = 2025,
+  address  = "Seoul, Republic of Korea",
+  school   = "Seoul National University",
+  doi      = "10.23170/snu.000000188358.11032.0001856"
+)

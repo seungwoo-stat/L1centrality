@@ -67,8 +67,8 @@
 #' \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} centrality and
 #' \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} prestige measures concide.
 #'
-#' For details, refer to Kang and Oh (2024a) for undirected graphs, and Kang and
-#' Oh (2024b) for directed graphs.
+#' For details, refer to Kang and Oh (2025a) for undirected graphs, and Kang and
+#' Oh (2025b) for directed graphs.
 #'
 #' @param g An \code{igraph} graph object or a distance matrix. The graph must
 #'   be connected. For a directed graph, it must be strongly connected.
@@ -131,11 +131,11 @@
 #'
 #'   S. Kang and H.-S. Oh. On a notion of graph centrality based on
 #'   \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} data depth.
-#'   \emph{arXiv preprint arXiv:2404.13233}, 2024a.
+#'   \emph{Journal of the American Statistical Association}, 1--13, 2025a.
 #'
 #'   S. Kang and H.-S. Oh.
 #'   \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} prominence measures
-#'   for directed graphs. \emph{arXiv preprint arXiv:2408.12078}, 2024b.
+#'   for directed graphs. \emph{The American Statistician}, 1--16, 2025b.
 #'
 #'   Y. Vardi and C.-H. Zhang. The multivariate
 #'   \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}}-median and

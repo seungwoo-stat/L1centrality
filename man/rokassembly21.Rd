@@ -63,6 +63,6 @@ between two members) during the first 40 months of the 21st assembly (Jun.
 \references{
 S. Kang and H.-S. Oh. On a notion of graph centrality based on
 \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} data depth.
-\emph{arXiv preprint arXiv:2404.13233}, 2024.
+\emph{Journal of the American Statistical Association}, 1--13, 2025.
 }
 \keyword{datasets}

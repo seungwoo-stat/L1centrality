@@ -26,7 +26,11 @@
 #'
 #' @references S. Kang and H.-S. Oh. On a notion of graph centrality based on
 #'   \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} data depth.
-#'   \emph{arXiv preprint arXiv:2404.13233}, 2024.
+#'   \emph{Journal of the American Statistical Association}, 1--13, 2025a.
+#'
+#'   S. Kang and H.-S. Oh.
+#'   \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} prominence measures
+#'   for directed graphs. \emph{The American Statistician}, 1--16, 2025b.
 summary.L1cent <- function(object, ...){
   structure(c(summary.default(object), Gini = Gini(object)),
             class = "summaryL1centrality")

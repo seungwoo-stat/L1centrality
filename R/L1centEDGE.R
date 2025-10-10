@@ -16,7 +16,7 @@
 #' median vertex among the
 #' \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} centrality-based
 #' neighborhood of \eqn{v_i}. By varying the level of locality, the given graph
-#' can be visually inspected at multiple scales. Refer to Kang and Oh (2024) for
+#' can be visually inspected at multiple scales. Refer to Kang and Oh (2025) for
 #' details.
 #'
 #' @note
@@ -50,7 +50,7 @@
 #' plot(graph)
 #' @references S. Kang and H.-S. Oh. On a notion of graph centrality based on
 #'   \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} data depth.
-#'   \emph{arXiv preprint arXiv:2404.13233}, 2024.
+#'   \emph{Journal of the American Statistical Association}, 1--13, 2025.
 L1centEDGE <- function(g, eta, alpha) UseMethod("L1centEDGE")
 
 #' @name L1centEDGE

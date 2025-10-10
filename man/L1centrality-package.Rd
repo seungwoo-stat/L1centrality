@@ -11,7 +11,7 @@ Analyze graph/network data using \out{<i>L</i><sub>1</sub>} centrality and
 prestige. Functions for deriving global, local, and group
 \out{<i>L</i><sub>1</sub>} centrality/prestige are provided. Routines for
 visual inspection of a graph/network are also provided. Details are in Kang
-and Oh (2024a,b) and Kang (2025).
+and Oh (2025a,b) and Kang (2025).
 }
 \details{
 Every function inside this package supports a distinct variety of graphs.
@@ -38,11 +38,11 @@ thesis, Seoul National University, 2025.
 
 S. Kang and H.-S. Oh. On a notion of graph centrality based on
 \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} data depth.
-\emph{arXiv preprint arXiv:2404.13233}, 2024a.
+\emph{Journal of the American Statistical Association}, 1--13, 2025a.
 
 S. Kang and H.-S. Oh.
 \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} prominence measures
-for directed graphs. \emph{arXiv preprint arXiv:2408.12078}, 2024b.
+for directed graphs. \emph{The American Statistician}, 1--16, 2025b.
 }
 \seealso{
 Useful links:

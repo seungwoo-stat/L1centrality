@@ -51,7 +51,11 @@ summary(L1centEDGE(MCUmovie, alpha = c(5/32, 10/32)))
 \references{
 S. Kang and H.-S. Oh. On a notion of graph centrality based on
 \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} data depth.
-\emph{arXiv preprint arXiv:2404.13233}, 2024.
+\emph{Journal of the American Statistical Association}, 1--13, 2025a.
+
+S. Kang and H.-S. Oh.
+\ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} prominence measures
+for directed graphs. \emph{The American Statistician}, 1--16, 2025b.
 }
 \seealso{
 \code{\link[=L1cent]{L1cent()}}, \code{\link[=L1centLOC]{L1centLOC()}}, \code{\link[=L1centNB]{L1centNB()}}, \code{\link[=L1centEDGE]{L1centEDGE()}}, \link{Heterogeneity}.

@@ -85,8 +85,8 @@ neighborhood) for each vertex (see \code{\link[=L1centNB]{L1centNB()}}), and com
 conditioned on these vertices, i.e., derive the
 \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} centrality or
 \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} prestige locally. For
-details, refer to Kang and Oh (2024a) for undirected graphs, and Kang and Oh
-(2024b) for directed graphs.
+details, refer to Kang and Oh (2025a) for undirected graphs, and Kang and Oh
+(2025b) for directed graphs.
 }
 \note{
 The function is valid only for connected graphs. If the graph is directed, it
@@ -104,11 +104,11 @@ graphics::text(MCUmovie_cent, MCUmovie_loc_cent[[1]], igraph::V(MCUmovie)$name)
 \references{
 S. Kang and H.-S. Oh. On a notion of graph centrality based on
 \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} data depth.
-\emph{arXiv preprint arXiv:2404.13233}, 2024a.
+\emph{Journal of the American Statistical Association}, 1--13, 2025a.
 
 S. Kang and H.-S. Oh.
 \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} prominence measures
-for directed graphs. \emph{arXiv preprint arXiv:2408.12078}, 2024b.
+for directed graphs. \emph{The American Statistician}, 1--16, 2025b.
 }
 \seealso{
 \code{\link[=L1cent]{L1cent()}} for
