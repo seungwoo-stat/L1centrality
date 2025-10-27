@@ -9,7 +9,7 @@
 #' identical.
 #'
 #' @details
-#' For an undirected graph, if the graph is symmetrized (in a way defined in Kang and Oh (2025a))
+#' For an undirected graph, if the graph is symmetrized (in a way defined in Kang and Oh 2025a)
 #' w.r.t. a vertex \ifelse{html}{\out{<i>v</i>}}{\eqn{v}}, vertex
 #' \ifelse{html}{\out{<i>v</i>}}{\eqn{v}} becomes the graph median (Kang and Oh
 #' 2025a), i.e., \ifelse{html}{\out{<i>v</i>}}{\eqn{v}} has
@@ -61,7 +61,6 @@
 #'   \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} centrality/prestige,
 #'   [L1centLOC()] and [L1centEDGE()] internally uses \code{L1centNB()}.
 #
-#'   [Summary] for a relevant summary method.
 #' @examples
 #' NB <- L1centNB(MCUmovie, eta = igraph::V(MCUmovie)$worldwidegross)
 #' # Top 6 L1 centrality-based neighbors of "Iron Man"
@@ -73,21 +72,23 @@
 #'   S. Kang and H.-S. Oh.
 #'   \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} prominence measures
 #'   for directed graphs. \emph{The American Statistician}, 1--16, 2025b.
-L1centNB <- function(g, eta, mode) UseMethod("L1centNB")
+L1centNB <- function(g, eta, mode, weight_transform) UseMethod("L1centNB")
 
 #' @name L1centNB
 #' @exportS3Method L1centNB igraph
-L1centNB.igraph <- function(g, eta = NULL, mode = c("centrality", "prestige")){
+L1centNB.igraph <- function(g, eta = NULL, mode = c("centrality", "prestige"), weight_transform = NULL){
   validate_igraph(g, checkdir = FALSE)
   mode <- match.arg(tolower(mode), choices = c("centrality", "prestige"))
 
+  new_weight <- edge_weight_transform(g, weight_transform)
+  if(!is.null(new_weight)) igraph::E(g)$weight <- new_weight
   D <- igraph::distances(g, mode = "out")
   L1centNB.matrix(D, eta, mode = mode)
 }
 
 #' @name L1centNB
 #' @exportS3Method L1centNB matrix
-L1centNB.matrix <- function(g, eta = NULL, mode = c("centrality", "prestige")){
+L1centNB.matrix <- function(g, eta = NULL, mode = c("centrality", "prestige"), weight_transform = NULL){
   if(is.null(eta)) eta <- rep(1,ncol(g))
   validate_matrix(g, eta, checkdir = FALSE)
   mode <- match.arg(tolower(mode), choices = c("centrality", "prestige"))
@@ -121,8 +122,8 @@ print.L1centNB <- function(x, ...){
   for(i in seq_along(x)){
     cat("L1 ", attr(x, "mode"), " in the modified graph w.r.t. ",
         sQuote(names(x)[[i]]), ":\n", sep = "")
-    print.default(c(x[[i]]))
-    cat("\n")
+    print.default(c(x[[i]]), ...)
+    if(i != length(x)) cat("\n")
   }
   return(invisible(x))
 }

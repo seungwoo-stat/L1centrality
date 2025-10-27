@@ -27,6 +27,9 @@
 #' @param g An \code{igraph} graph object or a distance matrix. The graph must
 #'   be undirected and connected. Equivalently, the distance matrix must be
 #'   symmetric, and all entries must be finite.
+#' @param weight_transform An optional function to transform the edge weights
+#'   when `g` is an `igraph` object and an edge weight attribute exists. This
+#'   argument is ignored when `g` is a distance matrix.
 #' @param tol A numerical tolerance. The gradient descent method terminates if
 #'   the relative magnitude of the gradient falls below \code{tol} as in Kruskal
 #'   (1964b). By default set to \ifelse{html}{\out{10<sup>-5</sup>}}{\eqn{10^{-5}}}.
@@ -90,26 +93,31 @@
 #'
 #'   J. B. Kruskal. Nonmetric multidimensional scaling: a numerical method.
 #'   \emph{Psychometrika}, 29(2): 115--129, 1964b.
-L1centMDS <- function(g, tol, maxiter, verbose) UseMethod("L1centMDS")
+L1centMDS <- function(g, tol, maxiter, verbose, weight_transform) UseMethod("L1centMDS")
 
 #' @name L1centMDS
 #' @exportS3Method L1centMDS igraph
-L1centMDS.igraph <- function(g, tol = 1e-5, maxiter = 1000, verbose = TRUE){
+L1centMDS.igraph <- function(g, tol = 1e-5, maxiter = 1000, verbose = TRUE, weight_transform = NULL){
   validate_igraph(g)
 
+  new_weight <- edge_weight_transform(g, weight_transform)
+  if(!is.null(new_weight)) igraph::E(g)$weight <- new_weight
   D <- igraph::distances(g)
+  attr(D, "color.igraph") <- igraph::V(g)$color
+  attr(D, "label.igraph") <- igraph::V(g)$label
   L1centMDS.matrix(D, tol, maxiter, verbose)
 }
 
 #' @name L1centMDS
 #' @exportS3Method L1centMDS matrix
-L1centMDS.matrix <- function(g, tol = 1e-5, maxiter = 1000, verbose = TRUE){
+L1centMDS.matrix <- function(g, tol = 1e-5, maxiter = 1000, verbose = TRUE, weight_transform = NULL){
   eta <- rep(1,ncol(g))
   validate_matrix(g, eta)
 
   stepsize <- 0.2
   n <- ncol(g)
   label <- rownames(g)
+  if(is.null(label)) label <- 1:nrow(g)
   dist.original.vec <- g[upper.tri(g)]
   cent <- L1cent(g, eta = eta)
   radius <- c(-log(cent))
@@ -191,6 +199,8 @@ L1centMDS.matrix <- function(g, tol = 1e-5, maxiter = 1000, verbose = TRUE){
   return(structure(list(radius=radius,theta=params,stress=stress),
                    class="L1centMDS",
                    label=label,
+                   label.igraph=attr(g, "label.igraph"),
+                   color.igraph=attr(g, "color.igraph"),
                    iteration = iter.count))
 }
 
@@ -213,26 +223,27 @@ plot.L1centMDS <- function(x,zoom=1,main=NULL,...){
     names(text.args) <- substr(names(text.args),6,nchar(names(text.args)))
   }
   if(is.null(plot.args$pch)) plot.args$pch <- 20
+  if(is.null(plot.args$col)) plot.args$col <- attr(x, "color.igraph")
   if(is.null(text.args$cex)) text.args$cex <- 0.5
   if(is.null(text.args$labels)){
-    if(is.null(attr(x, "label"))) text.args$labels <- 1:length(radius)
-    else text.args$labels <- attr(x, "label")
+    text.args$labels <- if(is.null(attr(x, "label.igraph"))) attr(x, "label") else attr(x, "label.igraph")
   }
 
   withr::local_par(list(mar = c(1,1,4,1)+0.1))
-  do.call(plot, c(list(radius*cos(theta),radius*sin(theta),
-                       asp=1,xlim=c(-M.radius,M.radius)/zoom,ylim=c(-M.radius,M.radius)/zoom,
-                       xlab="",ylab="",axes=FALSE,
-                       main=ifelse(is.null(main),paste0("Target plot / Stress = ",x$stress),main)),
-                  plot.args))
-  do.call(graphics::text, c(list(radius*cos(theta),radius*sin(theta)),text.args))
-
   xx <- cos(seq(0,2*pi,length.out=200))
   yy <- sin(seq(0,2*pi,length.out=200))
-  for(grid in stats::quantile(radius,c(0.25,0.5,0.75,1))){
+  grid <- stats::quantile(radius,1)
+  plot((grid)*xx,(grid)*yy,col="gray",type="l",
+       asp=1,xlim=c(-M.radius,M.radius)/zoom,ylim=c(-M.radius,M.radius)/zoom,
+       xlab="",ylab="",axes=FALSE,
+       main=ifelse(is.null(main),paste0("Target plot / Stress = ",x$stress),main))
+  graphics::text(grid*cos(3*pi/4),grid*sin(3*pi/4),round(exp(-grid),4),col="red",cex=0.5)
+  for(grid in stats::quantile(radius,c(0.25,0.5,0.75))){
     graphics::lines((grid)*xx,(grid)*yy,col="gray")
     graphics::text(grid*cos(3*pi/4),grid*sin(3*pi/4),round(exp(-grid),4),col="red",cex=0.5)
   }
+  do.call(graphics::points, c(list(radius*cos(theta),radius*sin(theta)),plot.args))
+  do.call(graphics::text, c(list(radius*cos(theta),radius*sin(theta)),text.args))
 }
 
 #' @name L1centMDS
@@ -240,6 +251,6 @@ plot.L1centMDS <- function(x,zoom=1,main=NULL,...){
 #'
 #' @export
 print.L1centMDS <- function(x, ...){
-  cat("Target plot fitted after ", attr(x, "iteration"), " iterations", sep = "")
+  cat("Target plot fitted after ", attr(x, "iteration"), " iterations\n", sep = "")
   return(invisible(x))
 }

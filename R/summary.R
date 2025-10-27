@@ -1,80 +1,58 @@
-#' @name Summary
-#' @title Summary Methods in the L1centrality Package
+#' @name L1cent
 #' @aliases summary.L1cent
-#'
-#' @description
-#' `summary()` methods for the classes in the `L1centrality` package.
-#'
-#' @param object An object used to select a method.
-#' @param ... Further arguments passed to or from other methods. This argument
-#'   is ignored here.
-#' @return For the methods for the class `L1cent`, `L1centLOC`, and `L1centNB`,
-#'   object of class `summaryL1centrality` is returned. It is a summary of the
-#'   prominence values with the five-number summary, mean, and the Gini
-#'   coefficient.
-#'
-#'   For the method for the class `L1centEDGE`, number of local medians at each
-#'   locality level `alpha` is returned.
-#'
-#' @examples
-#' summary(L1cent(MCUmovie))
-#' summary(L1centLOC(MCUmovie, alpha = c(5/32, 10/32)))
-#' head(summary(L1centNB(MCUmovie)))
-#' summary(L1centEDGE(MCUmovie, alpha = c(5/32, 10/32)))
+#' @param object An \code{L1cent} object, obtained as a result of the function
+#'   \code{L1cent()}.
+#' @return `summary.L1cent()` returns an object of class `table`.
+#'   It is a summary of the prominence values with the five-number summary,
+#'   mean, and the Gini coefficient.
 #' @export
-#' @seealso [L1cent()], [L1centLOC()], [L1centNB()], [L1centEDGE()], [Heterogeneity].
-#'
-#' @references S. Kang and H.-S. Oh. On a notion of graph centrality based on
-#'   \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} data depth.
-#'   \emph{Journal of the American Statistical Association}, 1--13, 2025a.
-#'
-#'   S. Kang and H.-S. Oh.
-#'   \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} prominence measures
-#'   for directed graphs. \emph{The American Statistician}, 1--16, 2025b.
 summary.L1cent <- function(object, ...){
-  structure(c(summary.default(object), Gini = Gini(object)),
-            class = "summaryL1centrality")
+  args <- list(...)
+  structure(c(summary.default(object, ...),
+              Gini = if(is.null(args$digits)) Gini(object) else signif(Gini(object), digits = args$digits)),
+            class = "table")
 }
 
-#' @name Summary
+#' @name L1centLOC
 #' @aliases summary.L1centLOC
+#' @param object An \code{L1centLOC} object, obtained as a result of the function
+#'   \code{L1centLOC()}.
+#' @return `summary.L1centLOC()` returns an object of class `table`.
+#'   It is a summary of the prominence values with the five-number summary,
+#'   mean, and the Gini coefficient, at each level of `alpha`.
 #' @export
 summary.L1centLOC <- function(object, ...){
-  summat <- as.matrix(t(sapply(object, summary.L1cent)))
+  summat <- as.matrix(t(sapply(object, summary.L1cent, ...)))
   rownames(summat) <- round(attr(object, "alpha"), 4)
   names(dimnames(summat)) <- c("alpha", "")
-  structure(summat, class = "summaryL1centrality")
+  structure(summat, class = "table")
 }
 
-#' @name Summary
+#' @name L1centNB
 #' @aliases summary.L1centNB
+#' @param object An \code{L1centNB} object, obtained as a result of the function
+#'   \code{L1centNB()}.
+#' @return `summary.L1centNB()` returns an object of class `table`.
+#'   It is a summary of the prominence values with the five-number summary,
+#'   mean, and the Gini coefficient, at each modified graph.
 #' @export
 summary.L1centNB <- function(object, ...){
-  summat <- as.matrix(t(sapply(object, summary.L1cent)))
+  summat <- as.matrix(t(sapply(object, summary.L1cent, ...)))
   rownames(summat) <- names(object)
   names(dimnames(summat)) <- c("Modified w.r.t.", "")
-  structure(summat, class = "summaryL1centrality")
+  structure(summat, class = "table")
 }
 
-#' @name Summary
+#' @name L1centEDGE
 #' @aliases summary.L1centEDGE
+#' @param object An \code{L1centEDGE} object, obtained as a result of the function
+#'   \code{L1centEDGE()}.
+#' @return `summary.L1centEDGE()` returns an object of class `table` with the
+#'   number of local medians at each locality level `alpha`.
 #' @export
 summary.L1centEDGE <- function(object, ...){
   summat <- as.matrix(sapply(object, function(mat) length(unique(mat[,2]))))
   colnames(summat) <- "Number of local medians"
   names(dimnames(summat)) <- c("alpha","")
-  return(summat)
-}
-# number of local medians, names of the local medians
-
-#' @name Summary
-#' @aliases print.summaryL1centrality
-#'
-#' @param x A `summaryL1centrality` object, obtained as a result of the function
-#'   `summary.L1cent()` or `summary.L1centLOC()` or `summary.L1centNB()`.
-#' @param digits Minimal number of significant digits, see [print.default()].
-#' @export
-print.summaryL1centrality <- function(x, digits = max(3L, getOption("digits") - 3L), ...){
-  print.table(x, digits = digits)
-  invisible(x)
+  structure(summat, class = "table")
 }

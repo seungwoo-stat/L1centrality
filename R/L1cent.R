@@ -90,6 +90,9 @@
 #'  * `prestige`: \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}}
 #'  prestige (prominence of each vertex in terms of \emph{receiving} a choice)
 #'  is used for analysis.
+#' @param weight_transform An optional function to transform the edge weights
+#'   when `g` is an `igraph` object and an edge weight attribute exists. This
+#'   argument is ignored when `g` is a distance matrix.
 #' @return \code{L1cent()} returns an object of class \code{L1cent}. It is a
 #'   numeric vector whose length is equivalent to the number of vertices in the
 #'   graph \code{g}. Each component of the vector is the
@@ -98,7 +101,7 @@
 #'   \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} prestige (if
 #'   \code{mode = "prestige"}) of each vertex in the given graph.
 #'
-#'  `print.L1cent()` prints
+#'  \code{print.L1cent()} prints
 #'  \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} centrality or
 #'  \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} prestige values and
 #'  returns them invisibly.
@@ -113,18 +116,24 @@
 #'   [igraph::betweenness()], [igraph::closeness()],
 #'   [igraph::degree()], [igraph::eigen_centrality()] for centrality measures.
 #'
-#'   [Summary] for a relevant summary method and [Heterogeneity] for drawing the
-#'   Lorenz curve and computing the Gini coefficient.
+#'   [Heterogeneity] for drawing the Lorenz curve and computing the Gini
+#'   coefficient.
 #'
 #' @examples
 #' # igraph object and distance matrix as an input lead to the same result
 #' vertex_weight <- igraph::V(MCUmovie)$worldwidegross
-#' cent_igraph <- L1cent(MCUmovie, eta=vertex_weight)
-#' cent_matrix <- L1cent(igraph::distances(MCUmovie), eta=vertex_weight)
+#' cent_igraph <- L1cent(MCUmovie, eta = vertex_weight)
+#' cent_matrix <- L1cent(igraph::distances(MCUmovie), eta = vertex_weight)
 #' all(cent_igraph == cent_matrix)
 #'
 #' # Top 6 vertices with the highest L1 centrality
 #' utils::head(sort(cent_igraph, decreasing = TRUE))
+#'
+#' # Lorenz curve
+#' plot(cent_igraph)
+#'
+#' # Summary statistics
+#' summary(cent_igraph)
 #' @references S. L. Hakimi. Optimum locations of switching centers and the
 #'   absolute centers and medians of a graph. \emph{Operations Research},
 #'   12(3):450--459, 1964.
@@ -141,21 +150,23 @@
 #'   \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}}-median and
 #'   associated data depth. \emph{Proceedings of the National Academy of Sciences},
 #'   97(4):1423--1426, 2000.
-L1cent <- function(g, eta, mode) UseMethod("L1cent")
+L1cent <- function(g, eta, mode, weight_transform) UseMethod("L1cent")
 
 #' @name L1cent
 #' @exportS3Method L1cent igraph
-L1cent.igraph <- function(g, eta = NULL, mode = c("centrality", "prestige")) {
+L1cent.igraph <- function(g, eta = NULL, mode = c("centrality", "prestige"), weight_transform = NULL) {
   validate_igraph(g, checkdir = FALSE)
   mode <- match.arg(tolower(mode), choices = c("centrality", "prestige"))
 
+  new_weight <- edge_weight_transform(g, weight_transform)
+  if(!is.null(new_weight)) igraph::E(g)$weight <- new_weight
   D <- igraph::distances(g, mode = "out")
   L1cent.matrix(g = D, eta = eta, mode = mode)
 }
 
 #' @name L1cent
 #' @exportS3Method L1cent matrix
-L1cent.matrix <- function(g, eta = NULL, mode = c("centrality", "prestige")) {
+L1cent.matrix <- function(g, eta = NULL, mode = c("centrality", "prestige"), weight_transform = NULL) {
   if(is.null(eta)) eta <- rep(1,ncol(g))
   validate_matrix(g, eta, checkdir = FALSE)
   mode <- match.arg(tolower(mode), choices = c("centrality", "prestige"))
@@ -185,11 +196,47 @@ L1cent.matrix <- function(g, eta = NULL, mode = c("centrality", "prestige")) {
 #'
 #' @param x An \code{L1cent} object, obtained as a result of the function
 #'   \code{L1cent()}.
-#' @param ... Further arguments passed to or from other methods. This argument
-#'   is ignored here.
+#' @param ... Further arguments passed to or from other methods.
 #' @export
 print.L1cent <- function(x, ...){
   cat("L1 ", attr(x, "mode"), ":\n", sep = "")
-  print.default(c(x))
+  print.default(c(x), ...)
   return(invisible(x))
+}
+
+#' @name L1cent
+#' @aliases plot.L1cent
+#'
+#' @param y An optional argument providing the coordinates for a scatter plot.
+#'   It could be an object of class \code{L1cent} or \code{L1centLOC}, or a
+#'   numeric vector.
+#' @param add A logical value. This argument is considered only when drawing a Lorenz curve.
+#'  * \code{TRUE}: add the Lorenz curve to an already existing plot.
+#'  * \code{FALSE} (the default): draw the Lorenz curve to a new graphic device.
+#' @return `plot.L1cent()` draws a Lorenz curve (the group heterogeneity plot)
+#'   and returns an invisible copy of a Gini coefficient (the group
+#'   heterogeneity index) if argument \code{y} is not supplied. Otherwise, it
+#'   draws a scatter plot.
+#' @export
+plot.L1cent <- function(x, y = NULL, add = FALSE, ...){
+  args <- list(...)
+  if(is.null(y)){
+    args$add <- add
+    if(is.null(args$main)) args$main <- "Lorenz plot"
+    do.call(Lorenz_plot, c(list(x), args))
+  }else{
+    if(methods::is(y,"L1centLOC")){
+      if(is.null(args$xlab)) args$xlab <- as.expression(bquote(L[1] ~ .(attr(x, "mode"))))
+      if(is.null(args$ylab)) args$ylab <- as.expression(bquote("Local" ~ L[1] ~ .(attr(y, "mode")) ~ "(alpha =" ~ .(attr(y, "alpha"))*")"))
+      do.call(plot, c(list(as.numeric(x), as.numeric(unlist(y))), args))
+    }else if(methods::is(y,"L1cent")){
+      if(is.null(args$xlab)) args$xlab <- as.expression(bquote(L[1] ~ .(attr(x, "mode"))))
+      if(is.null(args$ylab)) args$ylab <- as.expression(bquote(L[1] ~ .(attr(y, "mode"))))
+      do.call(plot, c(list(as.numeric(x), as.numeric(y)), args))
+    }else{
+      if(is.null(args$xlab)) args$xlab <- as.expression(bquote(L[1] ~ .(attr(x, "mode"))))
+      if(is.null(args$ylab)) args$ylab <- "y"
+      do.call(plot, c(list(as.numeric(x), y), args))
+    }
+  }
 }

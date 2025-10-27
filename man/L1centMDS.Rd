@@ -8,11 +8,23 @@
 \alias{print.L1centMDS}
 \title{Fitting a Target Plot}
 \usage{
-L1centMDS(g, tol, maxiter, verbose)
+L1centMDS(g, tol, maxiter, verbose, weight_transform)
 
-\method{L1centMDS}{igraph}(g, tol = 1e-05, maxiter = 1000, verbose = TRUE)
+\method{L1centMDS}{igraph}(
+  g,
+  tol = 1e-05,
+  maxiter = 1000,
+  verbose = TRUE,
+  weight_transform = NULL
+)
 
-\method{L1centMDS}{matrix}(g, tol = 1e-05, maxiter = 1000, verbose = TRUE)
+\method{L1centMDS}{matrix}(
+  g,
+  tol = 1e-05,
+  maxiter = 1000,
+  verbose = TRUE,
+  weight_transform = NULL
+)
 
 \method{plot}{L1centMDS}(x, zoom = 1, main = NULL, ...)
 
@@ -38,6 +50,10 @@ to the console. At the end, the final message is printed to the console; total
 number of iterations and final stress.
 \item \code{FALSE}: suppress message to the console.
 }}
+
+\item{weight_transform}{An optional function to transform the edge weights
+when \code{g} is an \code{igraph} object and an edge weight attribute exists. This
+argument is ignored when \code{g} is a distance matrix.}
 
 \item{x}{An \code{L1centMDS} object, obtained as a result of the function
 \code{L1centMDS()}.}

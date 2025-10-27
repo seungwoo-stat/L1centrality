@@ -87,11 +87,11 @@ is.wholenumber <- function(x, tol = .Machine$double.eps^0.5)  abs(x - round(x)) 
 #' reduced_graph$eta[1] == sum(vertex_weight[ironman_series])
 #' @references S. Kang. \emph{Topics in Non-Euclidean Dimension Reduction}. PhD thesis,
 #'   Seoul National University, 2025.
-group_reduce <- function(g, nodes, eta, method) UseMethod("group_reduce")
+group_reduce <- function(g, nodes, eta, method, weight_transform) UseMethod("group_reduce")
 
 #' @name group_reduce
 #' @exportS3Method group_reduce igraph
-group_reduce.igraph <- function(g, nodes, eta = NULL, method = c("minimum", "maximum", "average")){
+group_reduce.igraph <- function(g, nodes, eta = NULL, method = c("minimum", "maximum", "average"), weight_transform = NULL){
   if(is.null(eta)) eta <- rep(1, igraph::vcount(g))
   # validate_igraph(g, checkdir = FALSE)
   if(igraph::any_multiple(g))
@@ -109,6 +109,8 @@ group_reduce.igraph <- function(g, nodes, eta = NULL, method = c("minimum", "max
   nodes <- sort(unique(nodes))
   method <- match.arg(tolower(method), choices = c("minimum", "maximum", "average"))
 
+  new_weight <- edge_weight_transform(g, weight_transform)
+  if(!is.null(new_weight)) igraph::E(g)$weight <- new_weight
   if(is.null(igraph::E(g)$weight)) igraph::E(g)$weight <- rep(1, igraph::ecount(g))
   A <- igraph::as_adjacency_matrix(g, attr = "weight")
   if(is.null(colnames(A))) colnames(A) <- rownames(A) <- 1:n
@@ -135,7 +137,7 @@ group_reduce.igraph <- function(g, nodes, eta = NULL, method = c("minimum", "max
 
 #' @name group_reduce
 #' @exportS3Method group_reduce matrix
-group_reduce.matrix <- function(g, nodes, eta = NULL, method = "minimum"){
+group_reduce.matrix <- function(g, nodes, eta = NULL, method = "minimum", weight_transform = NULL){
   if(is.null(eta)) eta <- rep(1,ncol(g))
   # validate_matrix(g, eta, checkdir = FALSE)
   if(length(eta) != ncol(g))
@@ -225,16 +227,16 @@ group_reduce.matrix <- function(g, nodes, eta = NULL, method = "minimum"){
 #' L1centGROUP(MCUmovie, nodes = c(16,23,27), eta = vertex_weight)
 #' @references S. Kang. \emph{Topics in Non-Euclidean Dimension Reduction}. PhD thesis,
 #'   Seoul National University, 2025.
-L1centGROUP <- function(g, nodes, eta, mode, method) UseMethod("L1centGROUP")
+L1centGROUP <- function(g, nodes, eta, mode, method, weight_transform) UseMethod("L1centGROUP")
 
 #' @name L1centGROUP
 #' @exportS3Method L1centGROUP igraph
 L1centGROUP.igraph <- function(g, nodes, eta = NULL, mode = c("centrality", "prestige"),
-                               method = c("minimum", "maximum", "average")) {
+                               method = c("minimum", "maximum", "average"), weight_transform = NULL) {
   mode <- match.arg(tolower(mode), choices = c("centrality", "prestige"))
   method <- match.arg(tolower(method), choices = c("minimum", "maximum", "average"))
   validate_igraph(g, checkdir = FALSE)
-  g_reduce <- group_reduce.igraph(g = g, nodes = nodes, eta = eta, method = method)
+  g_reduce <- group_reduce.igraph(g = g, nodes = nodes, eta = eta, method = method, weight_transform = weight_transform)
   D <- g_reduce$distmat
   eta <- g_reduce$eta
   n <- ncol(D)
@@ -264,7 +266,7 @@ L1centGROUP.igraph <- function(g, nodes, eta = NULL, mode = c("centrality", "pre
 #' @name L1centGROUP
 #' @exportS3Method L1centGROUP matrix
 L1centGROUP.matrix <- function(g, nodes, eta = NULL, mode = c("centrality", "prestige"),
-                               method = "minimum") {
+                               method = "minimum", weight_transform = NULL) {
   mode <- match.arg(tolower(mode), choices = c("centrality", "prestige"))
   method <- match.arg(tolower(method), choices = c("minimum"))
   if(is.null(eta)) eta <- rep(1, ncol(g))
@@ -313,6 +315,6 @@ print.L1centGROUP <- function(x, ...){
       ifelse(length(attr(x, "label")) == 1, " vertex ", " vertices "),
       labs, " with ", sQuote(attr(x, "method")), " method:",
       sep = "", fill = TRUE)
-  print.default(c(x))
+  print.default(c(x), ...)
   return(invisible(x))
 }

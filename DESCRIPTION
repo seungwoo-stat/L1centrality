@@ -1,6 +1,6 @@
 Package: L1centrality
 Title: Graph/Network Analysis Based on L1 Centrality
-Version: 0.3.1.9000
+Version: 0.4.0
 Authors@R: c(
   person("Seungwoo", "Kang", email = "kangsw0401@snu.ac.kr", role = c("aut", "cre"), 
   comment=c(ORCID="0000-0001-8082-0794")),
@@ -11,13 +11,14 @@ BugReports: https://github.com/seungwoo-stat/L1centrality/issues
 License: GPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
 Depends: 
     R (>= 2.10)
 LazyData: true
 Imports: 
     graphics,
     igraph,
+    methods,
     Rcpp,
     stats,
     utils,

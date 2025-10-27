@@ -1,8 +1,33 @@
-# L1centrality 0.3.1.9000
+# L1centrality 0.4.0
 
-* Added three relevant papers to the documentations, DESCRIPTION, and README files.
+## Major updates
 
-* Generated a CITATION file.
+* `summary()` methods now return an object of class `table`.
+
+* A new argument `weight_trasform` is added to `L1cent()`, `L1centGROUP()`, `L1centNB()`, `L1centLOC()`, `L1centMDS()`, and `group_reduce()` generic functions. This is an optional function to transform the edge weights.
+
+* `plot()` methods added and enhanced:
+
+    * `plot.L1centMDS()`: Vertex color and vertex label attributes in an `igraph` object are automatically passed to this plot method.
+
+    * `plot.L1cent()`: When there is no second argument (`y`), it draws a Lorenz curve. Otherwise, it draws a scatter plot. Axes labels are automatically added.
+    
+    * `plot.L1centLOC()`: When the graph is evaluated at a single locality level (`alpha`), it draws a Lorenz curve or a scatter plot. Otherwise, it draws a line plot of local L1 centrality change of each vertex at a uniform margin.
+    
+    * `plot.L1centEDGE()`: Draws a directed graph where each vertex gives an edge to its local median. Colors and labels of the vertices are automatically set from the given `igraph` object.
+
+
+## Minor updates
+
+* Added citations of three relevant papers to the documentations, DESCRIPTION, and README files.
+
+* Generated a CITATION file for citing this package.
+
+* Removed 'Summary' documentation and incorporated the documentation for each `summary()` method into the corresponding function help pages.
+
+* Minor fix in the `print()` and `summary()` methods.
+
+* Examples modified.
 
 # L1centrality 0.3.1
 

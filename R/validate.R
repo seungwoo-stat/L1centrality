@@ -19,3 +19,16 @@ validate_matrix <- function(g, eta, checkdir = TRUE){
   if(sum(eta) <= 0)
     stop("sum(eta) must be positive")
 }
+
+## edge weight transformation
+edge_weight_transform <- function(g, weight_transform){
+  new_weight <- NULL
+  if(is.null(weight_transform)){
+    new_weight <- igraph::E(g)$weight
+  }else if(!is.null(igraph::E(g)$weight)){
+    new_weight <- weight_transform(igraph::E(g)$weight)
+    if(length(new_weight) != length(igraph::E(g)$weight))
+      stop("Length of edge weights after weight_transform differs from the original edge weight length")
+  }
+  return(new_weight)
+}

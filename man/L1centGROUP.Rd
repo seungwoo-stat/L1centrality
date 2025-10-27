@@ -8,14 +8,15 @@
 \alias{print.L1centGROUP}
 \title{Group L1 Centrality/Prestige}
 \usage{
-L1centGROUP(g, nodes, eta, mode, method)
+L1centGROUP(g, nodes, eta, mode, method, weight_transform)
 
 \method{L1centGROUP}{igraph}(
   g,
   nodes,
   eta = NULL,
   mode = c("centrality", "prestige"),
-  method = c("minimum", "maximum", "average")
+  method = c("minimum", "maximum", "average"),
+  weight_transform = NULL
 )
 
 \method{L1centGROUP}{matrix}(
@@ -23,7 +24,8 @@ L1centGROUP(g, nodes, eta, mode, method)
   nodes,
   eta = NULL,
   mode = c("centrality", "prestige"),
-  method = "minimum"
+  method = "minimum",
+  weight_transform = NULL
 )
 
 \method{print}{L1centGROUP}(x, ...)
@@ -70,6 +72,10 @@ See the discussion in Kang (2025).
 \item \code{maximum}: the maximum method is used in setting the edge weights.
 \item \code{average}: the average method is used in setting the edge weights.
 }}
+
+\item{weight_transform}{An optional function to transform the edge weights
+when \code{g} is an \code{igraph} object and an edge weight attribute exists. This
+argument is ignored when \code{g} is a distance matrix.}
 
 \item{x}{An \code{L1centGROUP} object, obtained as a result of the function
 \code{L1centGROUP()}.}

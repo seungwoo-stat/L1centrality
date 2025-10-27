@@ -38,33 +38,32 @@
 #'  `print.L1centEDGE()` prints the edge lists and returns them invisibly.
 #'
 #' @export
-#' @seealso [L1cent()], [L1centNB()], [L1centLOC()]. Using the output, one can
-#'   use [igraph::graph_from_edgelist()] for creating an \code{igraph} object.
-#'   See the example code below.
-#'
-#'   [Summary] for a relevant summary method.
+#' @seealso [L1cent()], [L1centNB()], [L1centLOC()].
 #' @examples
 #' library(igraph)
 #' MCU_edge <- L1centEDGE(MCUmovie, eta = V(MCUmovie)$worldwidegross, alpha = 5/32)
-#' graph <- graph_from_edgelist(MCU_edge[[1]], directed = TRUE)
-#' plot(graph)
+#' plot(MCU_edge)
 #' @references S. Kang and H.-S. Oh. On a notion of graph centrality based on
 #'   \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} data depth.
 #'   \emph{Journal of the American Statistical Association}, 1--13, 2025.
-L1centEDGE <- function(g, eta, alpha) UseMethod("L1centEDGE")
+L1centEDGE <- function(g, eta, alpha, weight_transform) UseMethod("L1centEDGE")
 
 #' @name L1centEDGE
 #' @exportS3Method L1centEDGE igraph
-L1centEDGE.igraph <- function(g, eta=NULL, alpha){
+L1centEDGE.igraph <- function(g, eta=NULL, alpha, weight_transform = NULL){
   validate_igraph(g)
 
+  new_weight <- edge_weight_transform(g, weight_transform)
+  if(!is.null(new_weight)) igraph::E(g)$weight <- new_weight
   D <- igraph::distances(g)
+  attr(D, "label.igraph") <- igraph::V(g)$label
+  attr(D, "color.igraph") <- igraph::V(g)$color
   L1centEDGE.matrix(D, eta, alpha)
 }
 
 #' @name L1centEDGE
 #' @exportS3Method L1centEDGE matrix
-L1centEDGE.matrix <- function(g, eta=NULL, alpha){
+L1centEDGE.matrix <- function(g, eta=NULL, alpha, weight_transform = NULL){
   if(is.null(eta)) eta <- rep(1,ncol(g))
   validate_matrix(g, eta)
   if(!all(alpha >= 0 & alpha <= 1))
@@ -85,7 +84,10 @@ L1centEDGE.matrix <- function(g, eta=NULL, alpha){
     names(glob.edgelist) <- alpha
     return(structure(glob.edgelist,
                      class = "L1centEDGE",
-                     alpha = alpha))
+                     alpha = alpha,
+                     label = label,
+                     label.igraph = attr(g,"label.igraph"),
+                     color.igraph = attr(g,"color.igraph")))
   }
 
   # m <- ceiling(n*alpha)
@@ -108,7 +110,10 @@ L1centEDGE.matrix <- function(g, eta=NULL, alpha){
   }
   return(structure(edgelist,
                    class = "L1centEDGE",
-                   alpha = alpha))
+                   alpha = alpha,
+                   label = label,
+                   label.igraph = attr(g,"label.igraph"),
+                   color.igraph = attr(g,"color.igraph")))
 }
 
 #' @name L1centEDGE
@@ -116,15 +121,47 @@ L1centEDGE.matrix <- function(g, eta=NULL, alpha){
 #'
 #' @param x An \code{L1centEDGE} object, obtained as a result of the function
 #'   \code{L1centEDGE()}.
-#' @param ... Further arguments passed to or from other methods. This argument
-#'   is ignored here.
+#' @param ... Further arguments passed to or from other methods.
+#'   * `plot()` method: Further graphical parameters supplied to the internal
+#'   [igraph::plot.igraph()] function. See [igraph::plot.common] document.
+#'   * `print()` and `summary()` methods: Further arguments passed to the
+#'   [base::print()] and [base::summary()] functions, respectively.
 #' @export
 print.L1centEDGE <- function(x, ...){
   for(i in seq_along(x)){
     cat("edge list at alpha = ",
         round(attr(x, "alpha")[[i]], 4), ":\n", sep = "")
-    print.default(x[[i]])
-    cat("\n")
+    print.default(x[[i]], ...)
+    if(i != length(x)) cat("\n")
   }
   return(invisible(x))
+}
+
+
+#' @name L1centEDGE
+#' @aliases plot.L1centEDGE
+#'
+#' @return `plot.L1centEDGE()` draws directed graphs corresponding to each value
+#'   of \code{alpha}. In each display, each vertex gives a directed edge to its
+#'   local median vertex. The local median vertices are shown with larger
+#'   circles.
+#' @export
+plot.L1centEDGE <- function(x, ...){
+  args <- list(...)
+  args.orignal <- args
+  for(i in seq_along(x)){
+    x[[i]] <- x[[i]][x[[i]][,1] != x[[i]][,2],]
+    gi <- igraph::graph_from_edgelist(x[[i]])
+
+    if(is.null(args.orignal$main)) args$main <- paste0("alpha = ", attr(x,"alpha")[i])
+    if(is.null(args.orignal$edge.arrow.size)) args$edge.arrow.size <- 0.5
+    if(is.null(args.orignal$vertex.size)) args$vertex.size <- sapply(if(is.null(igraph::V(gi)$name)) as.numeric(igraph::V(gi)) else igraph::V(gi)$name, \(elem) ifelse(elem %in% x[[i]][,2], 25, 15))
+    if(is.null(args.orignal$vertex.label.family)) args$vertex.label.family <- "sans"
+    if(is.null(args.orignal$vertex.label.cex)) args$vertex.label.cex <- 1
+    if(is.null(args.orignal$vertex.label)) args$vertex.label <- if(is.null(attr(x, "label.igraph"))) igraph::V(gi)$name else attr(x, "label.igraph")[match(igraph::V(gi)$name, attr(x, "label"))]
+    if(is.null(args.orignal$vertex.color)) args$vertex.color <- if(is.null(attr(x, "color.igraph"))) "gray" else attr(x, "color.igraph")[match(igraph::V(gi)$name, attr(x, "label"))]
+
+    if(i > 1) withr::local_par(ask = TRUE)
+    do.call(igraph::plot.igraph, c(list(gi), args))
+  }
 }

@@ -35,9 +35,9 @@ coefficient (the group heterogeneity index).
 }
 \examples{
 vertex_weight <- igraph::V(MCUmovie)$worldwidegross
-cent <- L1cent(MCUmovie, eta=vertex_weight)
-gini <- Lorenz_plot(cent, asp=1)
-graphics::abline(0,1,lty=2)
+cent <- L1cent(MCUmovie, eta = vertex_weight)
+gini <- Lorenz_plot(cent, asp = 1) # one can use "plot(cent, asp = 1)"
+graphics::abline(0, 1, lty = 2)
 # group heterogeneity index
 gini
 gini == Gini(cent)
@@ -51,7 +51,8 @@ M. O. Lorenz. Methods of measuring the concentration of wealth.
 \emph{Publications of the American Statistical Association}, 9(70):209--219, 1905.
 }
 \seealso{
-Use the function with \code{\link[=L1cent]{L1cent()}} or \code{\link[=L1centLOC]{L1centLOC()}}, and compare
-distributions of the centrality measurements across several groups and
-graphs. \link{Summary} methods in this package come with the Gini coefficient.
+\code{plot()} methods for objects of class \link{L1cent} and \link{L1centLOC}
+support plotting a Lorenz curve. \code{summary()} methods for objects of
+class \link{L1cent}, \link{L1centLOC}, and \link{L1centNB} provide the Gini coefficient as
+one of the summary statistics.
 }

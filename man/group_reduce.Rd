@@ -6,11 +6,17 @@
 \alias{group_reduce.matrix}
 \title{Group Reduced Graph}
 \usage{
-group_reduce(g, nodes, eta, method)
+group_reduce(g, nodes, eta, method, weight_transform)
 
-\method{group_reduce}{igraph}(g, nodes, eta = NULL, method = c("minimum", "maximum", "average"))
+\method{group_reduce}{igraph}(
+  g,
+  nodes,
+  eta = NULL,
+  method = c("minimum", "maximum", "average"),
+  weight_transform = NULL
+)
 
-\method{group_reduce}{matrix}(g, nodes, eta = NULL, method = "minimum")
+\method{group_reduce}{matrix}(g, nodes, eta = NULL, method = "minimum", weight_transform = NULL)
 }
 \arguments{
 \item{g}{An \code{igraph} graph object or a distance matrix. Here, the
@@ -41,6 +47,10 @@ See the discussion in Kang (2025).
 \item \code{maximum}: the maximum method is used in setting the edge weights.
 \item \code{average}: the average method is used in setting the edge weights.
 }}
+
+\item{weight_transform}{An optional function to transform the edge weights
+when \code{g} is an \code{igraph} object and an edge weight attribute exists. This
+argument is ignored when \code{g} is a distance matrix.}
 }
 \value{
 A list consisting of three objects:
