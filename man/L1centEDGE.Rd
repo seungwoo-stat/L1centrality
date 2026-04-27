@@ -9,11 +9,11 @@
 \alias{summary.L1centEDGE}
 \title{Multiscale Edge Representation}
 \usage{
-L1centEDGE(g, eta, alpha, weight_transform)
+L1centEDGE(g, vertex_weight, alpha, edge_weight_transform)
 
-\method{L1centEDGE}{igraph}(g, eta = NULL, alpha, weight_transform = NULL)
+\method{L1centEDGE}{igraph}(g, vertex_weight = NULL, alpha, edge_weight_transform = NULL)
 
-\method{L1centEDGE}{matrix}(g, eta = NULL, alpha, weight_transform = NULL)
+\method{L1centEDGE}{matrix}(g, vertex_weight = NULL, alpha, edge_weight_transform = NULL)
 
 \method{print}{L1centEDGE}(x, ...)
 
@@ -22,20 +22,23 @@ L1centEDGE(g, eta, alpha, weight_transform)
 \method{summary}{L1centEDGE}(object, ...)
 }
 \arguments{
-\item{g}{An \code{igraph} graph object or a distance matrix. The graph must
-be undirected and connected. Equivalently, the distance matrix must be
-symmetric, and all entries must be finite.}
+\item{g}{An \code{igraph} graph object or a distance matrix.
+\itemize{
+\item When \code{g} is an \code{igraph} object, the graph must be undirected and connected.
+\item When \code{g} is a matrix, it should be symmetric and represent a distance matrix.
+All entries of the distance matrix must be finite.
+}}
 
-\item{eta}{An optional nonnegative multiplicity (weight) vector for (vertex)
+\item{vertex_weight}{An optional nonnegative multiplicity (weight) vector for (vertex)
 weighted networks. The sum of its components must be positive. If set to
 \code{NULL} (the default), all vertices will have the same positive weight
 (multiplicity) of 1, i.e., \code{g} is treated as a vertex unweighted graph. The
-length of the \code{eta} must be equivalent to the number of vertices.}
+length of the \code{vertex_weight} must be equivalent to the number of vertices.}
 
 \item{alpha}{A number or a numeric vector of locality levels. Values
 must be between 0 and 1.}
 
-\item{weight_transform}{An optional function to transform the edge weights
+\item{edge_weight_transform}{An optional function to transform the edge weights
 when \code{g} is an \code{igraph} object and an edge weight attribute exists. This
 argument is ignored when \code{g} is a distance matrix.}
 
@@ -88,7 +91,7 @@ median vertex. The local median vertex of, say, \eqn{v_i}, is defined as a
 median vertex among the
 \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} centrality-based
 neighborhood of \eqn{v_i}. By varying the level of locality, the given graph
-can be visually inspected at multiple scales. Refer to Kang and Oh (2025) for
+can be visually inspected at multiple scales. Refer to Kang and Oh (2026) for
 details.
 }
 \note{
@@ -96,13 +99,13 @@ The function is valid only for undirected and connected graphs.
 }
 \examples{
 library(igraph)
-MCU_edge <- L1centEDGE(MCUmovie, eta = V(MCUmovie)$worldwidegross, alpha = 5/32)
+MCU_edge <- L1centEDGE(MCUmovie, vertex_weight = V(MCUmovie)$worldwidegross, alpha = 5/32)
 plot(MCU_edge)
 }
 \references{
 S. Kang and H.-S. Oh. On a notion of graph centrality based on
 \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} data depth.
-\emph{Journal of the American Statistical Association}, 1--13, 2025.
+\emph{Journal of the American Statistical Association}, 121(553): 400--412, 2026.
 }
 \seealso{
 \code{\link[=L1cent]{L1cent()}}, \code{\link[=L1centNB]{L1centNB()}}, \code{\link[=L1centLOC]{L1centLOC()}}.

@@ -9,20 +9,20 @@
 \alias{summary.L1centNB}
 \title{L1 Centrality/Prestige-Based Neighborhood}
 \usage{
-L1centNB(g, eta, mode, weight_transform)
+L1centNB(g, vertex_weight, mode, edge_weight_transform)
 
 \method{L1centNB}{igraph}(
   g,
-  eta = NULL,
+  vertex_weight = NULL,
   mode = c("centrality", "prestige"),
-  weight_transform = NULL
+  edge_weight_transform = NULL
 )
 
 \method{L1centNB}{matrix}(
   g,
-  eta = NULL,
+  vertex_weight = NULL,
   mode = c("centrality", "prestige"),
-  weight_transform = NULL
+  edge_weight_transform = NULL
 )
 
 \method{print}{L1centNB}(x, ...)
@@ -30,19 +30,23 @@ L1centNB(g, eta, mode, weight_transform)
 \method{summary}{L1centNB}(object, ...)
 }
 \arguments{
-\item{g}{An \code{igraph} graph object or a distance matrix. The graph must
-be connected. For a directed graph, it must be strongly connected.
-Equivalently, all entries of the distance matrix must be finite. Here, the
+\item{g}{An \code{igraph} graph object or a distance matrix.
+\itemize{
+\item When \code{g} is an \code{igraph} object, the graph must be connected.
+For a directed graph, it must be strongly connected.
+\item When \code{g} is a matrix, it should represent a distance matrix.
+All entries of the distance matrix must be finite. Here, the
 \ifelse{html}{\out{(<i>i,j</i>)}}{\eqn{(i,j)}} component of the distance
 matrix is the geodesic distance from the
 \ifelse{html}{\out{<i>i</i>}}{\eqn{i}}th vertex to the
-\ifelse{html}{\out{<i>j</i>}}{\eqn{j}}th vertex.}
+\ifelse{html}{\out{<i>j</i>}}{\eqn{j}}th vertex.
+}}
 
-\item{eta}{An optional nonnegative multiplicity (weight) vector for (vertex)
+\item{vertex_weight}{An optional nonnegative multiplicity (weight) vector for (vertex)
 weighted networks. The sum of its components must be positive. If set to
 \code{NULL} (the default), all vertices will have the same positive weight
 (multiplicity) of 1, i.e., \code{g} is treated as a vertex unweighted graph. The
-length of the \code{eta} must be equivalent to the number of vertices.}
+length of the \code{vertex_weight} must be equivalent to the number of vertices.}
 
 \item{mode}{A character string. For an undirected graph, either choice gives
 the same result.
@@ -55,7 +59,7 @@ prestige (prominence of each vertex in terms of \emph{receiving} a choice)
 is used for analysis.
 }}
 
-\item{weight_transform}{An optional function to transform the edge weights
+\item{edge_weight_transform}{An optional function to transform the edge weights
 when \code{g} is an \code{igraph} object and an edge weight attribute exists. This
 argument is ignored when \code{g} is a distance matrix.}
 
@@ -98,10 +102,10 @@ neighborhood of each vertex. For undirected graphs, the two neighborhood are
 identical.
 }
 \details{
-For an undirected graph, if the graph is symmetrized (in a way defined in Kang and Oh 2025a)
+For an undirected graph, if the graph is symmetrized (in a way defined in Kang and Oh 2026a)
 w.r.t. a vertex \ifelse{html}{\out{<i>v</i>}}{\eqn{v}}, vertex
 \ifelse{html}{\out{<i>v</i>}}{\eqn{v}} becomes the graph median (Kang and Oh
-2025a), i.e., \ifelse{html}{\out{<i>v</i>}}{\eqn{v}} has
+2026a), i.e., \ifelse{html}{\out{<i>v</i>}}{\eqn{v}} has
 \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} centrality 1. Based on
 this property, we define the
 \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} centrality-based
@@ -112,7 +116,7 @@ centrality on the symmetrized graph w.r.t. vertex
 
 For a directed graph, a vertex of interest, say
 \ifelse{html}{\out{<i>v</i>}}{\eqn{v}}, is made to a centrality and prestige
-median vertex by the procedure described in Kang and Oh (2025b). We call the
+median vertex by the procedure described in Kang and Oh (2026b). We call the
 resulting graph as the modified graph w.r.t.
 \ifelse{html}{\out{<i>v</i>}}{\eqn{v}}.
 \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}}
@@ -127,18 +131,18 @@ The function is valid only for connected graphs. If the graph is directed, it
 must be strongly connected.
 }
 \examples{
-NB <- L1centNB(MCUmovie, eta = igraph::V(MCUmovie)$worldwidegross)
+NB <- L1centNB(MCUmovie, vertex_weight = igraph::V(MCUmovie)$worldwidegross)
 # Top 6 L1 centrality-based neighbors of "Iron Man"
 utils::head(sort(NB$"Iron Man", decreasing = TRUE))
 }
 \references{
 S. Kang and H.-S. Oh. On a notion of graph centrality based on
 \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} data depth.
-\emph{Journal of the American Statistical Association}, 1--13, 2025a.
+\emph{Journal of the American Statistical Association}, 121(553): 400--412, 2026a.
 
 S. Kang and H.-S. Oh.
 \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} prominence measures
-for directed graphs. \emph{The American Statistician}, 1--16, 2025b.
+for directed graphs. \emph{The American Statistician}, 80(2): 301--309, 2026b.
 }
 \seealso{
 \code{\link[=L1cent]{L1cent()}} for

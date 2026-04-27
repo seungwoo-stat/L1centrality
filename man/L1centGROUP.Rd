@@ -8,45 +8,55 @@
 \alias{print.L1centGROUP}
 \title{Group L1 Centrality/Prestige}
 \usage{
-L1centGROUP(g, nodes, eta, mode, method, weight_transform)
+L1centGROUP(g, nodes, vertex_weight, mode, method, edge_weight_transform)
 
 \method{L1centGROUP}{igraph}(
   g,
   nodes,
-  eta = NULL,
+  vertex_weight = NULL,
   mode = c("centrality", "prestige"),
   method = c("minimum", "maximum", "average"),
-  weight_transform = NULL
+  edge_weight_transform = NULL
 )
 
 \method{L1centGROUP}{matrix}(
   g,
   nodes,
-  eta = NULL,
+  vertex_weight = NULL,
   mode = c("centrality", "prestige"),
   method = "minimum",
-  weight_transform = NULL
+  edge_weight_transform = NULL
 )
 
 \method{print}{L1centGROUP}(x, ...)
 }
 \arguments{
-\item{g}{An \code{igraph} graph object or a distance matrix. The graph must
-be connected. For a directed graph, it must be strongly connected.
-Equivalently, all entries of the distance matrix must be finite. Here, the
+\item{g}{An \code{igraph} graph object or a distance matrix.
+\itemize{
+\item When \code{g} is an \code{igraph} object, the graph must be connected.
+For a directed graph, it must be strongly connected.
+\item When \code{g} is a matrix, it should represent a distance matrix.
+All entries of the distance matrix must be finite. Here, the
 \ifelse{html}{\out{(<i>i,j</i>)}}{\eqn{(i,j)}} component of the distance
 matrix is the geodesic distance from the
 \ifelse{html}{\out{<i>i</i>}}{\eqn{i}}th vertex to the
-\ifelse{html}{\out{<i>j</i>}}{\eqn{j}}th vertex.}
+\ifelse{html}{\out{<i>j</i>}}{\eqn{j}}th vertex.
+}}
 
-\item{nodes}{A vector of integers. Each integer indicates the index of the
-vertex.}
+\item{nodes}{A vector of integers or a list of integer vectors. Each integer
+indicates the index of the vertex. When the argument is provided as a list,
+the function computes the group
+\ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} prominence for each
+set of vertices specified by the individual list elements. When it is given
+as an integer vector, the function computes the group
+\ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} prominence for the
+single group defined by that vector.}
 
-\item{eta}{An optional nonnegative multiplicity (weight) vector for (vertex)
+\item{vertex_weight}{An optional nonnegative multiplicity (weight) vector for (vertex)
 weighted networks. The sum of its components must be positive. If set to
 \code{NULL} (the default), all vertices will have the same positive weight
 (multiplicity) of 1, i.e., \code{g} is treated as a vertex unweighted graph. The
-length of the \code{eta} must be equivalent to the number of vertices.}
+length of the \code{vertex_weight} must be equivalent to the number of vertices.}
 
 \item{mode}{A character string. For an undirected graph, either choice gives
 the same result.
@@ -73,7 +83,7 @@ See the discussion in Kang (2025).
 \item \code{average}: the average method is used in setting the edge weights.
 }}
 
-\item{weight_transform}{An optional function to transform the edge weights
+\item{edge_weight_transform}{An optional function to transform the edge weights
 when \code{g} is an \code{igraph} object and an edge weight attribute exists. This
 argument is ignored when \code{g} is a distance matrix.}
 
@@ -99,7 +109,7 @@ returns it invisibly.
 \description{
 Computes group \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}}
 centrality or group \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}}
-prestige for the specified group of vertices. For undirected graphs, the two
+prestige for the specified groups of vertices. For undirected graphs, the two
 measures are identical.
 }
 \details{
@@ -121,7 +131,7 @@ confusing.
 \examples{
 # Group L1 centrality of the 'Spider-Man' series
 vertex_weight <- igraph::V(MCUmovie)$worldwidegross
-L1centGROUP(MCUmovie, nodes = c(16,23,27), eta = vertex_weight)
+L1centGROUP(MCUmovie, nodes = c(16,23,27), vertex_weight = vertex_weight)
 }
 \references{
 S. Kang. \emph{Topics in Non-Euclidean Dimension Reduction}. PhD thesis,

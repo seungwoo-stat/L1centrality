@@ -7,7 +7,7 @@ is.wholenumber <- function(x, tol = .Machine$double.eps^0.5)  abs(x - round(x)) 
 #' @title Group Reduced Graph
 #'
 #' @description
-#' Computes the vertex multiplicities (weights) and the distance matrix of the
+#' Computes the vertex multiplicities (vertex weights) and the distance matrix of the
 #' group reduced graph. The group reduced graph is constructed by replacing a
 #' group of vertices in the original graph by a single \sQuote{pseudo-vertex}.
 #'
@@ -18,7 +18,7 @@ is.wholenumber <- function(x, tol = .Machine$double.eps^0.5)  abs(x - round(x)) 
 #' @details
 #' The group reduced graph is constructed by replacing the vertices indicated in
 #' the argument \code{nodes} with a single \sQuote{pseudo-vertex}. The
-#' multiplicity (weight) of this new vertex is set to the sum of the
+#' multiplicity (vertex weight) of this new vertex is set to the sum of the
 #' multiplicities of the vertices within \code{nodes}. An edge from the
 #' pseudo-vertex to any vertex that is not in \code{nodes}, say
 #' \ifelse{html}{\out{<i>v</i>}}{\eqn{v}}, is created in the group reduced graph if
@@ -43,7 +43,8 @@ is.wholenumber <- function(x, tol = .Machine$double.eps^0.5)  abs(x - round(x)) 
 #' set in a similar manner. For details, refer to Kang (2025).
 #'
 #' @inheritParams L1cent
-#' @param g An \code{igraph} graph object or a distance matrix. Here, the
+#' @param g An \code{igraph} graph object or a distance matrix. When \code{g} is
+#'  a distance matrix, the
 #'   \ifelse{html}{\out{(<i>i,j</i>)}}{\eqn{(i,j)}} component of the distance
 #'   matrix is the geodesic distance from the
 #'   \ifelse{html}{\out{<i>i</i>}}{\eqn{i}}th vertex to the
@@ -66,7 +67,7 @@ is.wholenumber <- function(x, tol = .Machine$double.eps^0.5)  abs(x - round(x)) 
 #'  \item \sQuote{distmat}: A matrix representing the group reduced graph's
 #'  distance matrix, where the first row and column correspond to the
 #'  pseudo-vertex.
-#'  \item \sQuote{eta}: A vector of the group reduced graph's vertex
+#'  \item \sQuote{vertex_weight}: A vector of the group reduced graph's vertex
 #'  multiplicity. The first element corresponds to the pseudo-vertex.
 #'  \item \sQuote{label}: A vector of the vertex names specified by \code{nodes}.
 #' }
@@ -79,19 +80,20 @@ is.wholenumber <- function(x, tol = .Machine$double.eps^0.5)  abs(x - round(x)) 
 #' # Group reduced graph of the 'Iron Man' series using the minimum method
 #' vertex_weight <- igraph::V(MCUmovie)$worldwidegross
 #' ironman_series <- c(1,3,7)
-#' reduced_graph <- group_reduce(MCUmovie, nodes = ironman_series, eta = vertex_weight)
+#' reduced_graph <- group_reduce(MCUmovie, nodes = ironman_series, vertex_weight = vertex_weight)
 #' reduced_graph$distmat[1:3,1:3]
 #' reduced_graph$label
 #'
 #' # Multiplicity of the pseudo-vertex equals the sums of the replaced vertices' multiplicities
-#' reduced_graph$eta[1] == sum(vertex_weight[ironman_series])
+#' reduced_graph$vertex_weight[1] == sum(vertex_weight[ironman_series])
 #' @references S. Kang. \emph{Topics in Non-Euclidean Dimension Reduction}. PhD thesis,
 #'   Seoul National University, 2025.
-group_reduce <- function(g, nodes, eta, method, weight_transform) UseMethod("group_reduce")
+group_reduce <- function(g, nodes, vertex_weight, method, edge_weight_transform) UseMethod("group_reduce")
 
 #' @name group_reduce
 #' @exportS3Method group_reduce igraph
-group_reduce.igraph <- function(g, nodes, eta = NULL, method = c("minimum", "maximum", "average"), weight_transform = NULL){
+group_reduce.igraph <- function(g, nodes, vertex_weight = NULL, method = c("minimum", "maximum", "average"), edge_weight_transform = NULL){
+  eta <- vertex_weight
   if(is.null(eta)) eta <- rep(1, igraph::vcount(g))
   # validate_igraph(g, checkdir = FALSE)
   if(igraph::any_multiple(g))
@@ -109,7 +111,7 @@ group_reduce.igraph <- function(g, nodes, eta = NULL, method = c("minimum", "max
   nodes <- sort(unique(nodes))
   method <- match.arg(tolower(method), choices = c("minimum", "maximum", "average"))
 
-  new_weight <- edge_weight_transform(g, weight_transform)
+  new_weight <- edge_weight_transform0(g, edge_weight_transform)
   if(!is.null(new_weight)) igraph::E(g)$weight <- new_weight
   if(is.null(igraph::E(g)$weight)) igraph::E(g)$weight <- rep(1, igraph::ecount(g))
   A <- igraph::as_adjacency_matrix(g, attr = "weight")
@@ -131,13 +133,14 @@ group_reduce.igraph <- function(g, nodes, eta = NULL, method = c("minimum", "max
   gnew <- igraph::graph_from_adjacency_matrix(Anew, weighted = TRUE)
   igraph::V(gnew)$name[1] <- "Pseudo-vertex"
   D <- igraph::distances(gnew, mode = "out")
-  return(list(distmat = D, eta = c(sum(eta[nodes]), eta[-nodes]),
+  return(list(distmat = D, vertex_weight = c(sum(eta[nodes]), eta[-nodes]),
               label=if(is.null(igraph::V(g)$name)) nodes else igraph::V(g)$name[nodes]))
 }
 
 #' @name group_reduce
 #' @exportS3Method group_reduce matrix
-group_reduce.matrix <- function(g, nodes, eta = NULL, method = "minimum", weight_transform = NULL){
+group_reduce.matrix <- function(g, nodes, vertex_weight = NULL, method = "minimum", edge_weight_transform = NULL){
+  eta <- vertex_weight
   if(is.null(eta)) eta <- rep(1,ncol(g))
   # validate_matrix(g, eta, checkdir = FALSE)
   if(length(eta) != ncol(g))
@@ -146,6 +149,12 @@ group_reduce.matrix <- function(g, nodes, eta = NULL, method = "minimum", weight
     stop("Entries of eta must be non-negative")
   if(sum(eta) <= 0)
     stop("sum(eta) must be positive")
+
+  calls <- sys.calls()
+  fnames <- sapply(calls, function(cl) as.character(cl[[1]]))
+  # print(fnames)
+  if(all(fnames[1:2] == c("group_reduce", "group_reduce.matrix")))
+    message("DISTANCE matrix received")
 
   n <- ncol(g)
   if(!all(is.wholenumber(nodes)) | !all(nodes >= 1 & nodes <= n))
@@ -157,7 +166,7 @@ group_reduce.matrix <- function(g, nodes, eta = NULL, method = "minimum", weight
              rbind(apply(g[nodes, -nodes, drop = FALSE], 2, min), g[-nodes, -nodes]))
   colnames(D) <- rownames(D) <- c("Pseudo-vertex", if(is.null(colnames(g))) (1:n)[-nodes] else colnames(g)[-nodes])
   D[-1,-1] <- pmin(outer(D[-1,1],D[1,-1],"+"), D[-1,-1])
-  return(list(distmat = D, eta = c(sum(eta[nodes]), eta[-nodes]),
+  return(list(distmat = D, vertex_weight = c(sum(eta[nodes]), eta[-nodes]),
               label=if(is.null(colnames(g))) nodes else colnames(g)[nodes]))
 }
 
@@ -171,7 +180,7 @@ group_reduce.matrix <- function(g, nodes, eta = NULL, method = "minimum", weight
 #' @description
 #' Computes group \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}}
 #' centrality or group \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}}
-#' prestige for the specified group of vertices. For undirected graphs, the two
+#' prestige for the specified groups of vertices. For undirected graphs, the two
 #' measures are identical.
 #'
 #' @note
@@ -191,13 +200,23 @@ group_reduce.matrix <- function(g, nodes, eta = NULL, method = "minimum", weight
 #' of the pseudo-vertex in the group reduced graph.
 #'
 #' @inheritParams group_reduce
-#' @param g An \code{igraph} graph object or a distance matrix. The graph must
-#'   be connected. For a directed graph, it must be strongly connected.
-#'   Equivalently, all entries of the distance matrix must be finite. Here, the
+#' @param g An \code{igraph} graph object or a distance matrix.
+#'  * When \code{g} is an \code{igraph} object, the graph must be connected.
+#'  For a directed graph, it must be strongly connected.
+#'  * When \code{g} is a matrix, it should represent a distance matrix.
+#'  All entries of the distance matrix must be finite. Here, the
 #'   \ifelse{html}{\out{(<i>i,j</i>)}}{\eqn{(i,j)}} component of the distance
 #'   matrix is the geodesic distance from the
 #'   \ifelse{html}{\out{<i>i</i>}}{\eqn{i}}th vertex to the
 #'   \ifelse{html}{\out{<i>j</i>}}{\eqn{j}}th vertex.
+#' @param nodes A vector of integers or a list of integer vectors. Each integer
+#'   indicates the index of the vertex. When the argument is provided as a list,
+#'   the function computes the group
+#'   \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} prominence for each
+#'   set of vertices specified by the individual list elements. When it is given
+#'   as an integer vector, the function computes the group
+#'   \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} prominence for the
+#'   single group defined by that vector.
 #' @param mode A character string. For an undirected graph, either choice gives
 #'   the same result.
 #'  * `centrality` (the default): \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}}
@@ -224,77 +243,97 @@ group_reduce.matrix <- function(g, nodes, eta = NULL, method = "minimum", weight
 #' @examples
 #' # Group L1 centrality of the 'Spider-Man' series
 #' vertex_weight <- igraph::V(MCUmovie)$worldwidegross
-#' L1centGROUP(MCUmovie, nodes = c(16,23,27), eta = vertex_weight)
+#' L1centGROUP(MCUmovie, nodes = list(16, c(16,23,27)), vertex_weight = vertex_weight)
 #' @references S. Kang. \emph{Topics in Non-Euclidean Dimension Reduction}. PhD thesis,
 #'   Seoul National University, 2025.
-L1centGROUP <- function(g, nodes, eta, mode, method, weight_transform) UseMethod("L1centGROUP")
+L1centGROUP <- function(g, nodes, vertex_weight, mode, method, edge_weight_transform) UseMethod("L1centGROUP")
 
 #' @name L1centGROUP
 #' @exportS3Method L1centGROUP igraph
-L1centGROUP.igraph <- function(g, nodes, eta = NULL, mode = c("centrality", "prestige"),
-                               method = c("minimum", "maximum", "average"), weight_transform = NULL) {
+L1centGROUP.igraph <- function(g, nodes, vertex_weight = NULL, mode = c("centrality", "prestige"),
+                               method = c("minimum", "maximum", "average"), edge_weight_transform = NULL) {
+  eta <- vertex_weight
   mode <- match.arg(tolower(mode), choices = c("centrality", "prestige"))
   method <- match.arg(tolower(method), choices = c("minimum", "maximum", "average"))
   validate_igraph(g, checkdir = FALSE)
-  g_reduce <- group_reduce.igraph(g = g, nodes = nodes, eta = eta, method = method, weight_transform = weight_transform)
-  D <- g_reduce$distmat
-  eta <- g_reduce$eta
-  n <- ncol(D)
-  sg <- ifelse(isSymmetric.matrix(D), 1,
-               min((D/t(D))[upper.tri(D) | lower.tri(D)]))
-  res.value <- 0
-
-  if(identical(mode, "centrality")){
-    geta1 <- colSums(t(D) * eta)
-    res <- 1 - sg / sum(eta) *
-      max(c((geta1[1] - geta1[-1]) / D[-1,1]), 0)
-    res.value <- min(max(res,0),1)
-  }else{ # prestige
-    geta2 <- colSums(D * eta)
-    res <- 1 - sg / sum(eta) *
-      max(c((geta2[1] - geta2[-1]) / D[1,-1]), 0)
-    res.value <- min(max(res,0),1)
+  if(!is.list(nodes)) nodes <- list(nodes)
+  res.value <- numeric(length(nodes))
+  label.list <- vector("list", length = length(nodes))
+  eta0 <- eta
+  for(nn in seq_along(nodes)){
+    g_reduce <- group_reduce.igraph(g = g, nodes = nodes[[nn]], vertex_weight = eta0, method = method, edge_weight_transform = edge_weight_transform)
+    D <- g_reduce$distmat
+    eta <- g_reduce$vertex_weight
+    label.list[[nn]] <- g_reduce$label
+    n <- ncol(D)
+    sg <- ifelse(isSymmetric.matrix(D), 1,
+                 min((D/t(D))[upper.tri(D) | lower.tri(D)]))
+    if(identical(mode, "centrality")){
+      geta1 <- colSums(t(D) * eta)
+      res <- 1 - sg / sum(eta) *
+        max(c((geta1[1] - geta1[-1]) / D[-1,1]), 0)
+      res.value[nn] <- min(max(res,0),1)
+    }else{ # prestige
+      geta2 <- colSums(D * eta)
+      res <- 1 - sg / sum(eta) *
+        max(c((geta2[1] - geta2[-1]) / D[1,-1]), 0)
+      res.value[nn] <- min(max(res,0),1)
+    }
+    # nodes <- sort(unique(nodes))
   }
-  nodes <- sort(unique(nodes))
   return(structure(res.value,
                    class = "L1centGROUP",
                    mode = mode,
-                   label = g_reduce$label,
+                   label = label.list,
                    method = method))
 }
 
 #' @name L1centGROUP
 #' @exportS3Method L1centGROUP matrix
-L1centGROUP.matrix <- function(g, nodes, eta = NULL, mode = c("centrality", "prestige"),
-                               method = "minimum", weight_transform = NULL) {
+L1centGROUP.matrix <- function(g, nodes, vertex_weight = NULL, mode = c("centrality", "prestige"),
+                               method = "minimum", edge_weight_transform = NULL) {
+  eta <- vertex_weight
   mode <- match.arg(tolower(mode), choices = c("centrality", "prestige"))
   method <- match.arg(tolower(method), choices = c("minimum"))
   if(is.null(eta)) eta <- rep(1, ncol(g))
   validate_matrix(g, eta, checkdir = FALSE)
-  g_reduce <- group_reduce.matrix(g = g, nodes = nodes, eta = eta, method = method)
-  D <- g_reduce$distmat
-  eta <- g_reduce$eta
-  n <- ncol(D)
-  sg <- ifelse(isSymmetric.matrix(D), 1,
-               min((D/t(D))[upper.tri(D) | lower.tri(D)]))
-  res.value <- 0
 
-  if(identical(mode, "centrality")){
-    geta1 <- colSums(t(D) * eta)
-    res <- 1 - sg / sum(eta) *
-      max(c((geta1[1] - geta1[-1]) / D[-1,1]), 0)
-    res.value <- min(max(res,0),1)
-  }else{ # prestige
-    geta2 <- colSums(D * eta)
-    res <- 1 - sg / sum(eta) *
-      max(c((geta2[1] - geta2[-1]) / D[1,-1]), 0)
-    res.value <- min(max(res,0),1)
+  calls <- sys.calls()
+  fnames <- sapply(calls, function(cl) as.character(cl[[1]]))
+  # print(fnames)
+  if(all(fnames[1:2] == c("L1centGROUP", "L1centGROUP.matrix")))
+    message("DISTANCE matrix received")
+
+  if(!is.list(nodes)) nodes <- list(nodes)
+  res.value <- numeric(length(nodes))
+  label.list <- vector("list", length = length(nodes))
+  eta0 <- eta
+  for(nn in seq_along(nodes)){
+    g_reduce <- group_reduce.matrix(g = g, nodes = nodes[[nn]], vertex_weight = eta0, method = method)
+    D <- g_reduce$distmat
+    eta <- g_reduce$vertex_weight
+    label.list[[nn]] <- g_reduce$label
+    n <- ncol(D)
+    sg <- ifelse(isSymmetric.matrix(D), 1,
+                 min((D/t(D))[upper.tri(D) | lower.tri(D)]))
+
+    if(identical(mode, "centrality")){
+      geta1 <- colSums(t(D) * eta)
+      res <- 1 - sg / sum(eta) *
+        max(c((geta1[1] - geta1[-1]) / D[-1,1]), 0)
+      res.value[nn] <- min(max(res,0),1)
+    }else{ # prestige
+      geta2 <- colSums(D * eta)
+      res <- 1 - sg / sum(eta) *
+        max(c((geta2[1] - geta2[-1]) / D[1,-1]), 0)
+      res.value[nn] <- min(max(res,0),1)
+    }
+    # nodes <- sort(unique(nodes))
   }
-  nodes <- sort(unique(nodes))
   return(structure(res.value,
                    class = "L1centGROUP",
                    mode = mode,
-                   label = g_reduce$label,
+                   label = label.list,
                    method = method))
 }
 
@@ -307,14 +346,26 @@ L1centGROUP.matrix <- function(g, nodes, eta = NULL, mode = c("centrality", "pre
 #'   is ignored here.
 #' @export
 print.L1centGROUP <- function(x, ...){
-  labs <- rep(" ", length(attr(x, "label")) * 2 - 1)
-  labs[(1:length(attr(x, "label"))) * 2 - 1] <- sQuote(attr(x, "label"))
-  labs[1] <- paste0("(", labs[1])
-  labs[length(labs)] <- paste0(labs[length(labs)], ")")
-  cat("group L1 ", attr(x, "mode"), " of ", length(attr(x, "label")),
-      ifelse(length(attr(x, "label")) == 1, " vertex ", " vertices "),
-      labs, " with ", sQuote(attr(x, "method")), " method:",
-      sep = "", fill = TRUE)
+  # labs <- rep(" ", length(attr(x, "label")) * 2 - 1)
+  # labs[(1:length(attr(x, "label"))) * 2 - 1] <- sQuote(attr(x, "label"))
+  # labs[1] <- paste0("(", labs[1])
+  # labs[length(labs)] <- paste0(labs[length(labs)], ")")
+  labs <- attr(x, "label")
+  labs <- paste0(
+    ifelse(length(attr(x, "label")) == 1,"","("),
+    paste(
+      sapply(labs, function(x) {
+        paste0("(", paste0('"', x, '"', collapse = " "), ")")
+      }),
+      collapse = ", "
+    ),
+    ifelse(length(attr(x, "label")) == 1,"",")")
+  )
+
+  mes <- paste0("group L1 ", attr(x, "mode"), " of ", length(attr(x, "label")),
+      ifelse(length(attr(x, "label")) == 1, " group ", " groups "),
+      labs, " with ", sQuote(attr(x, "method")), " method:")
+  cat(strwrap(mes, width = getOption("width")), sep = "\n")
   print.default(c(x), ...)
   return(invisible(x))
 }

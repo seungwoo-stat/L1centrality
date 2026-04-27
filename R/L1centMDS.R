@@ -6,7 +6,7 @@
 #' target plot, which is a target-shaped 2D plot that aids in the visual
 #' inspection of an undirected graph using the
 #' \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} centrality. See Kang
-#' and Oh (2025) for a formal definition of a target plot.
+#' and Oh (2026) for a formal definition of a target plot.
 #'
 #' @details
 #' Denoting the \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}}
@@ -24,10 +24,11 @@
 #' graphs. Also, \code{L1centMDS()} only considers graphs with equal vertex
 #' multiplicities.
 #'
-#' @param g An \code{igraph} graph object or a distance matrix. The graph must
-#'   be undirected and connected. Equivalently, the distance matrix must be
-#'   symmetric, and all entries must be finite.
-#' @param weight_transform An optional function to transform the edge weights
+#' @param g An \code{igraph} graph object or a distance matrix.
+#' * When \code{g} is an \code{igraph} object, the graph must be undirected and connected.
+#' * When \code{g} is a matrix, it should be symmetric and represent a distance matrix.
+#' All entries of the distance matrix must be finite.
+#' @param edge_weight_transform An optional function to transform the edge weights
 #'   when `g` is an `igraph` object and an edge weight attribute exists. This
 #'   argument is ignored when `g` is a distance matrix.
 #' @param tol A numerical tolerance. The gradient descent method terminates if
@@ -47,13 +48,21 @@
 #'   to 1 (no zoom).
 #' @param main Title of the plot. If set to \code{NULL} (the default), the title
 #'   prints \dQuote{Target plot / Stress = X}.
+#' @param show_edge A boolean.
+#'  * `TRUE`: edges are shown in the target plot. When `x`, the `L1centMDS`
+#'  object, is generated from a matrix object `g`, this argument is ignored
+#'  since `g` does not carry information about the edge connections. That is, edges
+#'  can only be drawn if the `L1centMDS` object is generated from an `igraph` object.
+#'  * `FALSE` (the default): edges are not shown in the target plot.
 #' @param ... Further arguments passed to or from other methods.
 #'   * `plot()` method: Further graphical parameters supplied to the internal
-#'   [base::plot()] (for points) and [graphics::text()] (for labels) function.
-#'   See [graphics::par()] document. To supply an argument to the former one,
-#'   use the prefix \sQuote{\code{plot.}} and for the latter,
-#'   \sQuote{\code{text.}}. For instance, \code{plot.cex = 1} sets the size of
-#'   the point, whereas \code{text.cex = 1} sets the size of the label.
+#'   [base::plot()] (for points), [graphics::text()] (for labels), and
+#'   [graphics::segments()] (for edges) functions. See [graphics::par()]
+#'   document. To supply an argument to the first one, use the prefix
+#'   \sQuote{\code{plot.}}, for the second one, \sQuote{\code{text.}}, and for
+#'   the last one, \sQuote{\code{edge.}}. For instance, \code{plot.cex = 1} sets
+#'   the size of the point, whereas \code{text.cex = 1} sets the size of the
+#'   label.
 #'   * `print()` method: This argument is ignored.
 #'
 #' @return \code{L1centMDS()} returns an object of class \code{L1centMDS}. It is a list
@@ -86,40 +95,48 @@
 #' plot(parameters)
 #' @references S. Kang and H.-S. Oh. On a notion of graph centrality based on
 #'   \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} data depth.
-#'   \emph{Journal of the American Statistical Association}, 1--13, 2025a.
+#'   \emph{Journal of the American Statistical Association}, 121(553): 400--412, 2026.
 #'
 #'   J. B. Kruskal. Multidimensional scaling by optimizing goodness of fit to a
-#'   nonmetric hypothesis. \emph{Psychometrika}, 29(1):1--27, 1964a.
+#'   nonmetric hypothesis. \emph{Psychometrika}, 29(1): 1--27, 1964a.
 #'
 #'   J. B. Kruskal. Nonmetric multidimensional scaling: a numerical method.
 #'   \emph{Psychometrika}, 29(2): 115--129, 1964b.
-L1centMDS <- function(g, tol, maxiter, verbose, weight_transform) UseMethod("L1centMDS")
+L1centMDS <- function(g, tol, maxiter, verbose, edge_weight_transform) UseMethod("L1centMDS")
 
 #' @name L1centMDS
 #' @exportS3Method L1centMDS igraph
-L1centMDS.igraph <- function(g, tol = 1e-5, maxiter = 1000, verbose = TRUE, weight_transform = NULL){
+L1centMDS.igraph <- function(g, tol = 1e-5, maxiter = 1000, verbose = TRUE, edge_weight_transform = NULL){
   validate_igraph(g)
 
-  new_weight <- edge_weight_transform(g, weight_transform)
+  new_weight <- edge_weight_transform0(g, edge_weight_transform)
   if(!is.null(new_weight)) igraph::E(g)$weight <- new_weight
   D <- igraph::distances(g)
   attr(D, "color.igraph") <- igraph::V(g)$color
   attr(D, "label.igraph") <- igraph::V(g)$label
-  L1centMDS.matrix(D, tol, maxiter, verbose)
+  res <- L1centMDS.matrix(D, tol, maxiter, verbose)
+  attr(res, "edgelist") <- igraph::as_edgelist(g)
+  return(res)
 }
 
 #' @name L1centMDS
 #' @exportS3Method L1centMDS matrix
-L1centMDS.matrix <- function(g, tol = 1e-5, maxiter = 1000, verbose = TRUE, weight_transform = NULL){
+L1centMDS.matrix <- function(g, tol = 1e-5, maxiter = 1000, verbose = TRUE, edge_weight_transform = NULL){
   eta <- rep(1,ncol(g))
   validate_matrix(g, eta)
+
+  calls <- sys.calls()
+  fnames <- sapply(calls, function(cl) as.character(cl[[1]]))
+  # print(fnames)
+  if(all(fnames[1:2] == c("L1centMDS", "L1centMDS.matrix")))
+    message("DISTANCE matrix received")
 
   stepsize <- 0.2
   n <- ncol(g)
   label <- rownames(g)
   if(is.null(label)) label <- 1:nrow(g)
   dist.original.vec <- g[upper.tri(g)]
-  cent <- L1cent(g, eta = eta)
+  cent <- L1cent(g, vertex_weight = eta)
   radius <- c(-log(cent))
 
   # initialize using classical MDS
@@ -208,7 +225,7 @@ L1centMDS.matrix <- function(g, tol = 1e-5, maxiter = 1000, verbose = TRUE, weig
 #' @name L1centMDS
 #' @aliases plot.L1centMDS
 #' @export
-plot.L1centMDS <- function(x,zoom=1,main=NULL,...){
+plot.L1centMDS <- function(x, zoom=1, main=NULL, show_edge=FALSE, ...){
   radius <- x$radius
   M.radius <- max(radius)
   theta <- x$theta
@@ -216,11 +233,14 @@ plot.L1centMDS <- function(x,zoom=1,main=NULL,...){
   args <- list(...)
   plot.args <- list()
   text.args <- list()
+  edge.args <- list()
   if(!is.null(names(args))){
     plot.args <- args[startsWith(names(args), "plot.")]
     names(plot.args) <- substr(names(plot.args),6,nchar(names(plot.args)))
     text.args <- args[startsWith(names(args), "text.")]
     names(text.args) <- substr(names(text.args),6,nchar(names(text.args)))
+    edge.args <- args[startsWith(names(args), "edge.")]
+    names(edge.args) <- substr(names(edge.args),6,nchar(names(edge.args)))
   }
   if(is.null(plot.args$pch)) plot.args$pch <- 20
   if(is.null(plot.args$col)) plot.args$col <- attr(x, "color.igraph")
@@ -241,6 +261,18 @@ plot.L1centMDS <- function(x,zoom=1,main=NULL,...){
   for(grid in stats::quantile(radius,c(0.25,0.5,0.75))){
     graphics::lines((grid)*xx,(grid)*yy,col="gray")
     graphics::text(grid*cos(3*pi/4),grid*sin(3*pi/4),round(exp(-grid),4),col="red",cex=0.5)
+  }
+  if(show_edge){
+    el <- attr(x, "edgelist")
+    lb <- attr(x, "label")
+    elm <- matrix(match(el, lb), ncol = 2)
+    coordm <- cbind(radius * cos(theta), radius * sin(theta))
+    x0 <- coordm[elm[,1], 1]
+    x1 <- coordm[elm[,2], 1]
+    y0 <- coordm[elm[,1], 2]
+    y1 <- coordm[elm[,2], 2]
+    do.call(graphics::segments, c(list(x0, y0, x1, y1),edge.args))
+    # segments(x0, y0, x1, y1)
   }
   do.call(graphics::points, c(list(radius*cos(theta),radius*sin(theta)),plot.args))
   do.call(graphics::text, c(list(radius*cos(theta),radius*sin(theta)),text.args))

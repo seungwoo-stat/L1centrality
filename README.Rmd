@@ -25,22 +25,22 @@ Graph/Network Analysis Based on L1 Centrality
 
 ## What is *L*<sub>1</sub> centrality?
 
-*L*<sub>1</sub> centrality is a new centrality measure that assesses the prominence of vertices in an undirected and connected graph (Kang and Oh 2025a). It properly handles graphs that have weights assigned to both vertices and edges. Based on this centrality measure, several graphical and multiscale analysis tools are developed.
+*L*<sub>1</sub> centrality is a new centrality measure that assesses the prominence of vertices in an undirected and connected graph (Kang and Oh 2026a). It properly handles graphs that have weights assigned to both vertices and edges. Based on this centrality measure, several graphical and multiscale analysis tools are developed.
 
-There are analogous measures for strongly connected directed graphs: the *L*<sub>1</sub> centrality and *L*<sub>1</sub> prestige (Kang and Oh 2025b). The former one quantifies the prominence of vertices in *giving* choices, while the latter evaluates the prominence in *receiving* choices. Multiscale analysis tools are developed from these measures as well.
+There are analogous measures for strongly connected directed graphs: the *L*<sub>1</sub> centrality and *L*<sub>1</sub> prestige (Kang and Oh 2026b). The former one quantifies the prominence of vertices in *giving* choices, while the latter evaluates the prominence in *receiving* choices. Multiscale analysis tools are developed from these measures as well.
 
 These measures are further extended to assess the prominence of a *group of vertices*: the group *L*<sub>1</sub> centrality and group *L*<sub>1</sub> prestige measures are developed for this purpose (Kang 2025).
 
 ## How can I get L1centrality?
 
-Version 0.4.0 of this package is available on [CRAN](https://cran.r-project.org/package=L1centrality):
+Version 0.5.0 of this package is available on [CRAN](https://cran.r-project.org/package=L1centrality):
 
 ``` r
 install.packages("L1centrality")
 library(L1centrality)
 ```
 
-You can install the development version (version 0.4.0) of `L1centrality` via:
+You can install the development version (version 0.5.0) of `L1centrality` via:
 
 ``` r
 devtools::install_github("seungwoo-stat/L1centrality")
@@ -51,11 +51,15 @@ library(L1centrality)
 
 Using the Marvel Cinematic Universe movie network (undirected, connected graph) and the *L*<sub>1</sub> centrality function `L1cent()` provided via this package, we can identify movies with high *L*<sub>1</sub> centrality, i.e., movies that are central in the given network.
 
-```{r example}
+``` r
 library(L1centrality)
 L1cent(MCUmovie) |> 
   sort(decreasing = TRUE) |> 
   head()
+#>  Avengers: Infinity War       Avengers: Endgame            The Avengers 
+#>               1.0000000               0.6939885               0.5269421 
+#>              Iron Man 2 Avengers: Age of Ultron  Spider-Man: Homecoming 
+#>               0.4113450               0.3865311               0.3691427
 ```
 
 There are other useful functions built upon the *L*<sub>1</sub> centrality and *L*<sub>1</sub> prestige measures: `L1centMDS()` (target plot), `L1centNB()` (*L*<sub>1</sub> centrality/prestige-based neighborhood), `L1centLOC()` (local *L*<sub>1</sub> centrality/prestige), `L1centEDGE()` (multiscale edge representation), `L1centGROUP()` (group *L*<sub>1</sub> centrality/prestige), and `Lorenz_plot()` & `Gini()` (group heterogeneity plot and index).
@@ -70,12 +74,12 @@ Moreover, two undirected and connected network data are provided: `MCUmovie` (Ma
 
 ## Where can I learn more?
 
-Visit [this repo](https://github.com/seungwoo-stat/L1centrality-paper) for code to reproduce the figures and analysis from the paper Kang and Oh (2025a) and [this repo](https://github.com/seungwoo-stat/L1prestige-paper) for code to reproduce the figures and analysis from the paper Kang and Oh (2025b). [This repo](https://github.com/seungwoo-stat/group_L1prominence-thesis) contains code for analysis using group *L*<sub>1</sub> centrality and prestige measures (Kang 2025; Ch.6).
+Visit [this repo](https://github.com/seungwoo-stat/L1centrality-paper) for code to reproduce the figures and analysis from the paper Kang and Oh (2026a) and [this repo](https://github.com/seungwoo-stat/L1prestige-paper) for code to reproduce the figures and analysis from the paper Kang and Oh (2026b). [This repo](https://github.com/seungwoo-stat/group_L1prominence-thesis) contains code for analysis using group *L*<sub>1</sub> centrality and prestige measures (Kang 2025; Ch.6).
 
 ## References
 
-Seungwoo Kang and Hee-Seok Oh. [On a Notion of Graph Centrality Based on *L*<sub>1</sub> Data Depth](https://doi.org/10.1080/01621459.2025.2520467). *Journal of the American Statistical Association*, 1-13. 2025a.
+Seungwoo Kang and Hee-Seok Oh. [On a Notion of Graph Centrality Based on *L*<sub>1</sub> Data Depth](https://doi.org/10.1080/01621459.2025.2520467). *Journal of the American Statistical Association*, **121**(553), 400-412. 2026a.
 
-Seungwoo Kang and Hee-Seok Oh. [*L*<sub>1</sub> Prominence Measures for Directed Graphs](https://doi.org/10.1080/00031305.2025.2563730). *The American Statistician*, 1-16. 2025b.
+Seungwoo Kang and Hee-Seok Oh. [*L*<sub>1</sub> Prominence Measures for Directed Graphs](https://doi.org/10.1080/00031305.2025.2563730). *The American Statistician*, **80**(2), 301-309. 2026b.
 
 Seungwoo Kang. [*Topics in Non-Euclidean Dimension Reduction*](https://doi.org/10.23170/snu.000000188358.11032.0001856). PhD thesis, Seoul National University. 2025.

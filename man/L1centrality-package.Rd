@@ -11,7 +11,7 @@ Analyze graph/network data using \out{<i>L</i><sub>1</sub>} centrality and
 prestige. Functions for deriving global, local, and group
 \out{<i>L</i><sub>1</sub>} centrality/prestige are provided. Routines for
 visual inspection of a graph/network are also provided. Details are in Kang
-and Oh (2025a,b) and Kang (2025).
+and Oh (2026a,b) and Kang (2025).
 }
 \details{
 Every function inside this package supports a distinct variety of graphs.
@@ -38,11 +38,11 @@ thesis, Seoul National University, 2025.
 
 S. Kang and H.-S. Oh. On a notion of graph centrality based on
 \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} data depth.
-\emph{Journal of the American Statistical Association}, 1--13, 2025a.
+\emph{Journal of the American Statistical Association}, 121(553): 400--412, 2026a.
 
 S. Kang and H.-S. Oh.
 \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} prominence measures
-for directed graphs. \emph{The American Statistician}, 1--16, 2025b.
+for directed graphs. \emph{The American Statistician}, 80(2): 301--309, 2026b.
 }
 \seealso{
 Useful links:
@@ -53,7 +53,7 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Seungwoo Kang \email{kangsw0401@snu.ac.kr} (\href{https://orcid.org/0000-0001-8082-0794}{ORCID})
+\strong{Maintainer}: Seungwoo Kang \email{kangsw@skku.edu} (\href{https://orcid.org/0000-0001-8082-0794}{ORCID})
 
 Authors:
 \itemize{

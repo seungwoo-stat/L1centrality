@@ -8,8 +8,10 @@ bibentry(
   title    = "On a Notion of Graph Centrality Based on {$L_1$} Data Depth",
   author   = "Seungwoo Kang and Hee-Seok Oh",
   journal  = "Journal of the American Statistical Association",
-  year     = 2025,
-  pages    = "1--13",
+  year     = 2026,
+  pages    = "400--412",
+  volume   = 121,
+  issue    = 553,
   doi      = "10.1080/01621459.2025.2520467"
 )
 
@@ -19,8 +21,10 @@ bibentry(
   title    = "{$L_1$} Prominence Measures for Directed Graphs",
   author   = "Seungwoo Kang and Hee-Seok Oh",
   journal  = "The American Statistician",
-  year     = 2025,
-  pages    = "1--16",
+  year     = 2026,
+  pages    = "301--309",
+  volume   = 80,
+  issue    = 2,
   doi      = "10.1080/00031305.2025.2563730"
 )
 

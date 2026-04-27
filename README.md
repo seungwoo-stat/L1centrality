@@ -16,13 +16,13 @@ Graph/Network Analysis Based on L1 Centrality
 
 *L*<sub>1</sub> centrality is a new centrality measure that assesses the
 prominence of vertices in an undirected and connected graph (Kang and Oh
-2025a). It properly handles graphs that have weights assigned to both
+2026a). It properly handles graphs that have weights assigned to both
 vertices and edges. Based on this centrality measure, several graphical
 and multiscale analysis tools are developed.
 
 There are analogous measures for strongly connected directed graphs: the
 *L*<sub>1</sub> centrality and *L*<sub>1</sub> prestige (Kang and Oh
-2025b). The former one quantifies the prominence of vertices in *giving*
+2026b). The former one quantifies the prominence of vertices in *giving*
 choices, while the latter evaluates the prominence in *receiving*
 choices. Multiscale analysis tools are developed from these measures as
 well.
@@ -34,7 +34,7 @@ of vertices*: the group *L*<sub>1</sub> centrality and group
 
 ## How can I get L1centrality?
 
-Version 0.4.0 of this package is available on
+Version 0.5.0 of this package is available on
 [CRAN](https://cran.r-project.org/package=L1centrality):
 
 ``` r
@@ -42,7 +42,7 @@ install.packages("L1centrality")
 library(L1centrality)
 ```
 
-You can install the development version (version 0.4.0) of
+You can install the development version (version 0.5.0) of
 `L1centrality` via:
 
 ``` r
@@ -92,9 +92,9 @@ See the document for further details.
 
 Visit [this repo](https://github.com/seungwoo-stat/L1centrality-paper)
 for code to reproduce the figures and analysis from the paper Kang and
-Oh (2025a) and [this
+Oh (2026a) and [this
 repo](https://github.com/seungwoo-stat/L1prestige-paper) for code to
-reproduce the figures and analysis from the paper Kang and Oh (2025b).
+reproduce the figures and analysis from the paper Kang and Oh (2026b).
 [This repo](https://github.com/seungwoo-stat/group_L1prominence-thesis)
 contains code for analysis using group *L*<sub>1</sub> centrality and
 prestige measures (Kang 2025; Ch.6).
@@ -104,11 +104,11 @@ prestige measures (Kang 2025; Ch.6).
 Seungwoo Kang and Hee-Seok Oh. [On a Notion of Graph Centrality Based on
 *L*<sub>1</sub> Data
 Depth](https://doi.org/10.1080/01621459.2025.2520467). *Journal of the
-American Statistical Association*, 1-13. 2025a.
+American Statistical Association*, **121**(553), 400-412. 2026a.
 
 Seungwoo Kang and Hee-Seok Oh. [*L*<sub>1</sub> Prominence Measures for
 Directed Graphs](https://doi.org/10.1080/00031305.2025.2563730). *The
-American Statistician*, 1-16. 2025b.
+American Statistician*, **80**(2), 301-309. 2026b.
 
 Seungwoo Kang. [*Topics in Non-Euclidean Dimension
 Reduction*](https://doi.org/10.23170/snu.000000188358.11032.0001856).

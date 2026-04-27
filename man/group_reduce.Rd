@@ -6,20 +6,27 @@
 \alias{group_reduce.matrix}
 \title{Group Reduced Graph}
 \usage{
-group_reduce(g, nodes, eta, method, weight_transform)
+group_reduce(g, nodes, vertex_weight, method, edge_weight_transform)
 
 \method{group_reduce}{igraph}(
   g,
   nodes,
-  eta = NULL,
+  vertex_weight = NULL,
   method = c("minimum", "maximum", "average"),
-  weight_transform = NULL
+  edge_weight_transform = NULL
 )
 
-\method{group_reduce}{matrix}(g, nodes, eta = NULL, method = "minimum", weight_transform = NULL)
+\method{group_reduce}{matrix}(
+  g,
+  nodes,
+  vertex_weight = NULL,
+  method = "minimum",
+  edge_weight_transform = NULL
+)
 }
 \arguments{
-\item{g}{An \code{igraph} graph object or a distance matrix. Here, the
+\item{g}{An \code{igraph} graph object or a distance matrix. When \code{g} is
+a distance matrix, the
 \ifelse{html}{\out{(<i>i,j</i>)}}{\eqn{(i,j)}} component of the distance
 matrix is the geodesic distance from the
 \ifelse{html}{\out{<i>i</i>}}{\eqn{i}}th vertex to the
@@ -28,11 +35,11 @@ matrix is the geodesic distance from the
 \item{nodes}{A vector of integers. Each integer indicates the index of the
 vertex.}
 
-\item{eta}{An optional nonnegative multiplicity (weight) vector for (vertex)
+\item{vertex_weight}{An optional nonnegative multiplicity (weight) vector for (vertex)
 weighted networks. The sum of its components must be positive. If set to
 \code{NULL} (the default), all vertices will have the same positive weight
 (multiplicity) of 1, i.e., \code{g} is treated as a vertex unweighted graph. The
-length of the \code{eta} must be equivalent to the number of vertices.}
+length of the \code{vertex_weight} must be equivalent to the number of vertices.}
 
 \item{method}{A character string. It specifies the method of setting the edge
 weight between the pseudo-vertex and the other vertices. Note that the S3
@@ -48,7 +55,7 @@ See the discussion in Kang (2025).
 \item \code{average}: the average method is used in setting the edge weights.
 }}
 
-\item{weight_transform}{An optional function to transform the edge weights
+\item{edge_weight_transform}{An optional function to transform the edge weights
 when \code{g} is an \code{igraph} object and an edge weight attribute exists. This
 argument is ignored when \code{g} is a distance matrix.}
 }
@@ -58,7 +65,7 @@ A list consisting of three objects:
 \item \sQuote{distmat}: A matrix representing the group reduced graph's
 distance matrix, where the first row and column correspond to the
 pseudo-vertex.
-\item \sQuote{eta}: A vector of the group reduced graph's vertex
+\item \sQuote{vertex_weight}: A vector of the group reduced graph's vertex
 multiplicity. The first element corresponds to the pseudo-vertex.
 \item \sQuote{label}: A vector of the vertex names specified by \code{nodes}.
 }
@@ -103,12 +110,12 @@ because they make the edge weight setting procedure confusing.
 # Group reduced graph of the 'Iron Man' series using the minimum method
 vertex_weight <- igraph::V(MCUmovie)$worldwidegross
 ironman_series <- c(1,3,7)
-reduced_graph <- group_reduce(MCUmovie, nodes = ironman_series, eta = vertex_weight)
+reduced_graph <- group_reduce(MCUmovie, nodes = ironman_series, vertex_weight = vertex_weight)
 reduced_graph$distmat[1:3,1:3]
 reduced_graph$label
 
 # Multiplicity of the pseudo-vertex equals the sums of the replaced vertices' multiplicities
-reduced_graph$eta[1] == sum(vertex_weight[ironman_series])
+reduced_graph$vertex_weight[1] == sum(vertex_weight[ironman_series])
 }
 \references{
 S. Kang. \emph{Topics in Non-Euclidean Dimension Reduction}. PhD thesis,

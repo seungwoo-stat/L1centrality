@@ -8,14 +8,14 @@
 \alias{print.L1centMDS}
 \title{Fitting a Target Plot}
 \usage{
-L1centMDS(g, tol, maxiter, verbose, weight_transform)
+L1centMDS(g, tol, maxiter, verbose, edge_weight_transform)
 
 \method{L1centMDS}{igraph}(
   g,
   tol = 1e-05,
   maxiter = 1000,
   verbose = TRUE,
-  weight_transform = NULL
+  edge_weight_transform = NULL
 )
 
 \method{L1centMDS}{matrix}(
@@ -23,17 +23,20 @@ L1centMDS(g, tol, maxiter, verbose, weight_transform)
   tol = 1e-05,
   maxiter = 1000,
   verbose = TRUE,
-  weight_transform = NULL
+  edge_weight_transform = NULL
 )
 
-\method{plot}{L1centMDS}(x, zoom = 1, main = NULL, ...)
+\method{plot}{L1centMDS}(x, zoom = 1, main = NULL, show_edge = FALSE, ...)
 
 \method{print}{L1centMDS}(x, ...)
 }
 \arguments{
-\item{g}{An \code{igraph} graph object or a distance matrix. The graph must
-be undirected and connected. Equivalently, the distance matrix must be
-symmetric, and all entries must be finite.}
+\item{g}{An \code{igraph} graph object or a distance matrix.
+\itemize{
+\item When \code{g} is an \code{igraph} object, the graph must be undirected and connected.
+\item When \code{g} is a matrix, it should be symmetric and represent a distance matrix.
+All entries of the distance matrix must be finite.
+}}
 
 \item{tol}{A numerical tolerance. The gradient descent method terminates if
 the relative magnitude of the gradient falls below \code{tol} as in Kruskal
@@ -51,7 +54,7 @@ number of iterations and final stress.
 \item \code{FALSE}: suppress message to the console.
 }}
 
-\item{weight_transform}{An optional function to transform the edge weights
+\item{edge_weight_transform}{An optional function to transform the edge weights
 when \code{g} is an \code{igraph} object and an edge weight attribute exists. This
 argument is ignored when \code{g} is a distance matrix.}
 
@@ -64,14 +67,25 @@ to 1 (no zoom).}
 \item{main}{Title of the plot. If set to \code{NULL} (the default), the title
 prints \dQuote{Target plot / Stress = X}.}
 
+\item{show_edge}{A boolean.
+\itemize{
+\item \code{TRUE}: edges are shown in the target plot. When \code{x}, the \code{L1centMDS}
+object, is generated from a matrix object \code{g}, this argument is ignored
+since \code{g} does not carry information about the edge connections. That is, edges
+can only be drawn if the \code{L1centMDS} object is generated from an \code{igraph} object.
+\item \code{FALSE} (the default): edges are not shown in the target plot.
+}}
+
 \item{...}{Further arguments passed to or from other methods.
 \itemize{
 \item \code{plot()} method: Further graphical parameters supplied to the internal
-\code{\link[base:plot]{base::plot()}} (for points) and \code{\link[graphics:text]{graphics::text()}} (for labels) function.
-See \code{\link[graphics:par]{graphics::par()}} document. To supply an argument to the former one,
-use the prefix \sQuote{\code{plot.}} and for the latter,
-\sQuote{\code{text.}}. For instance, \code{plot.cex = 1} sets the size of
-the point, whereas \code{text.cex = 1} sets the size of the label.
+\code{\link[base:plot]{base::plot()}} (for points), \code{\link[graphics:text]{graphics::text()}} (for labels), and
+\code{\link[graphics:segments]{graphics::segments()}} (for edges) functions. See \code{\link[graphics:par]{graphics::par()}}
+document. To supply an argument to the first one, use the prefix
+\sQuote{\code{plot.}}, for the second one, \sQuote{\code{text.}}, and for
+the last one, \sQuote{\code{edge.}}. For instance, \code{plot.cex = 1} sets
+the size of the point, whereas \code{text.cex = 1} sets the size of the
+label.
 \item \code{print()} method: This argument is ignored.
 }}
 }
@@ -101,7 +115,7 @@ are shown in red text. Note that red texts denote the
 target plot, which is a target-shaped 2D plot that aids in the visual
 inspection of an undirected graph using the
 \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} centrality. See Kang
-and Oh (2025) for a formal definition of a target plot.
+and Oh (2026) for a formal definition of a target plot.
 }
 \details{
 Denoting the \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}}
@@ -126,10 +140,10 @@ plot(parameters)
 \references{
 S. Kang and H.-S. Oh. On a notion of graph centrality based on
 \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} data depth.
-\emph{Journal of the American Statistical Association}, 1--13, 2025a.
+\emph{Journal of the American Statistical Association}, 121(553): 400--412, 2026.
 
 J. B. Kruskal. Multidimensional scaling by optimizing goodness of fit to a
-nonmetric hypothesis. \emph{Psychometrika}, 29(1):1--27, 1964a.
+nonmetric hypothesis. \emph{Psychometrika}, 29(1): 1--27, 1964a.
 
 J. B. Kruskal. Nonmetric multidimensional scaling: a numerical method.
 \emph{Psychometrika}, 29(2): 115--129, 1964b.

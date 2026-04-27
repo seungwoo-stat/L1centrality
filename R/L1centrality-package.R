@@ -1,4 +1,5 @@
 ## usethis namespace: start
+#' @importFrom foreach %dopar%
 #' @importFrom graphics lines
 #' @importFrom graphics text
 #' @importFrom igraph distances
@@ -21,7 +22,7 @@ NULL
 #' prestige. Functions for deriving global, local, and group
 #' \out{<i>L</i><sub>1</sub>} centrality/prestige are provided. Routines for
 #' visual inspection of a graph/network are also provided. Details are in Kang
-#' and Oh (2025a,b) and Kang (2025).
+#' and Oh (2026a,b) and Kang (2025).
 #'
 #' Every function inside this package supports a distinct variety of graphs.
 #' Edge weights can be considered by all functions. Additionally, it is
@@ -46,11 +47,11 @@ NULL
 #'
 #'   S. Kang and H.-S. Oh. On a notion of graph centrality based on
 #'   \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} data depth.
-#'   \emph{Journal of the American Statistical Association}, 1--13, 2025a.
+#'   \emph{Journal of the American Statistical Association}, 121(553): 400--412, 2026a.
 #'
 #'   S. Kang and H.-S. Oh.
 #'   \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} prominence measures
-#'   for directed graphs. \emph{The American Statistician}, 1--16, 2025b.
+#'   for directed graphs. \emph{The American Statistician}, 80(2): 301--309, 2026b.
 #'
 #' @docType package
 #' @name L1centrality-package

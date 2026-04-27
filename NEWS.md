@@ -1,3 +1,27 @@
+# L1centrality 0.5.0
+
+## Major updates
+
+* A new argument `show_edge` is added to `plot.L1centMDS()` method. It is a boolean argument indicating whether to display the edges of the graph in the target plot.
+
+* The `L1centGROUP()` function now supports the computation of multiple groups. When the `nodes` argument is provided as a list, the function computes the group L1 prominence for each set of vertices specified by the individual list elements. When `nodes` is given as an integer vector, the function behaves as before, computing the group L1 prominence for the single group defined by that vector. Accordingly, the `print.L1centGROUP()` method has been modified.
+
+* The `L1centLOC()` function now supports parallel computation across multiple cores. When the `parallel` argument is set to `TRUE`, multiple cores are used to efficiently compute the local L1 prominence values.
+
+* The argument `weight_transform` is changed to `edge_weight_transform` for clarity.
+
+* The argument `eta` is changed to `vertex_weight` for clarity.
+
+## Minor updates
+
+* Maintainer e-mail address changed.
+
+* Minor fix in the documentations.
+
+* Ciitation updated.
+
+* For the method implemented for the `matrix` object, we now print a message "DISTANCE matrix received". This is to clarify that the input is a distance matrix of a graph, not an adjacency matrix.
+
 # L1centrality 0.4.0
 
 ## Major updates

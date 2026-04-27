@@ -10,22 +10,24 @@
 \alias{summary.L1centLOC}
 \title{Local L1 Centrality/Prestige}
 \usage{
-L1centLOC(g, eta, alpha, mode, weight_transform)
+L1centLOC(g, vertex_weight, alpha, mode, edge_weight_transform, parallel)
 
 \method{L1centLOC}{igraph}(
   g,
-  eta = NULL,
+  vertex_weight = NULL,
   alpha,
   mode = c("centrality", "prestige"),
-  weight_transform = NULL
+  edge_weight_transform = NULL,
+  parallel = FALSE
 )
 
 \method{L1centLOC}{matrix}(
   g,
-  eta = NULL,
+  vertex_weight = NULL,
   alpha,
   mode = c("centrality", "prestige"),
-  weight_transform = NULL
+  edge_weight_transform = NULL,
+  parallel = FALSE
 )
 
 \method{print}{L1centLOC}(x, ...)
@@ -35,19 +37,23 @@ L1centLOC(g, eta, alpha, mode, weight_transform)
 \method{summary}{L1centLOC}(object, ...)
 }
 \arguments{
-\item{g}{An \code{igraph} graph object or a distance matrix. The graph must
-be connected. For a directed graph, it must be strongly connected.
-Equivalently, all entries of the distance matrix must be finite. Here, the
+\item{g}{An \code{igraph} graph object or a distance matrix.
+\itemize{
+\item When \code{g} is an \code{igraph} object, the graph must be connected.
+For a directed graph, it must be strongly connected.
+\item When \code{g} is a matrix, it should represent a distance matrix.
+All entries of the distance matrix must be finite. Here, the
 \ifelse{html}{\out{(<i>i,j</i>)}}{\eqn{(i,j)}} component of the distance
 matrix is the geodesic distance from the
 \ifelse{html}{\out{<i>i</i>}}{\eqn{i}}th vertex to the
-\ifelse{html}{\out{<i>j</i>}}{\eqn{j}}th vertex.}
+\ifelse{html}{\out{<i>j</i>}}{\eqn{j}}th vertex.
+}}
 
-\item{eta}{An optional nonnegative multiplicity (weight) vector for (vertex)
+\item{vertex_weight}{An optional nonnegative multiplicity (weight) vector for (vertex)
 weighted networks. The sum of its components must be positive. If set to
 \code{NULL} (the default), all vertices will have the same positive weight
 (multiplicity) of 1, i.e., \code{g} is treated as a vertex unweighted graph. The
-length of the \code{eta} must be equivalent to the number of vertices.}
+length of the \code{vertex_weight} must be equivalent to the number of vertices.}
 
 \item{alpha}{A number or a numeric vector of locality levels. Values
 must be between 0 and 1.}
@@ -63,9 +69,12 @@ prestige (prominence of each vertex in terms of \emph{receiving} a choice)
 is used for analysis.
 }}
 
-\item{weight_transform}{An optional function to transform the edge weights
+\item{edge_weight_transform}{An optional function to transform the edge weights
 when \code{g} is an \code{igraph} object and an edge weight attribute exists. This
 argument is ignored when \code{g} is a distance matrix.}
+
+\item{parallel}{A boolean indicating whether to run the algorithm
+parallel across multiple cores. By default set to \code{FALSE}.}
 
 \item{x}{An \code{L1centLOC} object, obtained as a result of the function
 \code{L1centLOC()}.}
@@ -144,8 +153,8 @@ neighborhood) for each vertex (see \code{\link[=L1centNB]{L1centNB()}}), and com
 conditioned on these vertices, i.e., derive the
 \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} centrality or
 \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} prestige locally. For
-details, refer to Kang and Oh (2025a) for undirected graphs, and Kang and Oh
-(2025b) for directed graphs.
+details, refer to Kang and Oh (2026a) for undirected graphs, and Kang and Oh
+(2026b) for directed graphs.
 }
 \note{
 The function is valid only for connected graphs. If the graph is directed, it
@@ -153,19 +162,19 @@ must be strongly connected.
 }
 \examples{
 weight <- igraph::V(MCUmovie)$worldwidegross
-MCUmovie_cent <- L1cent(MCUmovie, eta = weight)
-MCUmovie_loc_cent <- L1centLOC(MCUmovie, eta = weight, alpha = 5/32)
+MCUmovie_cent <- L1cent(MCUmovie, vertex_weight = weight)
+MCUmovie_loc_cent <- L1centLOC(MCUmovie, vertex_weight = weight, alpha = 5/32)
 plot(MCUmovie_cent, MCUmovie_loc_cent,
      main = "MCU movie network: global vs. local centrality")
 }
 \references{
 S. Kang and H.-S. Oh. On a notion of graph centrality based on
 \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} data depth.
-\emph{Journal of the American Statistical Association}, 1--13, 2025a.
+\emph{Journal of the American Statistical Association}, 121(553): 400--412, 2026a.
 
 S. Kang and H.-S. Oh.
 \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} prominence measures
-for directed graphs. \emph{The American Statistician}, 1--16, 2025b.
+for directed graphs. \emph{The American Statistician}, 80(2): 301--309, 2026b.
 }
 \seealso{
 \code{\link[=L1cent]{L1cent()}} for

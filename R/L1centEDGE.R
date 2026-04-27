@@ -16,16 +16,17 @@
 #' median vertex among the
 #' \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} centrality-based
 #' neighborhood of \eqn{v_i}. By varying the level of locality, the given graph
-#' can be visually inspected at multiple scales. Refer to Kang and Oh (2025) for
+#' can be visually inspected at multiple scales. Refer to Kang and Oh (2026) for
 #' details.
 #'
 #' @note
 #' The function is valid only for undirected and connected graphs.
 #'
 #' @inheritParams L1centLOC
-#' @param g An \code{igraph} graph object or a distance matrix. The graph must
-#'   be undirected and connected. Equivalently, the distance matrix must be
-#'   symmetric, and all entries must be finite.
+#' @param g An \code{igraph} graph object or a distance matrix.
+#' * When \code{g} is an \code{igraph} object, the graph must be undirected and connected.
+#' * When \code{g} is a matrix, it should be symmetric and represent a distance matrix.
+#' All entries of the distance matrix must be finite.
 #' @return \code{L1centEDGE()} returns an object of class \code{L1centEDGE}. It
 #'   is a list of \sQuote{edge lists}. The length of the list is equivalent to
 #'   the length of \code{alpha}, and the names of the list are the values of
@@ -41,33 +42,40 @@
 #' @seealso [L1cent()], [L1centNB()], [L1centLOC()].
 #' @examples
 #' library(igraph)
-#' MCU_edge <- L1centEDGE(MCUmovie, eta = V(MCUmovie)$worldwidegross, alpha = 5/32)
+#' MCU_edge <- L1centEDGE(MCUmovie, vertex_weight = V(MCUmovie)$worldwidegross, alpha = 5/32)
 #' plot(MCU_edge)
 #' @references S. Kang and H.-S. Oh. On a notion of graph centrality based on
 #'   \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} data depth.
-#'   \emph{Journal of the American Statistical Association}, 1--13, 2025.
-L1centEDGE <- function(g, eta, alpha, weight_transform) UseMethod("L1centEDGE")
+#'   \emph{Journal of the American Statistical Association}, 121(553): 400--412, 2026.
+L1centEDGE <- function(g, vertex_weight, alpha, edge_weight_transform) UseMethod("L1centEDGE")
 
 #' @name L1centEDGE
 #' @exportS3Method L1centEDGE igraph
-L1centEDGE.igraph <- function(g, eta=NULL, alpha, weight_transform = NULL){
+L1centEDGE.igraph <- function(g, vertex_weight=NULL, alpha, edge_weight_transform = NULL){
   validate_igraph(g)
 
-  new_weight <- edge_weight_transform(g, weight_transform)
+  new_weight <- edge_weight_transform0(g, edge_weight_transform)
   if(!is.null(new_weight)) igraph::E(g)$weight <- new_weight
   D <- igraph::distances(g)
   attr(D, "label.igraph") <- igraph::V(g)$label
   attr(D, "color.igraph") <- igraph::V(g)$color
-  L1centEDGE.matrix(D, eta, alpha)
+  L1centEDGE.matrix(D, vertex_weight=vertex_weight, alpha)
 }
 
 #' @name L1centEDGE
 #' @exportS3Method L1centEDGE matrix
-L1centEDGE.matrix <- function(g, eta=NULL, alpha, weight_transform = NULL){
+L1centEDGE.matrix <- function(g, vertex_weight=NULL, alpha, edge_weight_transform = NULL){
+  eta <- vertex_weight
   if(is.null(eta)) eta <- rep(1,ncol(g))
   validate_matrix(g, eta)
   if(!all(alpha >= 0 & alpha <= 1))
     stop("alpha is not in the correct range: [0,1]")
+
+  calls <- sys.calls()
+  fnames <- sapply(calls, function(cl) as.character(cl[[1]]))
+  # print(fnames)
+  if(all(fnames[1:2] == c("L1centEDGE", "L1centEDGE.matrix")))
+    message("DISTANCE matrix received")
 
   n <- ncol(g)
   label <- colnames(g)

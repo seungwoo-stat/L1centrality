@@ -35,7 +35,7 @@ coefficient (the group heterogeneity index).
 }
 \examples{
 vertex_weight <- igraph::V(MCUmovie)$worldwidegross
-cent <- L1cent(MCUmovie, eta = vertex_weight)
+cent <- L1cent(MCUmovie, vertex_weight = vertex_weight)
 gini <- Lorenz_plot(cent, asp = 1) # one can use "plot(cent, asp = 1)"
 graphics::abline(0, 1, lty = 2)
 # group heterogeneity index
@@ -45,10 +45,10 @@ gini == Gini(cent)
 \references{
 S. Kang and H.-S. Oh. On a notion of graph centrality based on
 \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} data depth.
-\emph{Journal of the American Statistical Association}, 1--13, 2025.
+\emph{Journal of the American Statistical Association}, 121(553): 400--412, 2026.
 
 M. O. Lorenz. Methods of measuring the concentration of wealth.
-\emph{Publications of the American Statistical Association}, 9(70):209--219, 1905.
+\emph{Publications of the American Statistical Association}, 9(70): 209--219, 1905.
 }
 \seealso{
 \code{plot()} methods for objects of class \link{L1cent} and \link{L1centLOC}

@@ -23,12 +23,14 @@
 #' conditioned on these vertices, i.e., derive the
 #' \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} centrality or
 #' \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} prestige locally. For
-#' details, refer to Kang and Oh (2025a) for undirected graphs, and Kang and Oh
-#' (2025b) for directed graphs.
+#' details, refer to Kang and Oh (2026a) for undirected graphs, and Kang and Oh
+#' (2026b) for directed graphs.
 #'
 #' @inheritParams L1cent
 #' @param alpha A number or a numeric vector of locality levels. Values
 #'   must be between 0 and 1.
+#' @param parallel A boolean indicating whether to run the algorithm
+#'   parallel across multiple cores. By default set to \code{FALSE}.
 #' @return \code{L1centLOC()} returns an object of class \code{L1centLOC}. It is
 #'   a list of numeric vectors. The length of the list is equivalent to the
 #'   length of \code{alpha}, and the names of the list are the values of
@@ -53,34 +55,35 @@
 #'
 #' @examples
 #' weight <- igraph::V(MCUmovie)$worldwidegross
-#' MCUmovie_cent <- L1cent(MCUmovie, eta = weight)
-#' MCUmovie_loc_cent <- L1centLOC(MCUmovie, eta = weight, alpha = 5/32)
+#' MCUmovie_cent <- L1cent(MCUmovie, vertex_weight = weight)
+#' MCUmovie_loc_cent <- L1centLOC(MCUmovie, vertex_weight = weight, alpha = 5/32)
 #' plot(MCUmovie_cent, MCUmovie_loc_cent,
 #'      main = "MCU movie network: global vs. local centrality")
 #' @references S. Kang and H.-S. Oh. On a notion of graph centrality based on
 #'   \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} data depth.
-#'   \emph{Journal of the American Statistical Association}, 1--13, 2025a.
+#'   \emph{Journal of the American Statistical Association}, 121(553): 400--412, 2026a.
 #'
 #'   S. Kang and H.-S. Oh.
 #'   \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} prominence measures
-#'   for directed graphs. \emph{The American Statistician}, 1--16, 2025b.
-L1centLOC <- function(g, eta, alpha, mode, weight_transform) UseMethod("L1centLOC")
+#'   for directed graphs. \emph{The American Statistician}, 80(2): 301--309, 2026b.
+L1centLOC <- function(g, vertex_weight, alpha, mode, edge_weight_transform, parallel) UseMethod("L1centLOC")
 
 #' @name L1centLOC
 #' @exportS3Method L1centLOC igraph
-L1centLOC.igraph <- function(g, eta = NULL, alpha, mode = c("centrality", "prestige"), weight_transform = NULL){
+L1centLOC.igraph <- function(g, vertex_weight = NULL, alpha, mode = c("centrality", "prestige"), edge_weight_transform = NULL, parallel = FALSE){
   validate_igraph(g, checkdir = FALSE)
 
-  new_weight <- edge_weight_transform(g, weight_transform)
+  new_weight <- edge_weight_transform0(g, edge_weight_transform)
   if(!is.null(new_weight)) igraph::E(g)$weight <- new_weight
   D <- igraph::distances(g, mode = "out")
   attr(D, "label.igraph") <- igraph::V(g)$label
-  L1centLOC.matrix(D, eta, alpha, mode)
+  L1centLOC.matrix(D, vertex_weight = vertex_weight, alpha, mode, parallel = parallel)
 }
 
 #' @name L1centLOC
 #' @exportS3Method L1centLOC matrix
-L1centLOC.matrix <- function(g, eta = NULL, alpha, mode = c("centrality", "prestige"), weight_transform = NULL){
+L1centLOC.matrix <- function(g, vertex_weight = NULL, alpha, mode = c("centrality", "prestige"), edge_weight_transform = NULL, parallel = FALSE){
+  eta <- vertex_weight
   if(is.null(eta)) eta <- rep(1,ncol(g))
   validate_matrix(g, eta, checkdir = FALSE)
   if(!all(alpha >= 0 & alpha <= 1))
@@ -88,6 +91,12 @@ L1centLOC.matrix <- function(g, eta = NULL, alpha, mode = c("centrality", "prest
   mode <- match.arg(tolower(mode), choices = c("centrality", "prestige"))
   label <- rownames(g)
   if(is.null(label)) label <- 1:nrow(g)
+
+  calls <- sys.calls()
+  fnames <- sapply(calls, function(cl) as.character(cl[[1]]))
+  # print(fnames)
+  if(all(fnames[1:2] == c("L1centLOC", "L1centLOC.matrix")))
+    message("DISTANCE matrix received")
 
   if(identical(alpha, 1) | identical(alpha, 1L)){
     loc.cent <- list(c(L1cent(g, eta, mode)))
@@ -107,22 +116,56 @@ L1centLOC.matrix <- function(g, eta = NULL, alpha, mode = c("centrality", "prest
                min((g/t(g))[upper.tri(g) | lower.tri(g)]))
   # m <- ceiling(n*alpha)
   # label <- colnames(g)
-  NB <- L1centNB(g, eta = eta, mode)
+  NB <- L1centNB(g, vertex_weight = eta, mode)
   loc.cent <- vector("list", length = length(alpha))
-  names(loc.cent) <- alpha
-  for (i in seq_along(alpha)) {
-    nb.index <-
-      lapply(NB, function(l)
-        which(l >= stats::quantile(l, 1 - alpha[i], type=1)))
-    loc.cent[[i]] <-
-      sapply(1:length(nb.index), function(j){
-        index <- which(rownames(g.new <- g[nb.index[[j]], nb.index[[j]]]) == names(nb.index)[j])
-        if(identical(mode, "centrality")) g.new <- t(g.new)
-        closenessinv <- colSums((eta.new <- eta[nb.index[[j]]])*g.new)
-        1 - sg*max((closenessinv[index] - closenessinv)/(g.new + diag(Inf,nrow(g.new)))[index,]/sum(eta.new))
-      })
-    names(loc.cent[[i]]) <- rownames(g)
+  # for (i in seq_along(alpha)) {
+  #   nb.index <-
+  #     lapply(NB, function(l)
+  #       which(l >= stats::quantile(l, 1 - alpha[i], type=1)))
+  #   loc.cent[[i]] <-
+  #     sapply(1:length(nb.index), function(j){
+  #       index <- which(rownames(g.new <- g[nb.index[[j]], nb.index[[j]]]) == names(nb.index)[j])
+  #       if(identical(mode, "centrality")) g.new <- t(g.new)
+  #       closenessinv <- colSums((eta.new <- eta[nb.index[[j]]])*g.new)
+  #       1 - sg*max((closenessinv[index] - closenessinv)/(g.new + diag(Inf,nrow(g.new)))[index,]/sum(eta.new))
+  #     })
+  #   names(loc.cent[[i]]) <- rownames(g)
+  # }
+  if(parallel & length(alpha) >= 2){
+    numCores <- min(parallel::detectCores()-2, length(alpha))
+    cl <- parallel::makeCluster(numCores)
+    doParallel::registerDoParallel(cl)
+    loc.cent <- foreach::foreach(i = seq_along(alpha), .multicombine = TRUE, .combine='list') %dopar% {
+      nb.index <-
+        lapply(NB, function(l)
+          which(l >= stats::quantile(l, 1 - alpha[i], type=1)))
+      res <-
+        sapply(1:length(nb.index), function(j){
+          index <- which(rownames(g.new <- g[nb.index[[j]], nb.index[[j]]]) == names(nb.index)[j])
+          if(identical(mode, "centrality")) g.new <- t(g.new)
+          closenessinv <- colSums((eta.new <- eta[nb.index[[j]]])*g.new)
+          1 - sg*max((closenessinv[index] - closenessinv)/(g.new + diag(Inf,nrow(g.new)))[index,]/sum(eta.new))
+        })
+      names(res) <- rownames(g)
+      return(res)
+    }
+    parallel::stopCluster(cl)
+  }else{
+    for (i in seq_along(alpha)) {
+      nb.index <-
+        lapply(NB, function(l)
+          which(l >= stats::quantile(l, 1 - alpha[i], type=1)))
+      loc.cent[[i]] <-
+        sapply(1:length(nb.index), function(j){
+          index <- which(rownames(g.new <- g[nb.index[[j]], nb.index[[j]]]) == names(nb.index)[j])
+          if(identical(mode, "centrality")) g.new <- t(g.new)
+          closenessinv <- colSums((eta.new <- eta[nb.index[[j]]])*g.new)
+          1 - sg*max((closenessinv[index] - closenessinv)/(g.new + diag(Inf,nrow(g.new)))[index,]/sum(eta.new))
+        })
+      names(loc.cent[[i]]) <- rownames(g)
+    }
   }
+  names(loc.cent) <- alpha
   return(structure(loc.cent,
                    class = "L1centLOC",
                    mode = mode,

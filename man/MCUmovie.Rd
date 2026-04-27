@@ -46,6 +46,6 @@ graph signals. Manuscript, 2021.
 
 S. Kang and H.-S. Oh. On a notion of graph centrality based on
 \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} data depth.
-\emph{Journal of the American Statistical Association}, 1--13, 2025.
+\emph{Journal of the American Statistical Association}, 121(553): 400--412, 2026.
 }
 \keyword{datasets}

@@ -25,7 +25,7 @@
 #' \ifelse{html}{\out{<i>n</i>}}{\eqn{n}} vertices
 #' \ifelse{html}{\out{<i>v</i><sub>1</sub>, ...,
 #' <i>v<sub>n</sub></i>}}{{\eqn{v_1,\dots,v_n}}}
-#' whose multiplicities (weights) are \eqn{\eta_1,\dots,\eta_n \geq 0}, respectively,
+#' whose multiplicities (vertex weights) are \eqn{\eta_1,\dots,\eta_n \geq 0}, respectively,
 #' and \eqn{\eta_{\cdot} = \sum_{k=1}^n \eta_k > 0}.
 #'
 #' The centrality median vertex of this graph is the node minimizing the
@@ -67,21 +67,23 @@
 #' \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} centrality and
 #' \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} prestige measures concide.
 #'
-#' For details, refer to Kang and Oh (2025a) for undirected graphs, and Kang and
-#' Oh (2025b) for directed graphs.
+#' For details, refer to Kang and Oh (2026a) for undirected graphs, and Kang and
+#' Oh (2026b) for directed graphs.
 #'
-#' @param g An \code{igraph} graph object or a distance matrix. The graph must
-#'   be connected. For a directed graph, it must be strongly connected.
-#'   Equivalently, all entries of the distance matrix must be finite. Here, the
+#' @param g An \code{igraph} graph object or a distance matrix.
+#'  * When \code{g} is an \code{igraph} object, the graph must be connected.
+#'  For a directed graph, it must be strongly connected.
+#'  * When \code{g} is a matrix, it should represent a distance matrix.
+#'  All entries of the distance matrix must be finite. Here, the
 #'   \ifelse{html}{\out{(<i>i,j</i>)}}{\eqn{(i,j)}} component of the distance
 #'   matrix is the geodesic distance from the
 #'   \ifelse{html}{\out{<i>i</i>}}{\eqn{i}}th vertex to the
 #'   \ifelse{html}{\out{<i>j</i>}}{\eqn{j}}th vertex.
-#' @param eta An optional nonnegative multiplicity (weight) vector for (vertex)
+#' @param vertex_weight An optional nonnegative multiplicity (weight) vector for (vertex)
 #'   weighted networks. The sum of its components must be positive. If set to
 #'   \code{NULL} (the default), all vertices will have the same positive weight
 #'   (multiplicity) of 1, i.e., \code{g} is treated as a vertex unweighted graph. The
-#'   length of the \code{eta} must be equivalent to the number of vertices.
+#'   length of the \code{vertex_weight} must be equivalent to the number of vertices.
 #' @param mode A character string. For an undirected graph, either choice gives
 #'   the same result.
 #'  * `centrality` (the default): \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}}
@@ -90,7 +92,7 @@
 #'  * `prestige`: \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}}
 #'  prestige (prominence of each vertex in terms of \emph{receiving} a choice)
 #'  is used for analysis.
-#' @param weight_transform An optional function to transform the edge weights
+#' @param edge_weight_transform An optional function to transform the edge weights
 #'   when `g` is an `igraph` object and an edge weight attribute exists. This
 #'   argument is ignored when `g` is a distance matrix.
 #' @return \code{L1cent()} returns an object of class \code{L1cent}. It is a
@@ -122,8 +124,8 @@
 #' @examples
 #' # igraph object and distance matrix as an input lead to the same result
 #' vertex_weight <- igraph::V(MCUmovie)$worldwidegross
-#' cent_igraph <- L1cent(MCUmovie, eta = vertex_weight)
-#' cent_matrix <- L1cent(igraph::distances(MCUmovie), eta = vertex_weight)
+#' cent_igraph <- L1cent(MCUmovie, vertex_weight = vertex_weight)
+#' cent_matrix <- L1cent(igraph::distances(MCUmovie), vertex_weight = vertex_weight)
 #' all(cent_igraph == cent_matrix)
 #'
 #' # Top 6 vertices with the highest L1 centrality
@@ -134,39 +136,47 @@
 #'
 #' # Summary statistics
 #' summary(cent_igraph)
+#'
 #' @references S. L. Hakimi. Optimum locations of switching centers and the
 #'   absolute centers and medians of a graph. \emph{Operations Research},
-#'   12(3):450--459, 1964.
+#'   12(3): 450--459, 1964.
 #'
 #'   S. Kang and H.-S. Oh. On a notion of graph centrality based on
 #'   \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} data depth.
-#'   \emph{Journal of the American Statistical Association}, 1--13, 2025a.
+#'   \emph{Journal of the American Statistical Association}, 121(553): 400--412, 2026a.
 #'
 #'   S. Kang and H.-S. Oh.
 #'   \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}} prominence measures
-#'   for directed graphs. \emph{The American Statistician}, 1--16, 2025b.
+#'   for directed graphs. \emph{The American Statistician}, 80(2): 301--309, 2026b.
 #'
 #'   Y. Vardi and C.-H. Zhang. The multivariate
 #'   \ifelse{html}{\out{<i>L</i><sub>1</sub>}}{{\eqn{L_1}}}-median and
 #'   associated data depth. \emph{Proceedings of the National Academy of Sciences},
-#'   97(4):1423--1426, 2000.
-L1cent <- function(g, eta, mode, weight_transform) UseMethod("L1cent")
+#'   97(4): 1423--1426, 2000.
+L1cent <- function(g, vertex_weight, mode, edge_weight_transform) UseMethod("L1cent")
 
 #' @name L1cent
 #' @exportS3Method L1cent igraph
-L1cent.igraph <- function(g, eta = NULL, mode = c("centrality", "prestige"), weight_transform = NULL) {
+L1cent.igraph <- function(g, vertex_weight = NULL, mode = c("centrality", "prestige"), edge_weight_transform = NULL) {
   validate_igraph(g, checkdir = FALSE)
   mode <- match.arg(tolower(mode), choices = c("centrality", "prestige"))
 
-  new_weight <- edge_weight_transform(g, weight_transform)
+  new_weight <- edge_weight_transform0(g, edge_weight_transform)
   if(!is.null(new_weight)) igraph::E(g)$weight <- new_weight
   D <- igraph::distances(g, mode = "out")
-  L1cent.matrix(g = D, eta = eta, mode = mode)
+  L1cent.matrix(g = D, vertex_weight = vertex_weight, mode = mode)
 }
 
 #' @name L1cent
 #' @exportS3Method L1cent matrix
-L1cent.matrix <- function(g, eta = NULL, mode = c("centrality", "prestige"), weight_transform = NULL) {
+L1cent.matrix <- function(g, vertex_weight = NULL, mode = c("centrality", "prestige"), edge_weight_transform = NULL) {
+  eta <- vertex_weight
+  calls <- sys.calls()
+  fnames <- sapply(calls, function(cl) as.character(cl[[1]]))
+  # print(fnames)
+  if(all(fnames[1:2] == c("L1cent", "L1cent.matrix")))
+    message("DISTANCE matrix received")
+
   if(is.null(eta)) eta <- rep(1,ncol(g))
   validate_matrix(g, eta, checkdir = FALSE)
   mode <- match.arg(tolower(mode), choices = c("centrality", "prestige"))
