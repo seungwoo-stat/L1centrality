@@ -241,7 +241,7 @@ plot.L1centLOC <- function(x, y = NULL, add = FALSE, threshold = NULL, ...){
       }
     }
   }else{
-    x_unif <- x |> sapply(\(vec) stats::ecdf(vec)(vec))
+    x_unif <- sapply(x, function(vec) stats::ecdf(vec)(vec))
     x_unif <- x_unif[,order(attr(x, "alpha"))]
     attr(x, "alpha") <- sort(attr(x, "alpha"))
     if(is.null(threshold)){
@@ -252,7 +252,7 @@ plot.L1centLOC <- function(x, y = NULL, add = FALSE, threshold = NULL, ...){
       do.call(plot, c(list(NA), args))
       do.call(graphics::matlines, c(list(attr(x,"alpha"), t(x_unif)), args))
     }else{
-      x_local_change <- apply(x_unif, 1, \(vec) max(vec) - min(vec))
+      x_local_change <- apply(x_unif, 1, function(vec) max(vec) - min(vec))
       if(is.null(args$xlim)) args$xlim <- range(attr(x, "alpha")) + c(0, 0.1*diff(range(attr(x,"alpha"))))
       if(is.null(args$ylim)) args$ylim <- c(0, 1)
       if(is.null(args$xlab)) args$xlab <- "Locality level"

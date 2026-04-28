@@ -163,7 +163,7 @@ plot.L1centEDGE <- function(x, ...){
 
     if(is.null(args.orignal$main)) args$main <- paste0("alpha = ", attr(x,"alpha")[i])
     if(is.null(args.orignal$edge.arrow.size)) args$edge.arrow.size <- 0.5
-    if(is.null(args.orignal$vertex.size)) args$vertex.size <- sapply(if(is.null(igraph::V(gi)$name)) as.numeric(igraph::V(gi)) else igraph::V(gi)$name, \(elem) ifelse(elem %in% x[[i]][,2], 25, 15))
+    if(is.null(args.orignal$vertex.size)) args$vertex.size <- sapply(if(is.null(igraph::V(gi)$name)) as.numeric(igraph::V(gi)) else igraph::V(gi)$name, function(elem) ifelse(elem %in% x[[i]][,2], 25, 15))
     if(is.null(args.orignal$vertex.label.family)) args$vertex.label.family <- "sans"
     if(is.null(args.orignal$vertex.label.cex)) args$vertex.label.cex <- 1
     if(is.null(args.orignal$vertex.label)) args$vertex.label <- if(is.null(attr(x, "label.igraph"))) igraph::V(gi)$name else attr(x, "label.igraph")[match(igraph::V(gi)$name, attr(x, "label"))]
