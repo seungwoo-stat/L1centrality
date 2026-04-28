@@ -71,14 +71,14 @@ multiplicity. The first element corresponds to the pseudo-vertex.
 }
 }
 \description{
-Computes the vertex multiplicities (weights) and the distance matrix of the
+Computes the vertex multiplicities (vertex weights) and the distance matrix of the
 group reduced graph. The group reduced graph is constructed by replacing a
 group of vertices in the original graph by a single \sQuote{pseudo-vertex}.
 }
 \details{
 The group reduced graph is constructed by replacing the vertices indicated in
 the argument \code{nodes} with a single \sQuote{pseudo-vertex}. The
-multiplicity (weight) of this new vertex is set to the sum of the
+multiplicity (vertex weight) of this new vertex is set to the sum of the
 multiplicities of the vertices within \code{nodes}. An edge from the
 pseudo-vertex to any vertex that is not in \code{nodes}, say
 \ifelse{html}{\out{<i>v</i>}}{\eqn{v}}, is created in the group reduced graph if

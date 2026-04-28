@@ -127,7 +127,7 @@ Suppose that \code{g} is a (strongly) connected graph consisting of
 \ifelse{html}{\out{<i>n</i>}}{\eqn{n}} vertices
 \ifelse{html}{\out{<i>v</i><sub>1</sub>, ...,
 <i>v<sub>n</sub></i>}}{{\eqn{v_1,\dots,v_n}}}
-whose multiplicities (weights) are \eqn{\eta_1,\dots,\eta_n \geq 0}, respectively,
+whose multiplicities (vertex weights) are \eqn{\eta_1,\dots,\eta_n \geq 0}, respectively,
 and \eqn{\eta_{\cdot} = \sum_{k=1}^n \eta_k > 0}.
 
 The centrality median vertex of this graph is the node minimizing the

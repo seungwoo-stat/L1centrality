@@ -131,7 +131,7 @@ confusing.
 \examples{
 # Group L1 centrality of the 'Spider-Man' series
 vertex_weight <- igraph::V(MCUmovie)$worldwidegross
-L1centGROUP(MCUmovie, nodes = c(16,23,27), vertex_weight = vertex_weight)
+L1centGROUP(MCUmovie, nodes = list(16, c(16,23,27)), vertex_weight = vertex_weight)
 }
 \references{
 S. Kang. \emph{Topics in Non-Euclidean Dimension Reduction}. PhD thesis,
