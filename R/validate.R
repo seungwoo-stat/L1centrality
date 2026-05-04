@@ -3,7 +3,7 @@ validate_igraph <- function(g, checkdir = TRUE){
   if (checkdir & igraph::is_directed(g))
     stop("Directed graphs are not supported")
   if (!igraph::is_connected(g, mode = "strong"))
-    stop(paste(strwrap("Disconnected graphs are not supported; Delete isolated vertices using 'igraph::delete_vertices()' or find the connected components of a graph using 'igraph::components()'", width = getOption("width")), collapse = "\n"))
+    stop(paste(strwrap("The graph is not strongly connected; Delete isolated vertices using 'igraph::delete_vertices()' or find the connected components of a graph using 'igraph::components()'", width = getOption("width")), collapse = "\n"))
 }
 
 ## distance matrix
@@ -11,7 +11,7 @@ validate_matrix <- function(g, eta, checkdir = TRUE){
   if (checkdir & !isSymmetric.matrix(g))
     stop("Distance matrix is non-symmetric")
   if(any(is.infinite(g)))
-    stop(paste(strwrap("Disconnected graphs are not supported; Delete isolated vertices using 'igraph::delete_vertices()' or find the connected components of a graph using 'igraph::components()'", width = getOption("width")), collapse = "\n"))
+    stop(paste(strwrap("The graph is not strongly connected; Delete isolated vertices using 'igraph::delete_vertices()' or find the connected components of a graph using 'igraph::components()'", width = getOption("width")), collapse = "\n"))
     # stop("Disconnected graphs are not supported; Delete isolated vertices using 'igraph::delete_vertices()' or find the connected components of a graph using 'igraph::components()'")
   if(length(eta) != ncol(g))
     stop("Length of eta differs from the number of vertices")

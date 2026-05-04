@@ -1,8 +1,14 @@
+# L1centrality 0.5.1
+
+## Minor updates
+
+* Updates in some warning messages.
+
 # L1centrality 0.5.0
 
 ## Major updates
 
-* A new argument `show_edge` is added to `plot.L1centMDS()` method. It is a boolean argument indicating whether to display the edges of the graph in the target plot.
+* A new argument `show_edge` is added to `plot.L1centMDS()` method. It is a boolean argument indicating whether to display the edges of the graph in the target plot. You can also specify graphical parameters using the prefix `edge.`. For example, `edge.lwd = 2` sets the line width of the edges to 2.
 
 * The `L1centGROUP()` function now supports the computation of multiple groups. When the `nodes` argument is provided as a list, the function computes the group L1 prominence for each set of vertices specified by the individual list elements. When `nodes` is given as an integer vector, the function behaves as before, computing the group L1 prominence for the single group defined by that vector. Accordingly, the `print.L1centGROUP()` method has been modified.
 
@@ -16,7 +22,7 @@
 
 * Maintainer e-mail address changed.
 
-* Minor fix in the documentations.
+* Minor fix in the documentations and warning messages.
 
 * Ciitation updated.
 
